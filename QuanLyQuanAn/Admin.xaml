@@ -5,130 +5,135 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuanLyQuanAn"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:dc="clr-namespace:QuanLyQuanAn.ViewModel"
         xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel"
         xmlns:v="clr-namespace:QuanLyQuanAn.View"
-        WindowStyle="None"
-        ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="Admin"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
         Height="450"
-        Width="800">
-    <Window.Resources>
-        <dc:ByteToImageConverter x:Key="ByteToImageConverter" />
-    </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ElementName=MenuPanel, Path=Width}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <materialDesign:Card Grid.Column="0"
-                             x:Name="MenuPanel"
-                             Width="200">
-            <Grid Background="#202020">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="4*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-                      x:Name="MainPanelControl">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="120" />
-                    </Grid.ColumnDefinitions>
-                    <ToggleButton Grid.Column="0"
-                                  Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                                  Foreground="White"
-                                  HorizontalAlignment="Left"
-                                  IsChecked="True"
-                                  x:Name="ButtonControl">
-                        <ToggleButton.RenderTransform>
-                            <TranslateTransform X="15"
-                                                Y="0" />
-                        </ToggleButton.RenderTransform>
-                        <ToggleButton.Triggers>
-                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                                <BeginStoryboard>
-                                    <Storyboard x:Name="HidePanel">
-                                        <DoubleAnimation Storyboard.TargetName="ButtonControl"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                                         From="15"
-                                                         To="0"
-                                                         Duration="0:0:0.3" />
-                                        <DoubleAnimation Storyboard.TargetName="MenuPanel"
-                                                         Storyboard.TargetProperty="Width"
-                                                         From="200"
-                                                         To="40"
-                                                         Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="ToggleButton.Checked">
-                                <BeginStoryboard>
-                                    <Storyboard x:Name="ShowPanel">
-                                        <DoubleAnimation Storyboard.TargetName="ButtonControl"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                                         From="0"
-                                                         To="15"
-                                                         Duration="0:0:0.3" />
-                                        <DoubleAnimation Storyboard.TargetName="MenuPanel"
-                                                         Storyboard.TargetProperty="Width"
-                                                         From="40"
-                                                         To="200"
-                                                         Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </ToggleButton.Triggers>
-                    </ToggleButton>
-                    <TextBlock x:Name="textDashboard"
-                               Grid.Column="1"
-                               Foreground="White"
-                               VerticalAlignment="Center"
-                               FontSize="18"
-                               HorizontalAlignment="Left">Dashboard</TextBlock>
-                </Grid>
-                <Grid Grid.Row="1">
+        Width="900">
+    <Border CornerRadius="10"
+            Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding ElementName=MenuPanel, Path=Width}" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border CornerRadius="10 0 0 10"
+                    Background="#104E8B"
+                    x:Name="MenuPanel">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="4*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <RadioButton Grid.Row="0"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/MenuFoodIcon.png">Menu</RadioButton>
-                    <RadioButton Grid.Row="1"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/CategoryIcon.png">Danh mục</RadioButton>
-                    <RadioButton Grid.Row="2"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/FoodIcon.png">Món ăn</RadioButton>
-                    <RadioButton Grid.Row="3"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/TableFoodIcon.png">Bàn ăn</RadioButton>
-                    <RadioButton Grid.Row="5"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/StaffIcon.png">Nhân viên</RadioButton>
-                    <RadioButton Grid.Row="6"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/ChefIcon.png">Đầu bếp</RadioButton>
-                    <RadioButton Grid.Row="7"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/ThongKeIcon.png">Thống kê</RadioButton>
-                    <RadioButton Grid.Row="4"
-                                 Style="{StaticResource AnimationButtonStyle}"
-                                 Tag="Images/ManegerIcon.png">Quản lý</RadioButton>
+                    <Grid Grid.Row="0"
+                          x:Name="MainPanelControl">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton Grid.Column="0"
+                                      Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                      Foreground="White"
+                                      HorizontalAlignment="Left"
+                                      IsChecked="True"
+                                      x:Name="ButtonControl">
+                            <ToggleButton.RenderTransform>
+                                <TranslateTransform X="15"
+                                                    Y="0" />
+                            </ToggleButton.RenderTransform>
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="HidePanel">
+                                            <DoubleAnimation Storyboard.TargetName="ButtonControl"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                                             From="15"
+                                                             To="0"
+                                                             Duration="0:0:0.3" />
+                                            <DoubleAnimation Storyboard.TargetName="MenuPanel"
+                                                             Storyboard.TargetProperty="Width"
+                                                             From="200"
+                                                             To="40"
+                                                             Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="ShowPanel">
+                                            <DoubleAnimation Storyboard.TargetName="ButtonControl"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                                             From="0"
+                                                             To="15"
+                                                             Duration="0:0:0.3" />
+                                            <DoubleAnimation Storyboard.TargetName="MenuPanel"
+                                                             Storyboard.TargetProperty="Width"
+                                                             From="40"
+                                                             To="200"
+                                                             Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                        <TextBlock x:Name="textDashboard"
+                                   Grid.Column="1"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   FontSize="18"
+                                   HorizontalAlignment="Left">Dashboard</TextBlock>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <RadioButton Grid.Row="0"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/MenuFoodIcon.png">Menu</RadioButton>
+                        <RadioButton Grid.Row="1"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/CategoryIcon.png">Danh mục</RadioButton>
+                        <RadioButton Grid.Row="2"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/FoodIcon.png">Món ăn</RadioButton>
+                        <RadioButton Grid.Row="3"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/TableFoodIcon.png">Bàn ăn</RadioButton>
+                        <RadioButton Grid.Row="5"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/StaffIcon.png">Nhân viên</RadioButton>
+                        <RadioButton Grid.Row="6"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/ChefIcon.png">Đầu bếp</RadioButton>
+                        <RadioButton Grid.Row="7"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/ThongKeIcon.png">Thống kê</RadioButton>
+                        <RadioButton Grid.Row="4"
+                                     Style="{StaticResource AnimationButtonStyle}"
+                                     Tag="Images/ManegerIcon.png">Quản lý</RadioButton>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </materialDesign:Card>
-        <Grid Grid.Column="1">
-            <v:Menu></v:Menu>
-        </Grid>
+            </Border>
+            <Border CornerRadius="0 10 10 0"
+                    Grid.Column="1"
+                    Background="#EFF2F7">
+                <Grid Margin="0 0 0 10">
+                    <v:StatisticsControl></v:StatisticsControl>
+                </Grid>
+             </Border>
     </Grid>
+    </Border>
 </Window>

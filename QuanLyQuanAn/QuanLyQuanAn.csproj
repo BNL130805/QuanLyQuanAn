@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -38,25 +39,150 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.5.0.0\lib\net47\MahApps.Metro.IconPacks.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.BootstrapIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.BootstrapIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.BootstrapIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.BoxIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.BoxIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.BoxIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.CircumIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.CircumIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.CircumIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Codicons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Codicons.5.0.0\lib\net47\MahApps.Metro.IconPacks.Codicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Coolicons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Coolicons.5.0.0\lib\net47\MahApps.Metro.IconPacks.Coolicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Core.5.0.0\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Entypo, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Entypo.5.0.0\lib\net47\MahApps.Metro.IconPacks.Entypo.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.EvaIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.EvaIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.EvaIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FeatherIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.FeatherIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.FeatherIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FileIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.FileIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.FileIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Fontaudio, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Fontaudio.5.0.0\lib\net47\MahApps.Metro.IconPacks.Fontaudio.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.FontAwesome, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.FontAwesome.5.0.0\lib\net47\MahApps.Metro.IconPacks.FontAwesome.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Fontisto, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Fontisto.5.0.0\lib\net47\MahApps.Metro.IconPacks.Fontisto.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.ForkAwesome, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.ForkAwesome.5.0.0\lib\net47\MahApps.Metro.IconPacks.ForkAwesome.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.GameIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.GameIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.GameIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Ionicons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Ionicons.5.0.0\lib\net47\MahApps.Metro.IconPacks.Ionicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.JamIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.JamIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.JamIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Lucide, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Lucide.5.0.0\lib\net47\MahApps.Metro.IconPacks.Lucide.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Material, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Material.5.0.0\lib\net47\MahApps.Metro.IconPacks.Material.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.MaterialDesign, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.MaterialDesign.5.0.0\lib\net47\MahApps.Metro.IconPacks.MaterialDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.MaterialLight, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.MaterialLight.5.0.0\lib\net47\MahApps.Metro.IconPacks.MaterialLight.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.MemoryIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.MemoryIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.MemoryIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Microns, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Microns.5.0.0\lib\net47\MahApps.Metro.IconPacks.Microns.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Modern, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Modern.5.0.0\lib\net47\MahApps.Metro.IconPacks.Modern.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Octicons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Octicons.5.0.0\lib\net47\MahApps.Metro.IconPacks.Octicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.PhosphorIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.PhosphorIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.PhosphorIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.PicolIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.PicolIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.PicolIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.PixelartIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.PixelartIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.PixelartIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.RadixIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.RadixIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.RadixIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.RemixIcon, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.RemixIcon.5.0.0\lib\net47\MahApps.Metro.IconPacks.RemixIcon.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.RPGAwesome, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.RPGAwesome.5.0.0\lib\net47\MahApps.Metro.IconPacks.RPGAwesome.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.SimpleIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.SimpleIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.SimpleIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Typicons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Typicons.5.0.0\lib\net47\MahApps.Metro.IconPacks.Typicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Unicons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Unicons.5.0.0\lib\net47\MahApps.Metro.IconPacks.Unicons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.VaadinIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.VaadinIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.VaadinIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.WeatherIcons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.WeatherIcons.5.0.0\lib\net47\MahApps.Metro.IconPacks.WeatherIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Zondicons, Version=5.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Zondicons.5.0.0\lib\net47\MahApps.Metro.IconPacks.Zondicons.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=3.1.1.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.3.1.1-ci738\lib\net462\MaterialDesignColors.dll</HintPath>
+      <HintPath>..\packages\MaterialDesignColors.3.1.1-ci779\lib\net462\MaterialDesignColors.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=5.1.1.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.5.1.1-ci738\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
+      <HintPath>..\packages\MaterialDesignThemes.5.1.1-ci779\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.135\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\PresentationFramework.Aero2.1.0.1\lib\PresentationFramework.Aero2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -115,12 +241,40 @@
     <Compile Include="Staff.xaml.cs">
       <DependentUpon>Staff.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CatagoryControlVM.cs" />
     <Compile Include="ViewModel\MenuFoodVM.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="View\CatagoryControl.xaml.cs">
+      <DependentUpon>CatagoryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FoodControl.xaml.cs">
+      <DependentUpon>FoodControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GetFoodMenu.xaml.cs">
+      <DependentUpon>GetFoodMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManagerControl.xaml.cs">
+      <DependentUpon>ManagerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MenuFood.xaml.cs">
       <DependentUpon>MenuFood.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsControl.xaml.cs">
+      <DependentUpon>StatisticsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Statistics\FoodStatistics.xaml.cs">
+      <DependentUpon>FoodStatistics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Statistics\History.xaml.cs">
+      <DependentUpon>History.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Statistics\Revenue.xaml.cs">
+      <DependentUpon>Revenue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TableControl.xaml.cs">
+      <DependentUpon>TableControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
@@ -149,7 +303,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CatagoryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FoodControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GetFoodMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ManagerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MenuFood.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatisticsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Statistics\FoodStatistics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Statistics\History.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Statistics\Revenue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TableControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,6 +395,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\MoneyIcon.png" />
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -216,12 +407,16 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\MaterialDesignThemes.5.1.1-ci738\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.1.1-ci738\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MaterialDesignThemes.5.1.1-ci738\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.5.1.1-ci738\build\MaterialDesignThemes.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.5.1.1-ci779\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.5.1.1-ci779\build\MaterialDesignThemes.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+  <Import Project="..\packages\MaterialDesignThemes.5.1.1-ci779\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.1.1-ci779\build\MaterialDesignThemes.targets')" />
 </Project>

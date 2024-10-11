@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="QuanLyQuanAn.View.StatisticsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuanLyQuanAn.View"
+             xmlns:vs="clr-namespace:QuanLyQuanAn.View.Statistics"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Separator Height="1"
+                   Grid.Row="0"
+                   Background="#DAE2EA"
+                   Margin="0,31,0,1"
+                   Grid.ColumnSpan="2"
+                   Grid.RowSpan="2">
+        </Separator>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <RadioButton Style="{StaticResource MenuButtonStyle}"
+                         Width="100"
+                         Height="30">Lịch sử</RadioButton>
+            <RadioButton Style="{StaticResource MenuButtonStyle}"
+                         Width="100"
+                         Height="30">Doanh thu</RadioButton>
+            <RadioButton Style="{StaticResource MenuButtonStyle}"
+                         Width="100"
+                         Height="30">Món ăn</RadioButton>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <vs:FoodStatistics />
+        </Grid>
+    </Grid>
+</UserControl>
