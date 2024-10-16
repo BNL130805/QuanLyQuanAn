@@ -103,7 +103,7 @@
                 <DataGridTextColumn Header="Giá"
                                     Binding="{Binding Email}"
                                     IsReadOnly="True"
-                                    Width="auto" />
+                                    Width="*" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

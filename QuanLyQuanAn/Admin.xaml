@@ -7,11 +7,11 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel"
         xmlns:v="clr-namespace:QuanLyQuanAn.View"
-        mc:Ignorable="d"
-        Title="Admin"
-        WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        Title="Admin"
         ResizeMode="NoResize"
         Height="450"
         Width="900">
@@ -131,7 +131,7 @@
                     Grid.Column="1"
                     Background="#EFF2F7">
                 <Grid Margin="0 0 0 10">
-                    <v:StatisticsControl></v:StatisticsControl>
+                    <v:CatagoryControl></v:CatagoryControl>
                 </Grid>
              </Border>
     </Grid>
