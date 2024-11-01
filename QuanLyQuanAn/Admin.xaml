@@ -131,7 +131,7 @@
                     Grid.Column="1"
                     Background="#EFF2F7">
                 <Grid Margin="0 0 0 10">
-                    <v:CatagoryControl></v:CatagoryControl>
+                    <v:Menu></v:Menu>
                 </Grid>
              </Border>
     </Grid>

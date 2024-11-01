@@ -72,6 +72,7 @@
           </Key>
           <Property Name="idTable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idRes" Type="int" Nullable="false" />
+          <Property Name="tableName" Type="nvarchar" MaxLength="20" />
           <Property Name="status" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <Association Name="AtoR">
@@ -194,6 +195,55 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="USP_ChangeTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDtablefirst" Type="int" Mode="In" />
+          <Parameter Name="IDtablesecond" Type="int" Mode="In" />
+        </Function>
+        <Function Name="USP_CheckNameRt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NameRt" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="USP_CheckUserN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NameRt" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserN" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="USP_DeleteAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NameRt" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserN" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="USP_DeleteFood" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="idFoodCtg" Type="int" Mode="In" />
+        </Function>
+        <Function Name="USP_GetAccountByUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nameRestaurant" Type="nvarchar" Mode="In" />
+          <Parameter Name="userName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="USP_InsertAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NameRt" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserN" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="TypeAccount" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="USP_InsertBill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idtable" Type="int" Mode="In" />
+          <Parameter Name="discount" Type="int" Mode="In" />
+        </Function>
+        <Function Name="USP_InsertBillInf" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idbill" Type="int" Mode="In" />
+          <Parameter Name="idfood" Type="int" Mode="In" />
+          <Parameter Name="count" Type="int" Mode="In" />
+        </Function>
+        <Function Name="USP_InsertFood" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idfoodctg" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="price" Type="int" Mode="In" />
+        </Function>
+        <Function Name="USP_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nameRestaurant" Type="nvarchar" Mode="In" />
+          <Parameter Name="userName" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="USP_tableList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="QuanLyQuanAnModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
@@ -333,6 +383,7 @@
           </Key>
           <Property Name="idTable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idRes" Type="Int32" Nullable="false" />
+          <Property Name="tableName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Bills" Relationship="Self.BtoT" FromRole="tableFood" ToRole="Bill" />
           <NavigationProperty Name="Restaurant" Relationship="Self.TtoR" FromRole="tableFood" ToRole="Restaurant" />
@@ -457,7 +508,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="QuanLyQuanAnEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="QuanLyQuanAnEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Bills" EntityType="Self.Bill" />
           <EntitySet Name="BillInfs" EntityType="Self.BillInf" />
@@ -505,13 +556,96 @@
             <End Role="Restaurant" EntitySet="Restaurants" />
             <End Role="tableFood" EntitySet="tableFoods" />
           </AssociationSet>
+          <FunctionImport Name="USP_ChangeTable">
+            <Parameter Name="IDtablefirst" Mode="In" Type="Int32" />
+            <Parameter Name="IDtablesecond" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="USP_CheckNameRt" ReturnType="Collection(QuanLyQuanAnModel.USP_CheckNameRt_Result)">
+            <Parameter Name="NameRt" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_CheckUserN" ReturnType="Collection(QuanLyQuanAnModel.USP_CheckUserN_Result)">
+            <Parameter Name="NameRt" Mode="In" Type="String" />
+            <Parameter Name="UserN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_DeleteAccount">
+            <Parameter Name="NameRt" Mode="In" Type="String" />
+            <Parameter Name="UserN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_DeleteFood">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="idFoodCtg" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="USP_GetAccountByUserName" ReturnType="Collection(QuanLyQuanAnModel.USP_GetAccountByUserName_Result)">
+            <Parameter Name="nameRestaurant" Mode="In" Type="String" />
+            <Parameter Name="userName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_InsertAccount">
+            <Parameter Name="NameRt" Mode="In" Type="String" />
+            <Parameter Name="UserN" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="TypeAccount" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_InsertBill">
+            <Parameter Name="idtable" Mode="In" Type="Int32" />
+            <Parameter Name="discount" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="USP_InsertBillInf">
+            <Parameter Name="idbill" Mode="In" Type="Int32" />
+            <Parameter Name="idfood" Mode="In" Type="Int32" />
+            <Parameter Name="count" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="USP_InsertFood">
+            <Parameter Name="idfoodctg" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="price" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="USP_Login" ReturnType="Collection(QuanLyQuanAnModel.USP_Login_Result)">
+            <Parameter Name="nameRestaurant" Mode="In" Type="String" />
+            <Parameter Name="userName" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="USP_tableList" ReturnType="Collection(QuanLyQuanAnModel.USP_tableList_Result)" />
         </EntityContainer>
+        <ComplexType Name="USP_CheckNameRt_Result">
+          <Property Type="String" Name="RestaurantName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="idRes" Nullable="false" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="TypeAccount" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="USP_CheckUserN_Result">
+          <Property Type="String" Name="RestaurantName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="idRes" Nullable="false" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="TypeAccount" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="USP_GetAccountByUserName_Result">
+          <Property Type="String" Name="RestaurantName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="idRes" Nullable="false" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="TypeAccount" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="USP_Login_Result">
+          <Property Type="String" Name="RestaurantName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="idRes" Nullable="false" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="TypeAccount" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="USP_tableList_Result">
+          <Property Type="Int32" Name="idTable" Nullable="false" />
+          <Property Type="Int32" Name="idRes" Nullable="false" />
+          <Property Type="String" Name="tableName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="status" Nullable="false" MaxLength="20" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="QuanLyQuanAnModelStoreContainer" CdmEntityContainer="QuanLyQuanAnEntities1">
+        <EntityContainerMapping StorageEntityContainer="QuanLyQuanAnModelStoreContainer" CdmEntityContainer="QuanLyQuanAnEntities">
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="QuanLyQuanAnModel.Account">
               <MappingFragment StoreEntitySet="Account">
@@ -582,10 +716,72 @@
               <MappingFragment StoreEntitySet="tableFood">
                 <ScalarProperty Name="idTable" ColumnName="idTable" />
                 <ScalarProperty Name="idRes" ColumnName="idRes" />
+                <ScalarProperty Name="tableName" ColumnName="tableName" />
                 <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="USP_ChangeTable" FunctionName="QuanLyQuanAnModel.Store.USP_ChangeTable" />
+          <FunctionImportMapping FunctionImportName="USP_CheckNameRt" FunctionName="QuanLyQuanAnModel.Store.USP_CheckNameRt">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLyQuanAnModel.USP_CheckNameRt_Result">
+                <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+                <ScalarProperty Name="idRes" ColumnName="idRes" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="TypeAccount" ColumnName="TypeAccount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="USP_CheckUserN" FunctionName="QuanLyQuanAnModel.Store.USP_CheckUserN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLyQuanAnModel.USP_CheckUserN_Result">
+                <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+                <ScalarProperty Name="idRes" ColumnName="idRes" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="TypeAccount" ColumnName="TypeAccount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="USP_DeleteAccount" FunctionName="QuanLyQuanAnModel.Store.USP_DeleteAccount" />
+          <FunctionImportMapping FunctionImportName="USP_DeleteFood" FunctionName="QuanLyQuanAnModel.Store.USP_DeleteFood" />
+          <FunctionImportMapping FunctionImportName="USP_GetAccountByUserName" FunctionName="QuanLyQuanAnModel.Store.USP_GetAccountByUserName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLyQuanAnModel.USP_GetAccountByUserName_Result">
+                <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+                <ScalarProperty Name="idRes" ColumnName="idRes" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="TypeAccount" ColumnName="TypeAccount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="USP_InsertAccount" FunctionName="QuanLyQuanAnModel.Store.USP_InsertAccount" />
+          <FunctionImportMapping FunctionImportName="USP_InsertBill" FunctionName="QuanLyQuanAnModel.Store.USP_InsertBill" />
+          <FunctionImportMapping FunctionImportName="USP_InsertBillInf" FunctionName="QuanLyQuanAnModel.Store.USP_InsertBillInf" />
+          <FunctionImportMapping FunctionImportName="USP_InsertFood" FunctionName="QuanLyQuanAnModel.Store.USP_InsertFood" />
+          <FunctionImportMapping FunctionImportName="USP_Login" FunctionName="QuanLyQuanAnModel.Store.USP_Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLyQuanAnModel.USP_Login_Result">
+                <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+                <ScalarProperty Name="idRes" ColumnName="idRes" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="TypeAccount" ColumnName="TypeAccount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="USP_tableList" FunctionName="QuanLyQuanAnModel.Store.USP_tableList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuanLyQuanAnModel.USP_tableList_Result">
+                <ScalarProperty Name="idTable" ColumnName="idTable" />
+                <ScalarProperty Name="idRes" ColumnName="idRes" />
+                <ScalarProperty Name="tableName" ColumnName="tableName" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

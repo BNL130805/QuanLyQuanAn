@@ -29,7 +29,7 @@ namespace QuanLyQuanAn.Model
 
         public List<Account> GetAccountToLogin(string NameRes, string UserName, string TypeAccount, string Password)
         {
-            using (var QuenryAccount = new QuanLyQuanAnEntities1())
+            using (var QuenryAccount = new QuanLyQuanAnEntities())
             {
                 return QuenryAccount.Accounts.Where(p => p.RestaurantName == NameRes && p.Username == UserName && p.TypeAccount == TypeAccount && p.Password == Password).ToList();
             }
@@ -55,7 +55,7 @@ namespace QuanLyQuanAn.Model
 
         public List<CategoryName> GetAllCategory()
         {
-            using (QuanLyQuanAnEntities1 quenryCategory = new QuanLyQuanAnEntities1())
+            using (QuanLyQuanAnEntities quenryCategory = new QuanLyQuanAnEntities())
             {
                 return quenryCategory.foodCategories.Select(p => new CategoryName { Name = p.name }).ToList();
             }
@@ -77,7 +77,7 @@ namespace QuanLyQuanAn.Model
             private FoodDataprovider() { }
             public List<food> GetAllFood()
             {
-                using(var FoodQuenry = new QuanLyQuanAnEntities1())
+                using(var FoodQuenry = new QuanLyQuanAnEntities())
                 {
                     return FoodQuenry.foods.ToList();
                 }

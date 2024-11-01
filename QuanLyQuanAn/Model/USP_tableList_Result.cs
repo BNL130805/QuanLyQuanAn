@@ -10,23 +10,12 @@
 namespace QuanLyQuanAn.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tableFood
+    public partial class USP_tableList_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tableFood()
-        {
-            this.Bills = new HashSet<Bill>();
-        }
-    
         public int idTable { get; set; }
         public int idRes { get; set; }
         public string tableName { get; set; }
         public string status { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bill> Bills { get; set; }
-        public virtual Restaurant Restaurant { get; set; }
     }
 }

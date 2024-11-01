@@ -12,11 +12,13 @@ namespace QuanLyQuanAn.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
-    public partial class QuanLyQuanAnEntities1 : DbContext
+    public partial class QuanLyQuanAnEntities : DbContext
     {
-        public QuanLyQuanAnEntities1()
-            : base("name=QuanLyQuanAnEntities1")
+        public QuanLyQuanAnEntities()
+            : base("name=QuanLyQuanAnEntities")
         {
         }
     
@@ -32,5 +34,169 @@ namespace QuanLyQuanAn.Model
         public virtual DbSet<foodCategory> foodCategories { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<tableFood> tableFoods { get; set; }
+    
+        public virtual int USP_ChangeTable(Nullable<int> iDtablefirst, Nullable<int> iDtablesecond)
+        {
+            var iDtablefirstParameter = iDtablefirst.HasValue ?
+                new ObjectParameter("IDtablefirst", iDtablefirst) :
+                new ObjectParameter("IDtablefirst", typeof(int));
+    
+            var iDtablesecondParameter = iDtablesecond.HasValue ?
+                new ObjectParameter("IDtablesecond", iDtablesecond) :
+                new ObjectParameter("IDtablesecond", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_ChangeTable", iDtablefirstParameter, iDtablesecondParameter);
+        }
+    
+        public virtual ObjectResult<USP_CheckNameRt_Result> USP_CheckNameRt(string nameRt)
+        {
+            var nameRtParameter = nameRt != null ?
+                new ObjectParameter("NameRt", nameRt) :
+                new ObjectParameter("NameRt", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_CheckNameRt_Result>("USP_CheckNameRt", nameRtParameter);
+        }
+    
+        public virtual ObjectResult<USP_CheckUserN_Result> USP_CheckUserN(string nameRt, string userN)
+        {
+            var nameRtParameter = nameRt != null ?
+                new ObjectParameter("NameRt", nameRt) :
+                new ObjectParameter("NameRt", typeof(string));
+    
+            var userNParameter = userN != null ?
+                new ObjectParameter("UserN", userN) :
+                new ObjectParameter("UserN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_CheckUserN_Result>("USP_CheckUserN", nameRtParameter, userNParameter);
+        }
+    
+        public virtual int USP_DeleteAccount(string nameRt, string userN)
+        {
+            var nameRtParameter = nameRt != null ?
+                new ObjectParameter("NameRt", nameRt) :
+                new ObjectParameter("NameRt", typeof(string));
+    
+            var userNParameter = userN != null ?
+                new ObjectParameter("UserN", userN) :
+                new ObjectParameter("UserN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_DeleteAccount", nameRtParameter, userNParameter);
+        }
+    
+        public virtual int USP_DeleteFood(string name, Nullable<int> idFoodCtg)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var idFoodCtgParameter = idFoodCtg.HasValue ?
+                new ObjectParameter("idFoodCtg", idFoodCtg) :
+                new ObjectParameter("idFoodCtg", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_DeleteFood", nameParameter, idFoodCtgParameter);
+        }
+    
+        public virtual ObjectResult<USP_GetAccountByUserName_Result> USP_GetAccountByUserName(string nameRestaurant, string userName)
+        {
+            var nameRestaurantParameter = nameRestaurant != null ?
+                new ObjectParameter("nameRestaurant", nameRestaurant) :
+                new ObjectParameter("nameRestaurant", typeof(string));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("userName", userName) :
+                new ObjectParameter("userName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_GetAccountByUserName_Result>("USP_GetAccountByUserName", nameRestaurantParameter, userNameParameter);
+        }
+    
+        public virtual int USP_InsertAccount(string nameRt, string userN, string password, string typeAccount)
+        {
+            var nameRtParameter = nameRt != null ?
+                new ObjectParameter("NameRt", nameRt) :
+                new ObjectParameter("NameRt", typeof(string));
+    
+            var userNParameter = userN != null ?
+                new ObjectParameter("UserN", userN) :
+                new ObjectParameter("UserN", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var typeAccountParameter = typeAccount != null ?
+                new ObjectParameter("TypeAccount", typeAccount) :
+                new ObjectParameter("TypeAccount", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_InsertAccount", nameRtParameter, userNParameter, passwordParameter, typeAccountParameter);
+        }
+    
+        public virtual int USP_InsertBill(Nullable<int> idtable, Nullable<int> discount)
+        {
+            var idtableParameter = idtable.HasValue ?
+                new ObjectParameter("idtable", idtable) :
+                new ObjectParameter("idtable", typeof(int));
+    
+            var discountParameter = discount.HasValue ?
+                new ObjectParameter("discount", discount) :
+                new ObjectParameter("discount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_InsertBill", idtableParameter, discountParameter);
+        }
+    
+        public virtual int USP_InsertBillInf(Nullable<int> idbill, Nullable<int> idfood, Nullable<int> count)
+        {
+            var idbillParameter = idbill.HasValue ?
+                new ObjectParameter("idbill", idbill) :
+                new ObjectParameter("idbill", typeof(int));
+    
+            var idfoodParameter = idfood.HasValue ?
+                new ObjectParameter("idfood", idfood) :
+                new ObjectParameter("idfood", typeof(int));
+    
+            var countParameter = count.HasValue ?
+                new ObjectParameter("count", count) :
+                new ObjectParameter("count", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_InsertBillInf", idbillParameter, idfoodParameter, countParameter);
+        }
+    
+        public virtual int USP_InsertFood(Nullable<int> idfoodctg, string name, Nullable<int> price)
+        {
+            var idfoodctgParameter = idfoodctg.HasValue ?
+                new ObjectParameter("idfoodctg", idfoodctg) :
+                new ObjectParameter("idfoodctg", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var priceParameter = price.HasValue ?
+                new ObjectParameter("price", price) :
+                new ObjectParameter("price", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_InsertFood", idfoodctgParameter, nameParameter, priceParameter);
+        }
+    
+        public virtual ObjectResult<USP_Login_Result> USP_Login(string nameRestaurant, string userName, string password)
+        {
+            var nameRestaurantParameter = nameRestaurant != null ?
+                new ObjectParameter("nameRestaurant", nameRestaurant) :
+                new ObjectParameter("nameRestaurant", typeof(string));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("userName", userName) :
+                new ObjectParameter("userName", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_Login_Result>("USP_Login", nameRestaurantParameter, userNameParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<USP_tableList_Result> USP_tableList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_tableList_Result>("USP_tableList");
+        }
     }
 }
