@@ -19,9 +19,9 @@ namespace QuanLyQuanAn.View
     /// <summary>
     /// Interaction logic for Menu.xaml
     /// </summary>
-    public partial class Menu : UserControl
+    public partial class MenuFood : UserControl
     {
-        public Menu()
+        public MenuFood()
         {
             InitializeComponent();
             this.DataContext = new MenuFoodVM();

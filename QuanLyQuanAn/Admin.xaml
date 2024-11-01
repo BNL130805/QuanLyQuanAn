@@ -28,7 +28,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="4*" />
+                        <RowDefinition Height="2*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0"
@@ -95,35 +95,19 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton Grid.Row="0"
                                      Style="{StaticResource AnimationButtonStyle}"
                                      Tag="Images/MenuFoodIcon.png">Menu</RadioButton>
                         <RadioButton Grid.Row="1"
                                      Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/CategoryIcon.png">Danh mục</RadioButton>
+                                     Tag="Images/TableFoodIcon.png">Bàn ăn</RadioButton>
                         <RadioButton Grid.Row="2"
                                      Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/FoodIcon.png">Món ăn</RadioButton>
+                                     Tag="Images/StaffIcon.png">Nhân sự</RadioButton>
                         <RadioButton Grid.Row="3"
                                      Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/TableFoodIcon.png">Bàn ăn</RadioButton>
-                        <RadioButton Grid.Row="5"
-                                     Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/StaffIcon.png">Nhân viên</RadioButton>
-                        <RadioButton Grid.Row="6"
-                                     Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/ChefIcon.png">Đầu bếp</RadioButton>
-                        <RadioButton Grid.Row="7"
-                                     Style="{StaticResource AnimationButtonStyle}"
                                      Tag="Images/ThongKeIcon.png">Thống kê</RadioButton>
-                        <RadioButton Grid.Row="4"
-                                     Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/ManegerIcon.png">Quản lý</RadioButton>
                     </Grid>
                 </Grid>
             </Border>
@@ -131,7 +115,7 @@
                     Grid.Column="1"
                     Background="#EFF2F7">
                 <Grid Margin="0 0 0 10">
-                    <v:CatagoryControl></v:CatagoryControl>
+                    <v:Menu></v:Menu>
                 </Grid>
              </Border>
     </Grid>

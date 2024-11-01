@@ -252,13 +252,19 @@
     <Compile Include="View\FoodControl.xaml.cs">
       <DependentUpon>FoodControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GetFoodMenu.xaml.cs">
+    <Compile Include="View\HumanResources.xaml.cs">
+      <DependentUpon>HumanResources.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MenuView\GetFoodMenu.xaml.cs">
       <DependentUpon>GetFoodMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ManagerControl.xaml.cs">
       <DependentUpon>ManagerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MenuFood.xaml.cs">
+    <Compile Include="View\Menu.xaml.cs">
+      <DependentUpon>Menu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MenuView\MenuFood.xaml.cs">
       <DependentUpon>MenuFood.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StatisticsControl.xaml.cs">
@@ -311,7 +317,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GetFoodMenu.xaml">
+    <Page Include="View\HumanResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MenuView\GetFoodMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,7 +329,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MenuFood.xaml">
+    <Page Include="View\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MenuView\MenuFood.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -407,7 +421,9 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="View\HumanResoucesView\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
