@@ -31,7 +31,7 @@ namespace QuanLyQuanAn.Model
         {
             using (var QuenryAccount = new QuanLyQuanAnEntities())
             {
-                return QuenryAccount.Accounts.Where(p => p.RestaurantName == NameRes && p.Username == UserName && p.TypeAccount == TypeAccount && p.Password == Password).ToList();
+                return QuenryAccount.Accounts.Where(p =>  p.Username == UserName && p.TypeAccount == TypeAccount && p.Password == Password).ToList();
             }
         }
     }

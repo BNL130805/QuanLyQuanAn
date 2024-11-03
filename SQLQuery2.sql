@@ -257,4 +257,10 @@ begin
 end
 go
 
+ALTER TABLE Account
+DROP CONSTRAINT PK__Account__7F906AD97A4954F7;
 
+alter table Account drop column RestaurantName
+
+ALTER TABLE Account
+ADD CONSTRAINT PK__Account__7F906AD97A4954F7 PRIMARY KEY (idRes, Username);

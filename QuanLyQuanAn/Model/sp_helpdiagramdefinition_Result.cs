@@ -11,12 +11,9 @@ namespace QuanLyQuanAn.Model
 {
     using System;
     
-    public partial class USP_CheckNameRt_Result
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public string RestaurantName { get; set; }
-        public int idRes { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string TypeAccount { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

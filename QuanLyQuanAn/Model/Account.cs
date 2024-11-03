@@ -14,7 +14,6 @@ namespace QuanLyQuanAn.Model
     
     public partial class Account
     {
-        public string RestaurantName { get; set; }
         public int idRes { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

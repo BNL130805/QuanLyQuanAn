@@ -102,7 +102,7 @@
                                         Margin="0 0 10 0"
                                         >
                                     <Border.Background>
-                                        <ImageBrush ImageSource="C:\Users\ICT\Downloads\food\Drinks\Juice.jpg" />
+                                        <ImageBrush ImageSource="C:\Users\LE NGOC BINH\Documents\Lap_Trinh_Truc_Quan\Đồ án\QuanLyQuanAn\food\Drinks\Juice.jpg" />
                                     </Border.Background>
                                 </Border>
 

@@ -33,7 +33,111 @@ namespace QuanLyQuanAn.Model
         public virtual DbSet<food> foods { get; set; }
         public virtual DbSet<foodCategory> foodCategories { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<tableFood> tableFoods { get; set; }
+    
+        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var new_diagramnameParameter = new_diagramname != null ?
+                new ObjectParameter("new_diagramname", new_diagramname) :
+                new ObjectParameter("new_diagramname", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+        }
+    
+        public virtual int sp_upgraddiagrams()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
     
         public virtual int USP_ChangeTable(Nullable<int> iDtablefirst, Nullable<int> iDtablesecond)
         {
@@ -48,16 +152,16 @@ namespace QuanLyQuanAn.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_ChangeTable", iDtablefirstParameter, iDtablesecondParameter);
         }
     
-        public virtual ObjectResult<USP_CheckNameRt_Result> USP_CheckNameRt(string nameRt)
+        public virtual int USP_CheckNameRt(string nameRt)
         {
             var nameRtParameter = nameRt != null ?
                 new ObjectParameter("NameRt", nameRt) :
                 new ObjectParameter("NameRt", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_CheckNameRt_Result>("USP_CheckNameRt", nameRtParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_CheckNameRt", nameRtParameter);
         }
     
-        public virtual ObjectResult<USP_CheckUserN_Result> USP_CheckUserN(string nameRt, string userN)
+        public virtual int USP_CheckUserN(string nameRt, string userN)
         {
             var nameRtParameter = nameRt != null ?
                 new ObjectParameter("NameRt", nameRt) :
@@ -67,7 +171,7 @@ namespace QuanLyQuanAn.Model
                 new ObjectParameter("UserN", userN) :
                 new ObjectParameter("UserN", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_CheckUserN_Result>("USP_CheckUserN", nameRtParameter, userNParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_CheckUserN", nameRtParameter, userNParameter);
         }
     
         public virtual int USP_DeleteAccount(string nameRt, string userN)
@@ -96,7 +200,7 @@ namespace QuanLyQuanAn.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_DeleteFood", nameParameter, idFoodCtgParameter);
         }
     
-        public virtual ObjectResult<USP_GetAccountByUserName_Result> USP_GetAccountByUserName(string nameRestaurant, string userName)
+        public virtual int USP_GetAccountByUserName(string nameRestaurant, string userName)
         {
             var nameRestaurantParameter = nameRestaurant != null ?
                 new ObjectParameter("nameRestaurant", nameRestaurant) :
@@ -106,7 +210,7 @@ namespace QuanLyQuanAn.Model
                 new ObjectParameter("userName", userName) :
                 new ObjectParameter("userName", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_GetAccountByUserName_Result>("USP_GetAccountByUserName", nameRestaurantParameter, userNameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_GetAccountByUserName", nameRestaurantParameter, userNameParameter);
         }
     
         public virtual int USP_InsertAccount(string nameRt, string userN, string password, string typeAccount)
@@ -177,7 +281,7 @@ namespace QuanLyQuanAn.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_InsertFood", idfoodctgParameter, nameParameter, priceParameter);
         }
     
-        public virtual ObjectResult<USP_Login_Result> USP_Login(string nameRestaurant, string userName, string password)
+        public virtual int USP_Login(string nameRestaurant, string userName, string password)
         {
             var nameRestaurantParameter = nameRestaurant != null ?
                 new ObjectParameter("nameRestaurant", nameRestaurant) :
@@ -191,7 +295,7 @@ namespace QuanLyQuanAn.Model
                 new ObjectParameter("password", password) :
                 new ObjectParameter("password", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_Login_Result>("USP_Login", nameRestaurantParameter, userNameParameter, passwordParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_Login", nameRestaurantParameter, userNameParameter, passwordParameter);
         }
     
         public virtual ObjectResult<USP_tableList_Result> USP_tableList()
