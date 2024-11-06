@@ -8,6 +8,34 @@
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0.0"
+                                 To="1.0"
+                                 Duration="0:0:0.5" />
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="UserControlTranslateTransform"
+                                 Storyboard.TargetProperty="Y"
+                                 From="30"
+                                 To="0"
+                                 Duration="0:0:0.5">
+
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    <UserControl.RenderTransform>
+        <TranslateTransform x:Name="UserControlTranslateTransform"
+                        X="0"
+                        Y="30" />
+    </UserControl.RenderTransform>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -77,22 +105,9 @@
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Border Width="25"
-                                        Height="25"
-                                        CornerRadius="50"
-                                        Margin="0 0 10 0"
-                                        Background="{Binding BgColor}">
-                                    <TextBlock Text="{Binding Character}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"
-                                               Foreground="White"
-                                               Margin="0 0 0 1" />
-                                </Border>
-
-                                <TextBlock Text="{Binding Name}"
-                                           VerticalAlignment="Center" />
-                            </StackPanel>
+                            <TextBlock Text="{Binding Name}"
+                                        VerticalAlignment="Center" />
+                          
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

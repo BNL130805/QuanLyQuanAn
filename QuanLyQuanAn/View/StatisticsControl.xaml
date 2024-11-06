@@ -5,8 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLyQuanAn.View"
              xmlns:vs="clr-namespace:QuanLyQuanAn.View.Statistics"
+             xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:Converter_Radiobutton x:Key="Converter_Radiobutton"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:cStatisticVM/>
+    </UserControl.DataContext>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <BeginStoryboard>
@@ -52,16 +59,18 @@
                     Orientation="Horizontal">
             <RadioButton Style="{StaticResource MenuButtonStyle}"
                          Width="100"
-                         Height="30">Lịch sử</RadioButton>
+                         Height="30"
+                         IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=History}">Lịch sử</RadioButton>
             <RadioButton Style="{StaticResource MenuButtonStyle}"
                          Width="100"
-                         Height="30">Doanh thu</RadioButton>
+                         Height="30"
+                         IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=Revenue}">Doanh thu</RadioButton>
             <RadioButton Style="{StaticResource MenuButtonStyle}"
                          Width="100"
-                         Height="30">Món ăn</RadioButton>
+                         Height="30"
+                         IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=FoodStatistic}">Món ăn</RadioButton>
         </StackPanel>
-        <Grid Grid.Row="2" Margin="0 0 0 10">
-            <vs:Revenue />
-        </Grid>
+        <ContentControl Grid.Row="2" Margin="0 0 0 10" Content="{Binding Option}">
+        </ContentControl>
     </Grid>
 </UserControl>

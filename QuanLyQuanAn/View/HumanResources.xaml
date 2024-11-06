@@ -6,6 +6,34 @@
              xmlns:local="clr-namespace:QuanLyQuanAn.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0.0"
+                                 To="1.0"
+                                 Duration="0:0:0.5" />
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="UserControlTranslateTransform"
+                                 Storyboard.TargetProperty="Y"
+                                 From="30"
+                                 To="0"
+                                 Duration="0:0:0.5">
+
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    <UserControl.RenderTransform>
+        <TranslateTransform x:Name="UserControlTranslateTransform"
+                        X="0"
+                        Y="30" />
+    </UserControl.RenderTransform>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -31,5 +59,8 @@
                          Width="100"
                          Height="30">Đầu bếp</RadioButton>
         </StackPanel>
+        <ContentControl Grid.Row="1">
+            <local:ManagerControl/>
+        </ContentControl>
     </Grid>
 </UserControl>

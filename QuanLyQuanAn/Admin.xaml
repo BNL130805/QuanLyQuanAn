@@ -15,6 +15,12 @@
         ResizeMode="NoResize"
         Height="450"
         Width="900">
+    <Window.DataContext>
+        <vm:AdminVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <vm:Converter_Radiobutton x:Key="Converter_Radiobutton"/>
+    </Window.Resources>
     <Border CornerRadius="10"
             Background="White">
         <Grid>
@@ -98,25 +104,28 @@
                         </Grid.RowDefinitions>
                         <RadioButton Grid.Row="0"
                                      Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/MenuFoodIcon.png">Menu</RadioButton>
+                                     Tag="Images/MenuFoodIcon.png"
+                                     IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=Menu}">Menu</RadioButton>
                         <RadioButton Grid.Row="1"
                                      Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/TableFoodIcon.png">Bàn ăn</RadioButton>
+                                     Tag="Images/TableFoodIcon.png"
+                                     IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=FoodTable}">Bàn ăn</RadioButton>
                         <RadioButton Grid.Row="2"
                                      Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/StaffIcon.png">Nhân sự</RadioButton>
+                                     Tag="Images/StaffIcon.png"
+                                     IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=HumanResouces}">Nhân sự</RadioButton>
                         <RadioButton Grid.Row="3"
                                      Style="{StaticResource AnimationButtonStyle}"
-                                     Tag="Images/ThongKeIcon.png">Thống kê</RadioButton>
+                                     Tag="Images/ThongKeIcon.png"
+                                     IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=Statistic}">Thống kê</RadioButton>
                     </Grid>
                 </Grid>
             </Border>
             <Border CornerRadius="0 10 10 0"
                     Grid.Column="1"
                     Background="#EFF2F7">
-                <Grid Margin="0 0 0 10">
-                    <v:Menu></v:Menu>
-                </Grid>
+                <ContentControl Margin="0 0 0 10" Content="{Binding Option}">
+                </ContentControl>
              </Border>
     </Grid>
     </Border>

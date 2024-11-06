@@ -253,8 +253,12 @@
     <Compile Include="Staff.xaml.cs">
       <DependentUpon>Staff.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CatagoryControlVM.cs" />
-    <Compile Include="ViewModel\MenuFoodVM.cs" />
+    <Compile Include="ViewModel\AdminVM.cs" />
+    <Compile Include="ViewModel\cMenuVM.cs" />
+    <Compile Include="ViewModel\cStatisticVM.cs" />
+    <Compile Include="ViewModel\MenuVM\CatagoryControlVM.cs" />
+    <Compile Include="ViewModel\Converter Radiobutton.cs" />
+    <Compile Include="ViewModel\MenuVM\MenuFoodVM.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -424,6 +428,7 @@
     <Resource Include="Images\MoneyIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ViewModel\StatisticVM\" />
     <Folder Include="View\HumanResoucesView\" />
   </ItemGroup>
   <ItemGroup>

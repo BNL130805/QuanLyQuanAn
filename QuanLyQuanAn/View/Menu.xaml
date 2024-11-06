@@ -4,9 +4,44 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLyQuanAn.View"
+             xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel"
              xmlns:v="clr-namespace:QuanLyQuanAn.View"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:Converter_Radiobutton x:Key="Converter_RadioButton"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:cMenuVM/>
+    </UserControl.DataContext>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0.0"
+                                 To="1.0"
+                                 Duration="0:0:0.5" />
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="UserControlTranslateTransform"
+                                 Storyboard.TargetProperty="Y"
+                                 From="30"
+                                 To="0"
+                                 Duration="0:0:0.5">
+
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    <UserControl.RenderTransform>
+        <TranslateTransform x:Name="UserControlTranslateTransform"
+                        X="0"
+                        Y="30" />
+    </UserControl.RenderTransform>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -24,13 +59,14 @@
                     Orientation="Horizontal">
             <RadioButton Style="{StaticResource MenuButtonStyle}"
                          Width="100"
-                         Height="30">Danh mục</RadioButton>
+                         Height="30"
+                         IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_RadioButton}, ConverterParameter=Category}">Danh mục</RadioButton>
             <RadioButton Style="{StaticResource MenuButtonStyle}"
                          Width="100"
-                         Height="30">Món ăn</RadioButton>
+                         Height="30"
+                         IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_RadioButton}, ConverterParameter=Food}">Món ăn</RadioButton>
         </StackPanel>
-        <ContentControl Grid.Row="2">
-            <v:FoodControl></v:FoodControl>
+        <ContentControl Grid.Row="2" Content="{Binding Option}">
         </ContentControl>
     </Grid>
 </UserControl>
