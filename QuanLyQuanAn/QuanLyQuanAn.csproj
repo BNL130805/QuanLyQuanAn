@@ -460,6 +460,7 @@
     <Folder Include="ViewModel\StatisticVM\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\EmptyImage.png" />
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

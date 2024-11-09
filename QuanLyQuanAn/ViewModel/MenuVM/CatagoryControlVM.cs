@@ -56,6 +56,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 (p) => true
                 );
             CategoryList = CategoryProvider.Category.GetAllCategory();
+      
         }
 
         private async void ShowAddCatagory()
