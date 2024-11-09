@@ -10,6 +10,7 @@ using System.Web.Configuration;
 using System.Windows.Input;
 using System.Windows.Media;
 using QuanLyQuanAn.View.DialogHost;
+using QuanLyQuanAn.Model;
 
 namespace QuanLyQuanAn.ViewModel.MenuVM
 {
@@ -18,6 +19,9 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
     internal class CatagoryControlVM : BaseViewModel
     {
         private object _currentDialogContent;
+
+        private List<foodCategory> _categoryList;
+
         public object CurrentDialogContent
         {
             get => _currentDialogContent;
@@ -34,6 +38,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public ICommand CloseAddCatagory {  get; }
         public ICommand AddCatagory { get; }
         public object Title { get => _title; set => _title = value; }
+        public List<foodCategory> CategoryList { get => _categoryList; set { _categoryList = value; OnPropertyChanged(); } }
 
         public CatagoryControlVM()
         {
@@ -50,6 +55,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 },
                 (p) => true
                 );
+            CategoryList = CategoryProvider.Category.GetAllCategory();
         }
 
         private async void ShowAddCatagory()

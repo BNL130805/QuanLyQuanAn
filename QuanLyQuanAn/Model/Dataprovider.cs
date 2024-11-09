@@ -53,11 +53,11 @@ namespace QuanLyQuanAn.Model
         {
         }
 
-        public List<CategoryName> GetAllCategory()
+        public List<foodCategory> GetAllCategory()
         {
             using (QuanLyQuanAnEntities quenryCategory = new QuanLyQuanAnEntities())
             {
-                return quenryCategory.foodCategories.Select(p => new CategoryName { Name = p.name }).ToList();
+                return quenryCategory.foodCategories.ToList();
             }
         }
         public class FoodDataprovider

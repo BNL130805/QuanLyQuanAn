@@ -94,9 +94,9 @@
                           CellStyle="{DynamicResource DataGridCellStyle1}"
                           x:Name="membersDataGrid"
                           Style="{DynamicResource DataGridStyle1}"
-                          ItemsSource="{Binding members}"
                           Grid.Row="2"
-                          Margin="10 0 0 0">
+                          Margin="10 0 0 0"
+                          ItemsSource="{Binding CategoryList}">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Header="C"
                                                 CanUserResize="False"
@@ -113,14 +113,14 @@
                                             IsReadOnly="True"
                                             CanUserResize="False"
                                             Width="auto"
-                                            Binding="{Binding Number}" />
+                                            Binding="{Binding idFoodCtg}" />
                         <DataGridTemplateColumn Header="Tên thể loại"
                                                 IsReadOnly="True"
                                                 Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}"
+                                        <TextBlock Text="{Binding name}"
                                                    VerticalAlignment="Center" />
                                     </StackPanel>
                                 </DataTemplate>
