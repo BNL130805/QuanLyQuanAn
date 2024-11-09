@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:QuanLyQuanAn.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel.MenuVM"
+             xmlns:dlh="clr-namespace:QuanLyQuanAn.View.DialogHost"
              mc:Ignorable="d" >
+    <UserControl.DataContext>
+        <vm:CatagoryControlVM/>
+    </UserControl.DataContext>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <BeginStoryboard>
@@ -36,104 +41,113 @@
                             Y="30" />
     </UserControl.RenderTransform>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock Text="Filter by"
-                   Grid.Row="0"
-                   FontSize="13"
-                   FontWeight="SemiBold"
-                   Margin="0 0 215 0"
-                   Foreground="Black"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Center" />
+        <materialDesign:DialogHost Identifier="RootDialogHost">
+            <materialDesign:DialogHost.DialogContent>
+                <ContentControl Content="{Binding CurrentDialogContent}">
+                </ContentControl>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Filter by"
+                           Grid.Row="0"
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           Margin="0 0 215 0"
+                           Foreground="Black"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
 
-        <!--Filter Textbox-->
-        <Grid Width="200"
-              HorizontalAlignment="Right"
-              Grid.Row="0">
-            <TextBox VerticalAlignment="Center"
-                     materialDesign:HintAssist.Hint="Floating Hint"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     Foreground="Black"/>
-        </Grid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Margin="0 10 10 0"
-    Style="{StaticResource gridEditButton}"
-    Width="40"
-    Height="40"
-    HorizontalAlignment="Right">
-                <Icon:PackIconMaterial Kind="Plus"
-           Style="{StaticResource gridButtonIcon}" />
-            </Button>
-            <Button Margin="0 10 10 0"
-            Style="{StaticResource gridRemoveButton}"
-            Width="40"
-            Height="40"
-            HorizontalAlignment="Right">
-                <Icon:PackIconMaterial Kind="DeleteOutline"
+                <!--Filter Textbox-->
+                <Grid Width="200"
+                      HorizontalAlignment="Right"
+                      Grid.Row="0">
+                    <TextBox VerticalAlignment="Center"
+                             materialDesign:HintAssist.Hint="Floating Hint"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Foreground="Black"/>
+                </Grid>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="0 10 10 0"
+                            Style="{StaticResource gridEditButton}"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Right"
+                            Command="{Binding ShowAddCatagoryCommand}">
+                        <Icon:PackIconMaterial Kind="Plus"
                    Style="{StaticResource gridButtonIcon}" />
-            </Button>
-        </StackPanel>
-        <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}"
-                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
-                  CellStyle="{DynamicResource DataGridCellStyle1}"
-                  x:Name="membersDataGrid"
-                  Style="{DynamicResource DataGridStyle1}"
-                  ItemsSource="{Binding members}"
-                  Grid.Row="2"
-                  Margin="10 0 0 0">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="C"
-                                        CanUserResize="False"
-                                        Width="auto"
-                                        ElementStyle="{DynamicResource CheckBoxStyle1}"
-                                        >
-                    <DataGridCheckBoxColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" />
-                        </DataTemplate>
-                    </DataGridCheckBoxColumn.HeaderTemplate>
-                </DataGridCheckBoxColumn>
-                <DataGridTextColumn Header="#"
-                                    IsReadOnly="True"
-                                    CanUserResize="False"
-                                    Width="auto"
-                                    Binding="{Binding Number}" />
-                <DataGridTemplateColumn Header="Tên thể loại"
-                                        IsReadOnly="True"
-                                        Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}"
-                                           VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Operations"
-                                        IsReadOnly="True"
-                                        Width="auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource gridEditButton}">
-                                    <Icon:PackIconMaterial Kind="PencilOutline"
-                                                           Style="{StaticResource gridButtonIcon}" />
-                                </Button>
-                                <Button Margin="5 0 0 0"
-                                        Style="{StaticResource gridRemoveButton}">
-                                    <Icon:PackIconMaterial Kind="DeleteOutline"
-                                                           Style="{StaticResource gridButtonIcon}" />
-                                </Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                    </Button>
+                    <Button Margin="0 10 10 0"
+                            Style="{StaticResource gridRemoveButton}"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Right">
+                        <Icon:PackIconMaterial Kind="DeleteOutline"
+                           Style="{StaticResource gridButtonIcon}" />
+                    </Button>
+                </StackPanel>
+                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}"
+                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                          CellStyle="{DynamicResource DataGridCellStyle1}"
+                          x:Name="membersDataGrid"
+                          Style="{DynamicResource DataGridStyle1}"
+                          ItemsSource="{Binding members}"
+                          Grid.Row="2"
+                          Margin="10 0 0 0">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Header="C"
+                                                CanUserResize="False"
+                                                Width="auto"
+                                                ElementStyle="{DynamicResource CheckBoxStyle1}"
+                                                >
+                            <DataGridCheckBoxColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <CheckBox Style="{DynamicResource CheckBoxStyle1}" />
+                                </DataTemplate>
+                            </DataGridCheckBoxColumn.HeaderTemplate>
+                        </DataGridCheckBoxColumn>
+                        <DataGridTextColumn Header="#"
+                                            IsReadOnly="True"
+                                            CanUserResize="False"
+                                            Width="auto"
+                                            Binding="{Binding Number}" />
+                        <DataGridTemplateColumn Header="Tên thể loại"
+                                                IsReadOnly="True"
+                                                Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Operations"
+                                                IsReadOnly="True"
+                                                Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource gridEditButton}">
+                                            <Icon:PackIconMaterial Kind="PencilOutline"
+                                                                   Style="{StaticResource gridButtonIcon}" />
+                                        </Button>
+                                        <Button Margin="5 0 0 0"
+                                                Style="{StaticResource gridRemoveButton}">
+                                            <Icon:PackIconMaterial Kind="DeleteOutline"
+                                                                   Style="{StaticResource gridButtonIcon}" />
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </materialDesign:DialogHost>
     </Grid>
 </UserControl>

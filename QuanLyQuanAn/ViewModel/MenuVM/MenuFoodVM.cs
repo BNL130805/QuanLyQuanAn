@@ -12,7 +12,7 @@ using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using static QuanLyQuanAn.Model.CategoryProvider;
 
-namespace QuanLyQuanAn.ViewModel
+namespace QuanLyQuanAn.ViewModel.MenuVM
 {
     internal class MenuFoodVM : BaseViewModel
     {

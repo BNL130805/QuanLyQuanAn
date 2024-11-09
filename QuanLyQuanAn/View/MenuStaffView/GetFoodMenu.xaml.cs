@@ -1,5 +1,4 @@
-﻿using QuanLyQuanAn.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuanLyQuanAn.View
+namespace QuanLyQuanAn.View.MenuStaffView
 {
     /// <summary>
-    /// Interaction logic for Menu.xaml
+    /// Interaction logic for AllFoodMenu.xaml
     /// </summary>
-    public partial class MenuFood : UserControl
+    public partial class GetFoodMenu : UserControl
     {
-        public MenuFood()
+        public GetFoodMenu()
         {
             InitializeComponent();
-            this.DataContext = new MenuFoodVM();
         }
     }
 }

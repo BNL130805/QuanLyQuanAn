@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="QuanLyQuanAn.View.HumanResouce.ManagerControl"
+﻿<UserControl x:Class="QuanLyQuanAn.View.HumanResouce.StaffControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:QuanLyQuanAn.View"
+             xmlns:local="clr-namespace:QuanLyQuanAn.View.HumanResouce"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
@@ -13,18 +13,18 @@
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                     From="0.0"
-                                     To="1.0"
-                                     Duration="0:0:0.5" />
+                                 From="0.0"
+                                 To="1.0"
+                                 Duration="0:0:0.5" />
                 </Storyboard>
             </BeginStoryboard>
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimation Storyboard.TargetName="UserControlTranslateTransform"
-                                     Storyboard.TargetProperty="Y"
-                                     From="30"
-                                     To="0"
-                                     Duration="0:0:0.5">
+                                 Storyboard.TargetProperty="Y"
+                                 From="30"
+                                 To="0"
+                                 Duration="0:0:0.5">
 
                     </DoubleAnimation>
                 </Storyboard>
@@ -33,8 +33,8 @@
     </UserControl.Triggers>
     <UserControl.RenderTransform>
         <TranslateTransform x:Name="UserControlTranslateTransform"
-                            X="0"
-                            Y="30" />
+                        X="0"
+                        Y="30" />
     </UserControl.RenderTransform>
     <Grid>
         <Grid.RowDefinitions>
@@ -43,22 +43,22 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Text="Filter by"
-                   Grid.Row="0"
-                   FontSize="13"
-                   FontWeight="SemiBold"
-                   Margin="0 0 215 0"
-                   Foreground="Black"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Center" />
+               Grid.Row="0"
+               FontSize="13"
+               FontWeight="SemiBold"
+               Margin="0 0 215 0"
+               Foreground="Black"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center" />
 
         <!--Filter Textbox-->
         <Grid Width="200"
-              HorizontalAlignment="Right"
-              Grid.Row="0">
+          HorizontalAlignment="Right"
+          Grid.Row="0">
             <TextBox VerticalAlignment="Center"
-                     materialDesign:HintAssist.Hint="Floating Hint"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Foreground="Black" />
+                 materialDesign:HintAssist.Hint="Floating Hint"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 Foreground="Black" />
         </Grid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
             <Button Margin="0 10 10 0"
@@ -79,15 +79,15 @@
             </Button>
         </StackPanel>
         <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}"
-                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
-                  CellStyle="{DynamicResource DataGridCellStyle1}"
-                  x:Name="membersDataGrid"
-                  Style="{DynamicResource DataGridStyle1}">
+              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+              CellStyle="{DynamicResource DataGridCellStyle1}"
+              x:Name="membersDataGrid"
+              Style="{DynamicResource DataGridStyle1}">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="C"
-                                        CanUserResize="False"
-                                        Width="auto"
-                                        ElementStyle="{StaticResource CheckBoxStyle1}">
+                                    CanUserResize="False"
+                                    Width="auto"
+                                    ElementStyle="{StaticResource CheckBoxStyle1}">
                     <DataGridCheckBoxColumn.HeaderTemplate>
                         <DataTemplate>
                             <CheckBox Style="{StaticResource CheckBoxStyle1}" />
@@ -95,48 +95,48 @@
                     </DataGridCheckBoxColumn.HeaderTemplate>
                 </DataGridCheckBoxColumn>
                 <DataGridTextColumn Header="#"
-                                    IsReadOnly="True"
-                                    CanUserResize="False"
-                                    Width="auto"
-                                    Binding="{Binding Number}" />
+                                IsReadOnly="True"
+                                CanUserResize="False"
+                                Width="auto"
+                                Binding="{Binding Number}" />
                 <DataGridTemplateColumn Header="Member"
-                                        IsReadOnly="True"
-                                        Width="*">
+                                    IsReadOnly="True"
+                                    Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Border Width="25"
-                                        Height="25"
-                                        CornerRadius="50"
-                                        Margin="0 0 10 0"
-                                        Background="{Binding BgColor}">
+                                    Height="25"
+                                    CornerRadius="50"
+                                    Margin="0 0 10 0"
+                                    Background="{Binding BgColor}">
                                     <TextBlock Text="{Binding Character}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"
-                                               Foreground="White"
-                                               Margin="0 0 0 1" />
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           Foreground="White"
+                                           Margin="0 0 0 1" />
                                 </Border>
 
                                 <TextBlock Text="{Binding Name}"
-                                           VerticalAlignment="Center" />
+                                       VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Operations"
-                                        IsReadOnly="True"
-                                        Width="auto">
+                                    IsReadOnly="True"
+                                    Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Button Style="{StaticResource gridEditButton}">
                                     <Icon:PackIconMaterial Kind="PencilOutline"
-                                                           Style="{StaticResource gridButtonIcon}" />
+                                                       Style="{StaticResource gridButtonIcon}" />
                                 </Button>
                                 <Button Margin="5 0 0 0"
-                                        Style="{StaticResource gridRemoveButton}">
+                                    Style="{StaticResource gridRemoveButton}">
                                     <Icon:PackIconMaterial Kind="DeleteOutline"
-                                                           Style="{StaticResource gridButtonIcon}" />
+                                                       Style="{StaticResource gridButtonIcon}" />
                                 </Button>
                             </StackPanel>
                         </DataTemplate>

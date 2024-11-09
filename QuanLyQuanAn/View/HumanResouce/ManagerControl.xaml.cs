@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuanLyQuanAn.View
+namespace QuanLyQuanAn.View.HumanResouce
 {
     /// <summary>
     /// Interaction logic for ManagerControl.xaml

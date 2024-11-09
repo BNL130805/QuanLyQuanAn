@@ -254,6 +254,7 @@
       <DependentUpon>Staff.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AdminVM.cs" />
+    <Compile Include="ViewModel\cHumanResoucesVM.cs" />
     <Compile Include="ViewModel\cMenuVM.cs" />
     <Compile Include="ViewModel\cStatisticVM.cs" />
     <Compile Include="ViewModel\MenuVM\CatagoryControlVM.cs" />
@@ -265,22 +266,31 @@
     <Compile Include="View\CatagoryControl.xaml.cs">
       <DependentUpon>CatagoryControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DialogHost\AddCatagory.xaml.cs">
+      <DependentUpon>AddCatagory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FoodControl.xaml.cs">
       <DependentUpon>FoodControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HumanResouce\ChefControl.xaml.cs">
+      <DependentUpon>ChefControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HumanResouce\StaffControl.xaml.cs">
+      <DependentUpon>StaffControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HumanResources.xaml.cs">
       <DependentUpon>HumanResources.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MenuView\GetFoodMenu.xaml.cs">
+    <Compile Include="View\MenuStaffView\GetFoodMenu.xaml.cs">
       <DependentUpon>GetFoodMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ManagerControl.xaml.cs">
+    <Compile Include="View\HumanResouce\ManagerControl.xaml.cs">
       <DependentUpon>ManagerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MenuView\MenuFood.xaml.cs">
+    <Compile Include="View\MenuStaffView\MenuFood.xaml.cs">
       <DependentUpon>MenuFood.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StatisticsControl.xaml.cs">
@@ -329,7 +339,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DialogHost\AddCatagory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FoodControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HumanResouce\ChefControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HumanResouce\StaffControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -337,11 +359,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MenuView\GetFoodMenu.xaml">
+    <Page Include="View\MenuStaffView\GetFoodMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ManagerControl.xaml">
+    <Page Include="View\HumanResouce\ManagerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -349,7 +371,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MenuView\MenuFood.xaml">
+    <Page Include="View\MenuStaffView\MenuFood.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -429,7 +451,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModel\StatisticVM\" />
-    <Folder Include="View\HumanResoucesView\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model\Model1.Context.tt">

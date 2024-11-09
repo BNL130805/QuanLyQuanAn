@@ -14,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuanLyQuanAn.View
+namespace QuanLyQuanAn.View.HumanResouce
 {
     /// <summary>
-    /// Interaction logic for CatagoryControl.xaml
+    /// Interaction logic for StaffControl.xaml
     /// </summary>
-    public partial class CatagoryControl : UserControl
+    public partial class StaffControl : UserControl
     {
-        public CatagoryControl()
+        public StaffControl()
         {
             InitializeComponent();
             var converter = new BrushConverter();
@@ -49,19 +49,9 @@ namespace QuanLyQuanAn.View
             members.Add(new Member { Number = "19", Character = "F", BgColor = (Brush)converter.ConvertFromString("#1E88E5"), Name = "Frank Underwood", Position = "Manager", Email = "frank@yahoo.com", Phone = "301-584-6966" });
             members.Add(new Member { Number = "20", Character = "S", BgColor = (Brush)converter.ConvertFromString("#0CA678"), Name = "Saeed Dasman", Position = "Coach", Email = "saeed.dasi@hotmail.com", Phone = "817-320-5052" });
 
-           
+
 
             membersDataGrid.ItemsSource = members;
         }
-    }
-    public class Member
-    {
-        public string Character { get; set; }
-        public Brush BgColor { get; set; }
-        public string Number { get; set; }
-        public string Name { get; set; }
-        public string Position { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
     }
 }
