@@ -4,8 +4,8 @@ VALUES (N'Restaurant A');
 GO
 
 -- Thêm tài khoản cho nhà hàng Restaurant A
-INSERT INTO dbo.Account (idRes, RestaurantName, Username, Password, TypeAccount)
-VALUES (1, N'Restaurant A', N'admin', N'admin123', N'Quản lý');
+INSERT INTO dbo.Account (idRes, Username, Password, TypeAccount)
+VALUES (1, N'admin', N'admin123', N'Quản lý');
 GO
 
 -- Thêm các danh mục món ăn (foodCategory)
@@ -73,60 +73,59 @@ GO
 -- Cập nhật hình ảnh cho các món ăn
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Appetizers\Spring Rolls.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Appetizers\Spring Rolls.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Spring Rolls'
 AND idRes = 1;
 GO
 
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Appetizers\Garlic Bread.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Appetizers\Garlic Bread.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Garlic Bread'
 AND idRes = 1;
 GO
 
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Main Courses\Grilled Chicken.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Main Courses\Grilled Chicken.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Grilled Chicken'
 AND idRes = 1;
 GO
 
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Main Courses\Beef Steak.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Main Courses\Beef Steak.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Beef Steak'
 AND idRes = 1;
 GO
 
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Desserts\Chocolate Cake.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Desserts\Chocolate Cake.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Chocolate Cake'
 AND idRes = 1;
 GO
 
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Desserts\Ice Cream.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Desserts\Ice Cream.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Ice Cream'
 AND idRes = 1;
 GO
 
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Drinks\Coffee.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Drinks\Coffee.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Coffee'
 AND idRes = 1;
 GO
 
 UPDATE dbo.food
 SET FoodImage = (SELECT BulkColumn 
-                 FROM OPENROWSET(BULK N'C:\Users\ICT\Downloads\food\Drinks\Juice.jpg', SINGLE_BLOB) AS Image)
+                 FROM OPENROWSET(BULK N'C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Drinks\Juice.jpg', SINGLE_BLOB) AS Image)
 WHERE name = N'Juice'
 AND idRes = 1;
 GO
-
 INSERT INTO dbo.Bill (idRes, idTable, TimeIn, TimeOut, discount, TotalPrice, status)
 VALUES 
 (1, 1, '2024-10-10 12:00:00', '2024-10-10 13:00:00', 10, 150000, N'Đã thanh toán'),

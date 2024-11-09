@@ -6,9 +6,13 @@
              xmlns:local="clr-namespace:QuanLyQuanAn.View"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel.MenuVM"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Triggers>
+    <UserControl.DataContext>
+        <vm:FoodControlVM/>
+    </UserControl.DataContext>
+<UserControl.Triggers>
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <BeginStoryboard>
                 <Storyboard>
@@ -83,7 +87,10 @@
                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
                   CellStyle="{DynamicResource DataGridCellStyle1}"
                   x:Name="membersDataGrid"
-                  Style="{DynamicResource DataGridStyle1}">
+                  Style="{DynamicResource DataGridStyle1}"
+                  ItemsSource="{Binding FoodList}"
+                  >
+                  
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="C"
                                         CanUserResize="False"
@@ -99,7 +106,7 @@
                                     IsReadOnly="True"
                                     CanUserResize="False"
                                     Width="auto"
-                                    Binding="{Binding Number}" />
+                                    Binding="{Binding idFood}" />
                 <DataGridTemplateColumn Header="Tên món ăn"
                                         IsReadOnly="True"
                                         Width="*">
@@ -112,22 +119,22 @@
                                         Margin="0 0 10 0"
                                         >
                                     <Border.Background>
-                                        <ImageBrush ImageSource="C:\Users\LE NGOC BINH\Documents\Lap_Trinh_Truc_Quan\Đồ án\QuanLyQuanAn\food\Drinks\Juice.jpg" />
+                                        <ImageBrush ImageSource="C:\Users\Hii\Documents\Do_An_Lttq\QuanLyQuanAn\food\Drinks\Juice.jpg" />
                                     </Border.Background>
                                 </Border>
 
-                                <TextBlock Text="{Binding Name}"
+                                <TextBlock Text="{Binding name}"
                                            VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Danh mục"
-                                    Binding="{Binding Position}"
+                                    Binding="{Binding idFoodCtg}"
                                     IsReadOnly="True"
                                     Width="*" />
                 <DataGridTextColumn Header="Giá"
-                                    Binding="{Binding Phone}"
+                                    Binding="{Binding price}"
                                     IsReadOnly="True"
                                     Width="*" />
                 <DataGridTemplateColumn Header="Operations"
