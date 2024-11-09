@@ -235,15 +235,6 @@
     <Compile Include="Model\Restaurant.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sp_helpdiagrams_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\tableFood.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -259,6 +250,7 @@
     <Compile Include="ViewModel\cStatisticVM.cs" />
     <Compile Include="ViewModel\MenuVM\CatagoryControlVM.cs" />
     <Compile Include="ViewModel\Converter Radiobutton.cs" />
+    <Compile Include="ViewModel\MenuVM\FoodControlVM.cs" />
     <Compile Include="ViewModel\MenuVM\MenuFoodVM.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />

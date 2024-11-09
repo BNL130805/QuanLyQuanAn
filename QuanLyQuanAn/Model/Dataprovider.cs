@@ -60,27 +60,31 @@ namespace QuanLyQuanAn.Model
                 return quenryCategory.foodCategories.ToList();
             }
         }
-        public class FoodDataprovider
+        
+    }
+    public class FoodDataprovider
+    {
+        private static FoodDataprovider _food;
+
+        public static FoodDataprovider Food
         {
-            private static FoodDataprovider _food;
-
-            public static FoodDataprovider Food {
-                get {
-                    if (_food == null)
-                    {
-                        _food = new FoodDataprovider();
-                    }
-                    return _food; 
-                }
-                private set => _food = value; }
-
-            private FoodDataprovider() { }
-            public List<food> GetAllFood()
+            get
             {
-                using(var FoodQuenry = new QuanLyQuanAnEntities())
+                if (_food == null)
                 {
-                    return FoodQuenry.foods.ToList();
+                    _food = new FoodDataprovider();
                 }
+                return _food;
+            }
+            private set => _food = value;
+        }
+
+        private FoodDataprovider() { }
+        public List<food> GetAllFood()
+        {
+            using (var FoodQuenry = new QuanLyQuanAnEntities())
+            {
+                return FoodQuenry.foods.ToList();
             }
         }
     }

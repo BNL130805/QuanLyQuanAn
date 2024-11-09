@@ -24,31 +24,7 @@ namespace QuanLyQuanAn.View
         public FoodControl()
         {
             InitializeComponent();
-            var converter = new BrushConverter();
-            ObservableCollection<Member> members = new ObservableCollection<Member>();
-
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Nước cam", Position = "Đồ uống", Email = "john.doe@gmail.com", Phone = "120.000đ" });
-
-
-
-            membersDataGrid.ItemsSource = members;
+           
         }
     }
 }
