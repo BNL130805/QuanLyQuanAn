@@ -248,6 +248,9 @@
     <Compile Include="ViewModel\cHumanResoucesVM.cs" />
     <Compile Include="ViewModel\cMenuVM.cs" />
     <Compile Include="ViewModel\cStatisticVM.cs" />
+    <Compile Include="ViewModel\HumanResourceVM\ChefControlVM.cs" />
+    <Compile Include="ViewModel\HumanResourceVM\ManagerControlVM.cs" />
+    <Compile Include="ViewModel\HumanResourceVM\StaffControlVM.cs" />
     <Compile Include="ViewModel\MenuVM\CatagoryControlVM.cs" />
     <Compile Include="ViewModel\Converter Radiobutton.cs" />
     <Compile Include="ViewModel\MenuVM\FoodControlVM.cs" />
@@ -255,6 +258,7 @@
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\TableControlVM.cs" />
     <Compile Include="View\CatagoryControl.xaml.cs">
       <DependentUpon>CatagoryControl.xaml</DependentUpon>
     </Compile>

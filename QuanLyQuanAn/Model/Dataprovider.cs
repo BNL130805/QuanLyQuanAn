@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuanLyQuanAn.Model;
 
 namespace QuanLyQuanAn.Model
 {
@@ -85,6 +86,73 @@ namespace QuanLyQuanAn.Model
             using (var FoodQuenry = new QuanLyQuanAnEntities())
             {
                 return FoodQuenry.foods.ToList();
+            }
+        }
+    }
+    public class TableProvider
+    {
+        private static TableProvider _table;
+
+        public static TableProvider Table
+        {
+            get
+            {
+                if (_table == null)
+                {
+                    _table = new TableProvider();
+                }
+                return _table;
+            }
+            private set => _table = value;
+        }
+
+        private TableProvider() { }
+        public List<tableFood> GetAllTable()
+        {
+            using (var TableQuenry = new QuanLyQuanAnEntities())
+            {
+                return TableQuenry.tableFoods.ToList();
+            }
+        }
+    }
+    public class HumanResouceDataProvider
+    {
+        private static HumanResouceDataProvider _human;
+
+        public static HumanResouceDataProvider Human
+        {
+            get
+            {
+                if (_human == null)
+                {
+                    _human = new HumanResouceDataProvider();
+                }
+                return _human;
+            }
+            private set => _human = value;
+            
+        }
+
+        private HumanResouceDataProvider() { }
+        public List<Account> GetAllChef()
+        {
+            using (var ChefQuenry = new QuanLyQuanAnEntities())
+            {
+                return ChefQuenry.Accounts.ToList();
+            }
+        }
+        public List<Account> GetAllManager()
+        {
+            using (var ManagerQuenry = new QuanLyQuanAnEntities())
+            {
+                return ManagerQuenry.Accounts.ToList();
+            }
+        }
+        public List<Account> GetAllStaff()
+        {
+            using (var StaffQuenry = new QuanLyQuanAnEntities())
+            {
+                return StaffQuenry.Accounts.ToList();
             }
         }
     }
