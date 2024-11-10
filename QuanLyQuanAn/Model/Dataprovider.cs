@@ -90,6 +90,7 @@ namespace QuanLyQuanAn.Model
                             join categories in FoodQuenry.foodCategories on foods.idFoodCtg equals categories.idFoodCtg
                             select new
                             {
+                                foods.idFood,
                                 foods.name,
                                 foods.FoodImage,
                                 foods.price,

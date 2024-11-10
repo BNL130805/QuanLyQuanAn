@@ -14,7 +14,7 @@ namespace QuanLyQuanAn.ViewModel
     {
         private object _currentDialogContent;
 
-        private List<tableFood> _tableList;
+        private object _tableList;
 
         public object CurrentDialogContent
         {
@@ -32,16 +32,35 @@ namespace QuanLyQuanAn.ViewModel
         public ICommand CloseAddTable { get; }
         public ICommand AddTable { get; }
         public object Title { get => _title; set => _title = value; }
-        public List<tableFood> TableList { get => _tableList; set { _tableList = value; OnPropertyChanged(); } }
+        public object TableList { get => _tableList; set { _tableList = value; OnPropertyChanged(); } }
 
         public TableControlVM()
         {
-            
+            ShowAddTableCommand = new RelayCommand((p) => ShowAddFood(), (p) => true);
+            CloseAddTable = new RelayCommand(
+                (p) => CloseDialogHost()
+                ,
+                (p) => true
+                );
+            AddTable = new RelayCommand(
+                (p) =>
+                {
+                    CloseDialogHost();
+                },
+                (p) => true
+                );
             TableList = TableProvider.Table.GetAllTable();
         }
+        private async void ShowAddFood()
+        {
+            CurrentDialogContent = new AddTable(); // DialogContent1 là UserControl hoặc nội dung
+            await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
+        }
 
-        
+        private void CloseDialogHost()
+        {
+            DialogHost.CloseDialogCommand.Execute(null, null);
+        }
 
-        
     }
 }
