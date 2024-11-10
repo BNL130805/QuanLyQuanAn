@@ -21,7 +21,6 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public MenuFoodVM() 
         {
             CategoryNames.Insert(0, new CategoryName(){ Name = "Tất cả" });
-            AllFood = new ObservableCollection<food>(FoodDataprovider.Food.GetAllFood());
         }
 
         public ObservableCollection<CategoryName> CategoryNames { get => _categoryNames; set{ _categoryNames = value; OnPropertyChanged(); } }

@@ -20,7 +20,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
     {
         private object _currentDialogContent;
 
-        private List<foodCategory> _categoryList;
+        private object _categoryList;
 
         public object CurrentDialogContent
         {
@@ -38,7 +38,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public ICommand CloseAddCatagory {  get; }
         public ICommand AddCatagory { get; }
         public object Title { get => _title; set => _title = value; }
-        public List<foodCategory> CategoryList { get => _categoryList; set { _categoryList = value; OnPropertyChanged(); } }
+        public object CategoryList { get => _categoryList; set { _categoryList = value; OnPropertyChanged(); } }
 
         public CatagoryControlVM()
         {

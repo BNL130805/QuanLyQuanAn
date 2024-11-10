@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuanLyQuanAn.Model;
+using System.Runtime.Remoting.Contexts;
 
 namespace QuanLyQuanAn.Model
 {
@@ -81,11 +82,20 @@ namespace QuanLyQuanAn.Model
         }
 
         private FoodDataprovider() { }
-        public List<food> GetAllFood()
+        public object GetAllFood()
         {
             using (var FoodQuenry = new QuanLyQuanAnEntities())
             {
-                return FoodQuenry.foods.ToList();
+                var Food = (from foods in FoodQuenry.foods
+                            join categories in FoodQuenry.foodCategories on foods.idFoodCtg equals categories.idFoodCtg
+                            select new
+                            {
+                                foods.name,
+                                foods.FoodImage,
+                                foods.price,
+                                CategoryName = categories.name
+                            }).ToList();
+                return Food;
             }
         }
     }

@@ -9,6 +9,9 @@
              xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel.MenuVM"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:ByteToImageConverter x:Key="ByteToImageConverter" />
+    </UserControl.Resources>
     <UserControl.DataContext>
         <vm:FoodControlVM/>
     </UserControl.DataContext>
@@ -41,9 +44,9 @@
                             Y="30" />
     </UserControl.RenderTransform>
     <Grid>
-        <materialDesign:DialogHost>
+        <materialDesign:DialogHost Identifier="RootDialogHost">
             <materialDesign:DialogHost.DialogContent>
-                <ContentControl Content="{Binding}"/>
+                <ContentControl Content="{Binding CurrentDialogContent}"/>
             </materialDesign:DialogHost.DialogContent>
             <Grid>
                 <Grid.RowDefinitions>
@@ -62,19 +65,20 @@
 
                 <!--Filter Textbox-->
                 <Grid Width="200"
-              HorizontalAlignment="Right"
-              Grid.Row="0">
+                      HorizontalAlignment="Right"
+                      Grid.Row="0">
                     <TextBox VerticalAlignment="Center"
-                     materialDesign:HintAssist.Hint="Floating Hint"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Foreground="Black" />
+                             materialDesign:HintAssist.Hint="Floating Hint"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             Foreground="Black" />
                 </Grid>
                 <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Margin="0 10 10 0"
-            Style="{StaticResource gridEditButton}"
-            Width="40"
-            Height="40"
-            HorizontalAlignment="Right">
+                            Style="{StaticResource gridEditButton}"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Right"
+                            Command="{Binding ShowAddFoodCommand}">
                         <Icon:PackIconMaterial Kind="Plus"
                    Style="{StaticResource gridButtonIcon}" />
                     </Button>
@@ -89,12 +93,12 @@
                 </StackPanel>
 
                 <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}"
-                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
-                  CellStyle="{DynamicResource DataGridCellStyle1}"
-                  x:Name="membersDataGrid"
-                  Style="{DynamicResource DataGridStyle1}"
-                  ItemsSource="{Binding FoodList}"
-                  >
+                          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                          CellStyle="{DynamicResource DataGridCellStyle1}"
+                          x:Name="membersDataGrid"
+                          Style="{DynamicResource DataGridStyle1}"
+                          ItemsSource="{Binding FoodList}"
+                          Grid.Row="2">
 
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Header="C"
@@ -124,7 +128,7 @@
                                         Margin="0 0 10 0"
                                         >
                                             <Border.Background>
-                                                <ImageBrush ImageSource="C:\Users\LE NGOC BINH\Documents\Lap_Trinh_Truc_Quan\Đồ án\QuanLyQuanAn\food\Drinks\Juice.jpg" />
+                                                <ImageBrush ImageSource="{Binding FoodImage, Converter={StaticResource ByteToImageConverter}}" />
                                             </Border.Background>
                                         </Border>
 
@@ -135,13 +139,23 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Danh mục"
-                                    Binding="{Binding idFoodCtg}"
+                                    Binding="{Binding CategoryName}"
                                     IsReadOnly="True"
-                                    Width="*" />
-                        <DataGridTextColumn Header="Giá"
-                                    Binding="{Binding price}"
-                                    IsReadOnly="True"
-                                    Width="*" />
+                                    Width="*" 
+                                    />
+                        <DataGridTemplateColumn Header="Giá"
+                                                IsReadOnly="True"
+                                                Width="*"
+                                                >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding price}" Width="45"/>
+                                        <TextBlock > VNĐ</TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Operations"
                                         IsReadOnly="True"
                                         Width="auto">

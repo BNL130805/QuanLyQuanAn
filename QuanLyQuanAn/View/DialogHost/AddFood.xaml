@@ -18,61 +18,53 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock HorizontalAlignment="Right"
+        <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Center" FontSize="15" Margin="10">Tên món ăn:</TextBlock>
         <TextBox materialDesign:HintAssist.Hint="Nhập tên món ăn"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  Grid.Column="1"
                  Grid.Row="0" HorizontalAlignment="Left"
-                 VerticalAlignment="Center" Height="50"
-                 FontSize="15" Margin="100 10 10 10"/>
+                 VerticalAlignment="Center" Height="50" Width="250"
+                 FontSize="12" Margin="10 10 10 10"/>
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            FontSize="15" Margin="100 10 10 10">Thêm hình ảnh:</TextBlock>
+            FontSize="15" Margin="10 10 10 10">Thêm hình ảnh:</TextBlock>
         <Image Source="/Images/EmptyImage.png"
                Grid.Row="1"
                Grid.Column="1"
-               Width="100"
-               Height="100"></Image>
+               Width="200"
+               Height="200"></Image>
         <Button Grid.Row="1"
                 Grid.Column="1"
-                Width="50"
-                Height="50"
-                Opacity="0.8"
+                Width="25"
+                Height="25"
+                HorizontalAlignment="Left"
                 >
-            <Icon:PackIconMaterial Kind="Plus"
-                   Style="{StaticResource gridButtonIcon}" />
+            <materialDesign:PackIcon Kind="Plus" Foreground="White" Margin="-10 -7 -7 -10"/>
         </Button>
         <TextBlock Grid.Row="2"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="15" Margin="100 10 10 10">Thể loại:</TextBlock>
-        <ComboBox
-              materialDesign:HintAssist.Hint="Prefix"
-              materialDesign:TextFieldAssist.PrefixText="$"
-              IsEditable="True"
-              VerticalAlignment="Center"
-              Grid.Column="1"
-              Grid.Row="2" Margin="10" 
-              Height="50">
-            <ComboBoxItem
-    Content="Android" />
-            <ComboBoxItem
-    Content="iOS" />
-            <ComboBoxItem
-    Content="Linux" />
-            <ComboBoxItem
-    Content="Windows" />
+                   FontSize="15" Margin="10 10 10 10">Thể loại:</TextBlock>
+        <ComboBox materialDesign:HintAssist.Hint="Danh mục"
+                  Grid.Row="2"
+                  Grid.Column="1"
+                  Width="250"
+                  Margin="-15 0 0 0"
+                  ItemsSource="{Binding CatagoryList}"
+                  DisplayMemberPath="name">
         </ComboBox>
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   FontSize="15" Margin="100 10 10 10">Giá:</TextBlock>
+                   FontSize="15" Margin="10">Giá:</TextBlock>
         <Grid    
             Grid.Row="3"
             Grid.Column="1">
@@ -81,11 +73,26 @@
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
             <TextBox
-              VerticalAlignment="Center"
-              materialDesign:HintAssist.Hint="Nhập giá tiền"
-              Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" 
-              Height="80"/>
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Nhập giá tiền"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 -20 0 0"
+                Height="50"
+                Width="200"/>
             <TextBlock VerticalAlignment="Center" Margin="10 20 0 10" Grid.Column="1">VNĐ</TextBlock>
         </Grid>
+        <Button FontSize="14"
+                Width="300"
+                Grid.Row="4"
+                Margin="10"
+                Grid.ColumnSpan="2"
+                Command="{Binding AddFood}">Thêm</Button>
+        <Button FontSize="14"
+                Width="300"
+                Grid.Row="5"
+                Margin="10"
+                Background="Red"
+                Grid.ColumnSpan="2"
+                Command="{Binding CloseAddFood}">Thoát</Button>
     </Grid>
 </UserControl>

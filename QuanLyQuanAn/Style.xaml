@@ -397,7 +397,10 @@
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="DG_ScrollViewer"
-                                      Focusable="false">
+                                      Focusable="false"
+                                      CanContentScroll="True"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Auto">
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                     <Grid>

@@ -12,9 +12,10 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
 {
     internal class FoodControlVM : BaseViewModel
     {
+        private object _catagoryList;
         private object _currentDiaLogContent;
 
-        private List<food> _foodList;
+        private object _foodList;
 
         public object CurrentDialogContent
         {
@@ -32,7 +33,9 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public ICommand CloseAddFood { get; }
         public ICommand AddFood { get; }
         public object Title { get => _title; set => _title = value; }
-        public List<food> FoodList { get => _foodList; set { _foodList = value; OnPropertyChanged(); } }
+        public object FoodList { get => _foodList; set { _foodList = value; OnPropertyChanged(); } }
+
+        public object CatagoryList { get => _catagoryList; set { _catagoryList = value; OnPropertyChanged(); } }
 
         public FoodControlVM()
         {
@@ -50,6 +53,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 (p) => true
                 );
             FoodList = FoodDataprovider.Food.GetAllFood();
+            CatagoryList = CategoryProvider.Category.GetAllCategory();
         }
 
         private async void ShowAddFood()

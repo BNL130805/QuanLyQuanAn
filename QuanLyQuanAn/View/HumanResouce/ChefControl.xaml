@@ -98,7 +98,7 @@
                                 IsReadOnly="True"
                                 CanUserResize="False"
                                 Width="auto"
-                                Binding="{Binding }" />
+                                Binding="{Binding Number}" />
                 <DataGridTemplateColumn Header="Member"
                                     IsReadOnly="True"
                                     Width="*">
