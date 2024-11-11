@@ -39,6 +39,7 @@ namespace QuanLyQuanAn
         {
             if (this.DataContext is AdminVM VM && VM.IsMaximumWindow == false)
             {
+                WindowState = WindowState.Normal;
                 var workingArea = SystemParameters.WorkArea;
                 this.Left = workingArea.Left;
                 this.Top = workingArea.Top;
@@ -49,6 +50,7 @@ namespace QuanLyQuanAn
             }
             else if(this.DataContext is AdminVM VM1)
             {
+                WindowState = WindowState.Normal;
                 this.Left = 100;
                 this.Top = 100;
                 this.Width = 800;
