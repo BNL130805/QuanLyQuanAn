@@ -14,7 +14,7 @@
         Title="Admin"
         ResizeMode="NoResize"
         Height="450"
-        Width="900">
+        Width="800">
     <Window.DataContext>
         <vm:AdminVM/>
     </Window.DataContext>
@@ -22,7 +22,8 @@
         <vm:Converter_Radiobutton x:Key="Converter_Radiobutton"/>
     </Window.Resources>
     <Border CornerRadius="10"
-            Background="White">
+            Background="White"
+            MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{Binding ElementName=MenuPanel, Path=Width}" />
@@ -33,8 +34,8 @@
                     x:Name="MenuPanel">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="280" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0"
@@ -127,6 +128,38 @@
                 <ContentControl Margin="0 0 0 10" Content="{Binding Option}">
                 </ContentControl>
              </Border>
-    </Grid>
+            <Grid Grid.Column="1"
+                  Height="40"
+                  Width="150"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="MinimizeButton" 
+                        Grid.Column="1" Style="{StaticResource ControlBarButton}"
+                        Click="MinimizeButton_Click">
+                    <materialDesign:PackIcon Kind="WindowMinimize" 
+                                             Foreground="{Binding ElementName=MinimizeButton, Path=Foreground}"/>
+                </Button>
+                <Button Grid.Column="2"
+                        x:Name="MaximizeButton"
+                        Style="{StaticResource ControlBarButton}"
+                        Click="MaximizeButton_Click">
+                    <materialDesign:PackIcon Kind="WindowMaximize"
+                                             Foreground="{Binding ElementName=MaximizeButton, Path=Foreground}"/>
+                </Button>
+                <Button Grid.Column="3"
+                        x:Name="CloseButton"
+                        Style="{StaticResource CloseControlBarButton}"
+                        Click="CloseButton_Click">
+                    <materialDesign:PackIcon Kind="WindowClose"
+                                             Foreground="{Binding ElementName=CloseButton, Path=Foreground}" />
+                </Button>
+            </Grid>
+        </Grid>
     </Border>
 </Window>

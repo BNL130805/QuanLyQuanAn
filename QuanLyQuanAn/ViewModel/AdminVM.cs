@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QuanLyQuanAn.View;
+﻿using QuanLyQuanAn.View;
 
 namespace QuanLyQuanAn.ViewModel
 {
@@ -12,6 +6,7 @@ namespace QuanLyQuanAn.ViewModel
     {
         private string _selectedOption;
         private object _option=new Menu();
+        private bool _isMaximumWindow = false;
 
         public string SelectedOption { get => _selectedOption; 
             set 
@@ -46,6 +41,8 @@ namespace QuanLyQuanAn.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        public bool IsMaximumWindow { get => _isMaximumWindow; set { _isMaximumWindow = value; OnPropertyChanged(); } }
 
         public AdminVM()
         {

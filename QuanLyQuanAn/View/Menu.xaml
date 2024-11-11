@@ -51,19 +51,18 @@
         <Separator Height="1"
                    Grid.Row="0"
                    Background="#DAE2EA"
-                   Margin="0,31,0,1"
-                   Grid.ColumnSpan="2"
+                   Margin="0,40,0,0"
                    Grid.RowSpan="2">
         </Separator>
         <StackPanel Grid.Row="0"
                     Orientation="Horizontal">
             <RadioButton Style="{StaticResource MenuButtonStyle}"
                          Width="100"
-                         Height="30"
+                         Height="40"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_RadioButton}, ConverterParameter=Category}">Danh mục</RadioButton>
             <RadioButton Style="{StaticResource MenuButtonStyle}"
                          Width="100"
-                         Height="30"
+                         Height="40"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_RadioButton}, ConverterParameter=Food}">Món ăn</RadioButton>
         </StackPanel>
         <ContentControl Grid.Row="2" Content="{Binding Option}">
