@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using MaterialDesignThemes.Wpf;
+using System.Windows.Shell;
 
 namespace QuanLyQuanAn
 {
@@ -28,6 +29,7 @@ namespace QuanLyQuanAn
         {
             InitializeComponent();
         }
+
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;

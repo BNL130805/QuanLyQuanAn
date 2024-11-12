@@ -258,6 +258,7 @@
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\StatisticVM\RevenuaVM.cs" />
     <Compile Include="ViewModel\TableControlVM.cs" />
     <Compile Include="View\CatagoryControl.xaml.cs">
       <DependentUpon>CatagoryControl.xaml</DependentUpon>
@@ -459,9 +460,7 @@
   <ItemGroup>
     <Resource Include="Images\MoneyIcon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\StatisticVM\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\EmptyImage.png" />
     <Content Include="Model\Model1.Context.tt">

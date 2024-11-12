@@ -167,4 +167,109 @@ namespace QuanLyQuanAn.Model
             }
         }
     }
+    class BillDataprovider
+    {
+        private static BillDataprovider _bill;
+
+        public static BillDataprovider Bill
+        {
+            get
+            {
+                if (_bill == null)
+                {
+                    _bill = new BillDataprovider();
+                }
+                return _bill;
+            }
+            private set => _bill = value;
+        }
+        private BillDataprovider()
+        {
+        }
+
+        public object GetBillInToday()
+        {
+            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
+            {
+                var today = DateTime.Today;
+                var tomorrow = today.AddDays(1);
+
+                var doanhThuHomNay = quenryBill.Bills
+                    .Where(bill => bill.TimeIn >= today && bill.TimeIn < tomorrow) // So sánh phạm vi
+                    .GroupBy(bill => bill.TimeIn.Hour)
+                    .Select(group => new
+                    {
+                        Gio = group.Key,
+                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
+                    })
+                    .OrderBy(item => item.Gio)
+                    .ToList();
+
+                return doanhThuHomNay;
+            }
+        }
+
+        public object GetBillInLatest7Day()
+        {
+            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
+            {
+                var past7Days = DateTime.Today.AddDays(-7);
+                var today = DateTime.Today;
+                var endOfToday = today.AddDays(1).AddTicks(-1); // Đến 23:59:59 của ngày hôm nay
+
+                var doanhThu7Ngay = quenryBill.Bills
+                    .Where(bill => bill.TimeIn >= past7Days && bill.TimeIn <= endOfToday)  // So sánh với phạm vi thời gian
+                    .GroupBy(bill => bill.TimeIn.Year * 10000 + bill.TimeIn.Month * 100 + bill.TimeIn.Day) // Nhóm theo ngày
+                    .Select(group => new
+                    {
+                        Ngay = group.Key,
+                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
+                    })
+                    .OrderBy(item => item.Ngay)
+                    .ToList();
+
+                return doanhThu7Ngay;
+            }
+        }
+        public object GetBillInThisMonth()
+        {
+            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
+            {
+                var firstDayOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1); // Cuối tháng
+
+                var doanhThuThangNay = quenryBill.Bills
+                    .Where(bill => bill.TimeIn >= firstDayOfMonth && bill.TimeIn <= lastDayOfMonth)
+                    .GroupBy(bill => bill.TimeIn.Year * 10000 + bill.TimeIn.Month * 100 + bill.TimeIn.Day) // Nhóm theo ngày
+                    .Select(group => new
+                    {
+                        Ngay = group.Key,
+                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
+                    })
+                    .OrderBy(item => item.Ngay)
+                    .ToList();
+
+                return doanhThuThangNay;
+            }
+        }
+        public object GetBillThisYear()
+        {
+            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
+            {
+                var firstDayOfYear = new DateTime(DateTime.Today.Year, 1, 1);
+                var doanhThuNamNay = quenryBill.Bills
+                    .Where(bill => bill.TimeIn >= firstDayOfYear)
+                    .GroupBy(bill => bill.TimeIn.Month)
+                    .Select(group => new
+                    {
+                        Thang = group.Key,
+                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
+                    })
+                    .OrderBy(item => item.Thang)
+                    .ToList();
+
+                return doanhThuNamNay;
+            }
+        }
+    }
 }

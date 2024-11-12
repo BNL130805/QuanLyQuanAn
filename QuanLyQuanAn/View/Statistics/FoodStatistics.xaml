@@ -1,39 +1,39 @@
-﻿<UserControl x:Class="QuanLyQuanAn.View.Statistics.FoodStatistics"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:QuanLyQuanAn.View.Statistics"
-             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="QuanLyQuanAn.View.Statistics.FoodStatistics"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:QuanLyQuanAn.View.Statistics"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                 From="0.0"
-                                 To="1.0"
-                                 Duration="0:0:0.5" />
+                    <DoubleAnimation
+                        Storyboard.TargetProperty="Opacity"
+                        From="0.0"
+                        To="1.0"
+                        Duration="0:0:0.5" />
                 </Storyboard>
             </BeginStoryboard>
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Storyboard.TargetName="UserControlTranslateTransform"
-                                 Storyboard.TargetProperty="Y"
-                                 From="30"
-                                 To="0"
-                                 Duration="0:0:0.5">
-
-                    </DoubleAnimation>
+                    <DoubleAnimation
+                        Storyboard.TargetName="UserControlTranslateTransform"
+                        Storyboard.TargetProperty="Y"
+                        From="30"
+                        To="0"
+                        Duration="0:0:0.5" />
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
     <UserControl.RenderTransform>
-        <TranslateTransform x:Name="UserControlTranslateTransform"
-                        X="0"
-                        Y="30" />
+        <TranslateTransform x:Name="UserControlTranslateTransform" X="0" Y="30" />
     </UserControl.RenderTransform>
     <Grid>
         <Grid.RowDefinitions>
@@ -50,38 +50,46 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           FontStyle="Normal"
-                           FontSize="20"
-                           FontWeight="DemiBold">From:</TextBlock>
-                <DatePicker Style="{StaticResource MaterialDesignDatePicker}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Grid.Column="1"
-                            Width="130"
-                            Height="auto"
-                            FontSize="20"
-                            FontWeight="SemiBold" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontStyle="Normal"
+                    FontWeight="DemiBold">
+                    From:
+                </TextBlock>
+                <DatePicker
+                    Grid.Column="1"
+                    Width="130"
+                    Height="auto"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Style="{StaticResource MaterialDesignDatePicker}" />
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           FontStyle="Normal"
-                           FontSize="20"
-                           FontWeight="DemiBold">To:</TextBlock>
-                <DatePicker Style="{StaticResource MaterialDesignDatePicker}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Grid.Column="1"
-                            Width="130"
-                            Height="auto"
-                            FontSize="20"
-                            FontWeight="SemiBold" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontStyle="Normal"
+                    FontWeight="DemiBold">
+                    To:
+                </TextBlock>
+                <DatePicker
+                    Grid.Column="1"
+                    Width="130"
+                    Height="auto"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Style="{StaticResource MaterialDesignDatePicker}" />
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
@@ -89,27 +97,36 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock FontSize="15"
-                       HorizontalAlignment="Center"
-                       Margin="150 5 0 0"
-                       Grid.Row="0">Thống kê theo:</TextBlock>
-            <ComboBox Name="TimePeriodComboBox"
-                      VerticalAlignment="Top"
-                      HorizontalAlignment="Right"
-                      Width="150"
-                      Margin="0 0 50 0"
-                      FontSize="15"
-                      Style="{StaticResource MaterialDesignComboBox}"
-                      Grid.Row="0">
-                <ComboBoxItem Content="Hôm nay" />
-                <ComboBoxItem Content="7 ngày gần đây" />
-                <ComboBoxItem Content="Năm nay" />
-                <ComboBoxItem Content="Chọn khoảng thời gian" />
-            </ComboBox>
-            <lvc:PieChart Name="foodPieChart"
-                          Margin="10"
-                          Grid.Row="1">
-                <!-- PieSeries cho từng món ăn -->
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,0,20,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="15">
+                    Thống kê theo:
+                </TextBlock>
+                <ComboBox
+                    Name="TimePeriodComboBox"
+                    Width="150"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    FontSize="15"
+                    Style="{StaticResource MaterialDesignComboBox}">
+                    <ComboBoxItem Content="Hôm nay" />
+                    <ComboBoxItem Content="7 ngày gần đây" />
+                    <ComboBoxItem Content="Năm nay" />
+                    <ComboBoxItem Content="Chọn khoảng thời gian" />
+                </ComboBox>
+            </StackPanel>
+            <lvc:PieChart
+                Name="foodPieChart"
+                Grid.Row="1"
+                Margin="10">
+                <!--  PieSeries cho từng món ăn  -->
             </lvc:PieChart>
         </Grid>
     </Grid>

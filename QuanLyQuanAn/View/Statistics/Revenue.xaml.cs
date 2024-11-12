@@ -33,7 +33,6 @@ namespace QuanLyQuanAn.View.Statistics
             // Định dạng giá trị trục Y
             Formatter = value => value.ToString("C");
 
-            DataContext = this;
         }
         private void LoadRevenueData(string timePeriod)
         {
