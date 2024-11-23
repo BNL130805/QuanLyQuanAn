@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QuanLyQuanAn.Model;
 using System.Runtime.Remoting.Contexts;
+using System.Data.Entity;
 
 namespace QuanLyQuanAn.Model
 {
@@ -219,10 +220,10 @@ namespace QuanLyQuanAn.Model
 
                 var doanhThu7Ngay = quenryBill.Bills
                     .Where(bill => bill.TimeIn >= past7Days && bill.TimeIn <= endOfToday)  // So sánh với phạm vi thời gian
-                    .GroupBy(bill => bill.TimeIn.Year * 10000 + bill.TimeIn.Month * 100 + bill.TimeIn.Day) // Nhóm theo ngày
+                    .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn)) // Sử dụng DbFunctions.TruncateTime để loại bỏ giờ
                     .Select(group => new
                     {
-                        Ngay = group.Key,
+                        Ngay = group.Key, // Trả về ngày (không có giờ)
                         TongDoanhThu = group.Sum(bill => bill.TotalPrice)
                     })
                     .OrderBy(item => item.Ngay)
@@ -240,10 +241,10 @@ namespace QuanLyQuanAn.Model
 
                 var doanhThuThangNay = quenryBill.Bills
                     .Where(bill => bill.TimeIn >= firstDayOfMonth && bill.TimeIn <= lastDayOfMonth)
-                    .GroupBy(bill => bill.TimeIn.Year * 10000 + bill.TimeIn.Month * 100 + bill.TimeIn.Day) // Nhóm theo ngày
+                    .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn)) // Sử dụng DbFunctions.TruncateTime để loại bỏ giờ
                     .Select(group => new
                     {
-                        Ngay = group.Key,
+                        Ngay = group.Key, // Trả về ngày mà không có giờ
                         TongDoanhThu = group.Sum(bill => bill.TotalPrice)
                     })
                     .OrderBy(item => item.Ngay)

@@ -14,22 +14,19 @@ using static QuanLyQuanAn.Model.CategoryProvider;
 
 namespace QuanLyQuanAn.ViewModel.MenuVM
 {
-    internal class MenuFoodVM : BaseViewModel
+    internal class OrderFoodVM : BaseViewModel
     {
-        private ObservableCollection<CategoryName> _categoryNames;
-        private ObservableCollection<food> _allFood;
-        public MenuFoodVM() 
+        private ObservableCollection<foodCategory> _categoryNames = new ObservableCollection<foodCategory>(CategoryProvider.Category.GetAllCategory());
+        private object _allFood = FoodDataprovider.Food.GetAllFood();
+        public OrderFoodVM() 
         {
-            CategoryNames.Insert(0, new CategoryName(){ Name = "Tất cả" });
+            CategoryNames.Insert(0, new foodCategory(){ name = "Tất cả" });
         }
 
-        public ObservableCollection<CategoryName> CategoryNames { get => _categoryNames; set{ _categoryNames = value; OnPropertyChanged(); } }
+        public ObservableCollection<foodCategory> CategoryNames { get => _categoryNames; set{ _categoryNames = value; OnPropertyChanged(); } }
 
-        public ObservableCollection<food> AllFood { get => _allFood; set { _allFood = value; OnPropertyChanged(); } }
+        public object AllFood { get => _allFood; set { _allFood = value; OnPropertyChanged(); } }
     }
-    public class CategoryName
-    { public string Name { get; set; } }
-
     public class ByteToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

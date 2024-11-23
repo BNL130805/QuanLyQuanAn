@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="QuanLyQuanAn.View.StaffView.OrderFood"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuanLyQuanAn.View.StaffView"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:v="clr-namespace:QuanLyQuanAn.View.MenuViewStaff"
+             xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel.MenuVM"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:OrderFoodVM />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <vm:ByteToImageConverter x:Key="ByteToImageConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" MinWidth="540"/>
+            <ColumnDefinition Width="*" MinWidth="270"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="1"
+                Height="40"
+                Margin="20 0 20 0"
+                HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"
+                                      MaxWidth="500" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="15"
+                        Background="#D6D9DD"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        MaxWidth="500">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 MinWidth="200"
+                                 MaxWidth="500"
+                                 Margin="10,0,0,0"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 materialDesign:HintAssist.Hint="Tìm kiếm"
+                                 materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                 BorderThickness="0"
+                                 FontSize="15" />
+                        <Button Grid.Column="1"
+                                Style="{StaticResource MaterialDesignToolButton}">
+                            <materialDesign:PackIcon Margin="0,0,10,0"
+                                                     Kind="Search"
+                                                     Opacity=".56"
+                                                     Width="20"
+                                                     Height="20" />
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        <v:MenuFood Grid.Row="2"/>
+        <Grid Grid.Column="1" Grid.Row="1"
+              Grid.RowSpan="2"
+              Margin="0 0 5 15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" MaxHeight="500"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" FontSize="15" FontWeight="Bold">Hóa đơn</TextBlock>
+            <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}"
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                      CellStyle="{DynamicResource DataGridCellStyle1}"
+                      x:Name="membersDataGrid"
+                      Style="{DynamicResource DataGridStyle1}"
+                      Grid.Row="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="#"
+                                        IsReadOnly="True"
+                                        CanUserResize="False"
+                                        Width="37"
+                                        Binding="{Binding Number}" />
+                    <DataGridTemplateColumn Header="Tên món ăn"
+                                            IsReadOnly="True"
+                                            Width="3*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="25"
+                                            Height="25"
+                                            CornerRadius="50"
+                                            Margin="0 0 10 0">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding FoodImage, Converter={StaticResource ByteToImageConverter}}" />
+                                        </Border.Background>
+                                    </Border>
+
+                                    <TextBlock Text="{Binding name}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Đơn giá"
+                                            IsReadOnly="True"
+                                            Width="2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Stretch"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="{Binding price}"
+                                               Width="45" />
+                                    <TextBlock> VNĐ</TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Số lượng"
+                                            IsReadOnly="True"
+                                            Width="2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox VerticalAlignment="Top"
+                                         materialDesign:HintAssist.HelperText="Helper text"
+                                         materialDesign:HintAssist.Hint="Text (validated)"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="2" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <TextBlock FontSize="14" FontWeight="Bold">Tổng tiền:</TextBlock>
+                <TextBlock FontSize="14" FontWeight="Bold" Text="1.000.000" Margin="5 0 5 0"/>
+                <TextBlock FontSize="14" FontWeight="Bold" Margin="0 0 5 0">VNĐ</TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Row="3"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Margin="0 10 5 0"
+                        Background="Red">
+                    <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+                <Button Margin="5 10 5 0">
+                    <materialDesign:PackIcon Kind="Send" />
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

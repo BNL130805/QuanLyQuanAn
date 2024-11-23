@@ -254,7 +254,7 @@
     <Compile Include="ViewModel\MenuVM\CatagoryControlVM.cs" />
     <Compile Include="ViewModel\Converter Radiobutton.cs" />
     <Compile Include="ViewModel\MenuVM\FoodControlVM.cs" />
-    <Compile Include="ViewModel\MenuVM\MenuFoodVM.cs" />
+    <Compile Include="ViewModel\MenuVM\OrderFoodVM.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -295,6 +295,9 @@
     </Compile>
     <Compile Include="View\MenuStaffView\MenuFood.xaml.cs">
       <DependentUpon>MenuFood.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StaffView\OrderFood.xaml.cs">
+      <DependentUpon>OrderFood.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StatisticsControl.xaml.cs">
       <DependentUpon>StatisticsControl.xaml</DependentUpon>
@@ -383,6 +386,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MenuStaffView\MenuFood.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StaffView\OrderFood.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

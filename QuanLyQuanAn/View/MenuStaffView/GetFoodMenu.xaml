@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLyQuanAn.View"
              xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel.MenuVM"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"             
              mc:Ignorable="d" 
              >
     <UserControl.Resources>
@@ -12,7 +13,7 @@
         <vm:IntToString x:Key="PriceToString" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <vm:MenuFoodVM />
+        <vm:OrderFoodVM />
     </UserControl.DataContext>
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -24,15 +25,15 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Height="165"
+                        <ContentControl Height="165"
                                 Width="150"
                                 Margin="2"
                                 Padding="1">
-                            <Button.Style>
-                                <Style TargetType="Button">
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
                                     <Setter Property="Template">
                                         <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
+                                            <ControlTemplate TargetType="ContentControl">
                                                 <Border Background="{TemplateBinding Background}"
                                                         BorderBrush="{TemplateBinding BorderBrush}"
                                                         BorderThickness="{TemplateBinding BorderThickness}"
@@ -73,14 +74,7 @@
                                                         </Trigger>
 
                                                         <!-- Trigger cho khi Button được nhấn (Pressed) -->
-                                                        <Trigger Property="IsPressed"
-                                                                 Value="true">
-                                                            <Setter Property="Background"
-                                                                    Value="DarkBlue" />
-                                                            <Setter Property="Opacity"
-                                                                    Value="0.9" />
-                                                            <!-- Giảm độ sáng khi nhấn -->
-                                                        </Trigger>
+                                                       
 
                                                         <!-- Trigger cho khi Button bị vô hiệu hóa -->
                                                         <Trigger Property="IsEnabled"
@@ -93,7 +87,7 @@
                                         </Setter.Value>
                                     </Setter>
                                 </Style>
-                            </Button.Style>
+                            </ContentControl.Style>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="90" />
@@ -198,8 +192,18 @@
                                         <TranslateTransform Y="-9" />
                                     </ContentControl.RenderTransform>
                                 </ContentControl>
+                                <Button Grid.Row="0" 
+                                        Margin="0 0 5 5"
+                                        Width="40"
+                                        Height="40"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Background="#E95937">
+                                    <materialDesign:PackIcon Kind="Add"
+                                                             Margin="-8 -8 -10 -10"/>
+                                </Button>
                             </Grid>
-                        </Button>
+                        </ContentControl>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

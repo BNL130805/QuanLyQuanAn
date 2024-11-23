@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:QuanLyQuanAn"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-    StartupUri="Admin.xaml">
+    StartupUri="Staff.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

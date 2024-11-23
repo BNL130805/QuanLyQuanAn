@@ -141,3 +141,29 @@ VALUES
 (1, 4, 1, 2),  -- Bill 2 có 1 món Beef Steak
 (1, 5, 2, 3),  -- Bill 3 có 2 món Chocolate Cake
 (1, 6, 1, 3);  -- Bill 3 có 1 món Ice Cream
+
+DECLARE @i INT = 1;
+DECLARE @startDate DATETIME = '2024-01-01'; -- Đổi từ DATE sang DATETIME
+DECLARE @endDate DATETIME = GETDATE();
+DECLARE @currentDate DATETIME = @startDate;
+
+WHILE @i <= 1000
+BEGIN
+    -- Tạo giá trị ngẫu nhiên cho các trường
+    DECLARE @idTable INT = 1 + (ABS(CHECKSUM(NEWID())) % 20); -- Giả sử có 20 bàn (id từ 1 đến 20)
+    DECLARE @discount INT = (ABS(CHECKSUM(NEWID())) % 21); -- Discount từ 0 đến 20%
+    DECLARE @totalPrice INT = 100000 + (ABS(CHECKSUM(NEWID())) % 500000); -- Giá từ 100000 đến 600000
+    DECLARE @timeIn DATETIME = DATEADD(HOUR, ABS(CHECKSUM(NEWID()) % 12), @currentDate); -- Giờ ngẫu nhiên trong ngày
+    DECLARE @timeOut DATETIME = DATEADD(MINUTE, 30 + (ABS(CHECKSUM(NEWID())) % 91), @timeIn); -- 30-120 phút sau giờ vào
+
+    -- Thêm dữ liệu vào bảng Bill
+    INSERT INTO dbo.Bill (idRes, idTable, TimeIn, TimeOut, discount, TotalPrice)
+    VALUES (1, @idTable, @timeIn, @timeOut, @discount, @totalPrice);
+
+    -- Tăng ngày lên (tạo hóa đơn trong khoảng từ 1/1/2024 đến hôm nay)
+    SET @currentDate = DATEADD(DAY, ABS(CHECKSUM(NEWID()) % 7), @currentDate); -- Tăng từ 0-6 ngày
+    IF @currentDate > @endDate
+        SET @currentDate = @startDate;
+
+    SET @i = @i + 1;
+END;
