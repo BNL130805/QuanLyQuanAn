@@ -145,27 +145,42 @@ namespace QuanLyQuanAn.Model
         }
 
         private HumanResouceDataProvider() { }
-        public List<Account> GetAllChef()
+        public List<Account> GetHuman(string typeAccount)
         {
-            using (var ChefQuenry = new QuanLyQuanAnEntities())
+            using (var hmContext = new QuanLyQuanAnEntities())
             {
-                return ChefQuenry.Accounts.ToList();
+       
+                return hmContext.Accounts
+                                .Where(account => account.TypeAccount == typeAccount)
+                                .ToList();
             }
         }
-        public List<Account> GetAllManager()
+
+        public void DeleteHuman(string Username, string TypeAccount)
         {
-            using (var ManagerQuenry = new QuanLyQuanAnEntities())
+            using (var hmContext = new QuanLyQuanAnEntities())
             {
-                return ManagerQuenry.Accounts.ToList();
+                var accountToDelete = hmContext.Accounts
+                                               .FirstOrDefault(account => account.Username == Username && account.TypeAccount == TypeAccount);
+
+                // Kiểm tra nếu tài khoản tồn tại
+                if (accountToDelete != null)
+                {
+                    // Xóa tài khoản
+                    hmContext.Accounts.Remove(accountToDelete);
+
+                    // Lưu thay đổi vào cơ sở dữ liệu
+                    hmContext.SaveChanges();
+                }
+                else
+                {
+                    // Nếu không tìm thấy tài khoản, có thể ghi log hoặc thông báo lỗi
+                    Console.WriteLine("Tài khoản không tồn tại.");
+                }
             }
+
         }
-        public List<Account> GetAllStaff()
-        {
-            using (var StaffQuenry = new QuanLyQuanAnEntities())
-            {
-                return StaffQuenry.Accounts.ToList();
-            }
-        }
+        
     }
     class BillDataprovider
     {
