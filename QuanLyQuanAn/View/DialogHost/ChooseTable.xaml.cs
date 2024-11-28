@@ -1,5 +1,4 @@
-﻿using QuanLyQuanAn.ViewModel.MenuVM;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuanLyQuanAn.View.MenuViewStaff
+namespace QuanLyQuanAn.View.DialogHost
 {
     /// <summary>
-    /// Interaction logic for Menu.xaml
+    /// Interaction logic for ChooseTable.xaml
     /// </summary>
-    public partial class MenuFood : UserControl
+    public partial class ChooseTable : UserControl
     {
-        public MenuFood()
+        public ChooseTable()
         {
             InitializeComponent();
         }

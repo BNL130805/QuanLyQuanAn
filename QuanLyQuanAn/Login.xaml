@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:QuanLyQuanAn"
+        xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel"
         x:Name="LoginWindow"
         mc:Ignorable="d"
         WindowStyle="None"
@@ -12,6 +13,9 @@
         Title="Login"
         Height="370"
         Width="700">
+    <Window.DataContext>
+        <vm:LoginViewModel />
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

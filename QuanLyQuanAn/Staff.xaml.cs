@@ -34,7 +34,7 @@ namespace QuanLyQuanAn
 
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext is AdminVM VM && VM.IsMaximumWindow == false)
+            if (this.DataContext is StaffVM VM && VM.IsMaximumWindow == false)
             {
                 WindowState = WindowState.Normal;
                 var workingArea = SystemParameters.WorkArea;
@@ -45,7 +45,7 @@ namespace QuanLyQuanAn
                 MaximizeButton.Content = new PackIcon { Kind = PackIconKind.WindowRestore };
                 VM.IsMaximumWindow = true;
             }
-            else if (this.DataContext is AdminVM VM1)
+            else if (this.DataContext is StaffVM VM1)
             {
                 WindowState = WindowState.Normal;
                 this.Left = 100;

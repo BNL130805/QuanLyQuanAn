@@ -37,6 +37,13 @@ namespace QuanLyQuanAn.Model
                 return QuenryAccount.Accounts.Where(p =>  p.Username == UserName && p.TypeAccount == TypeAccount && p.Password == Password).ToList();
             }
         }
+        public List<Account> GetAccountById(int Id)
+        {
+            using (var QuenryAccout = new QuanLyQuanAnEntities())
+            {
+                return QuenryAccout.Accounts.Where(p => p.idAccout == Id).ToList();
+            }
+        }
     }
     public class CategoryProvider
     {
@@ -287,5 +294,41 @@ namespace QuanLyQuanAn.Model
                 return doanhThuNamNay;
             }
         }
+    }
+    public class CurrentAccoutDataprovider
+    {
+        static private CurrentAccoutDataprovider _currentAccout;
+        static public CurrentAccoutDataprovider CurrentAccout {
+            get
+            {
+                if(_currentAccout == null)
+                {
+                    _currentAccout = new CurrentAccoutDataprovider();
+                }
+                return _currentAccout;
+                       } 
+            private set => _currentAccout = value; }
+        public List<CurrentSession> GetCurrentAccoutByIdMachine()
+        {
+            using (QuanLyQuanAnEntities QuenryCurrentAccout = new QuanLyQuanAnEntities())
+            {
+                return QuenryCurrentAccout.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).ToList();
+            }
+        }
+        public void UpdateCurrentAccout(string restaurantName, string username)
+        {
+            using (QuanLyQuanAnEntities QuenryCurrentAccout = new QuanLyQuanAnEntities())
+            {
+                var Restaurant = from account in QuenryCurrentAccout.Accounts
+                                 join res in QuenryCurrentAccout.Restaurants
+                                 on account.idRes equals res.idRes
+                                 select new {account.idAccout, res.RestaurantName , account.Username};
+                var accout = Restaurant.Where(p => p.RestaurantName == restaurantName && p.Username == username).ToList();
+                int idAcount = (int)accout[0].idAccout;
+                QuenryCurrentAccout.CurrentSessions.Add(new CurrentSession { idAccount = idAcount, MachineId = Environment.MachineName });
+                QuenryCurrentAccout.SaveChanges();
+            }
+        }
+        private CurrentAccoutDataprovider() { }
     }
 }

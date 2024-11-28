@@ -10,16 +10,10 @@
 namespace QuanLyQuanAn.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Account
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public int idRes { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string TypeAccount { get; set; }
-        public int idAccout { get; set; }
-    
-        public virtual Restaurant Restaurant { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

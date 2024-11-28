@@ -1,15 +1,24 @@
 ﻿using QuanLyQuanAn.View;
+using QuanLyQuanAn.View.StaffView;
+using QuanLyQuanAn.View.Statistics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace QuanLyQuanAn.ViewModel
 {
-    internal class AdminVM : BaseViewModel
+    internal class StaffVM:BaseViewModel
     {
         private string _selectedOption;
-        private object _option=new Menu();
+        private object _option = new OrderFood();
         private bool _isMaximumWindow = false;
 
-        public string SelectedOption { get => _selectedOption; 
-            set 
+        public string SelectedOption
+        {
+            get => _selectedOption;
+            set
             {
                 if (value != _selectedOption)
                 {
@@ -17,29 +26,28 @@ namespace QuanLyQuanAn.ViewModel
                     OnPropertyChanged();
                     switch (_selectedOption)
                     {
-                        case "Menu":
-                            Option = new Menu();
+                        case "Order":
+                            Option = new OrderFood();
                             break;
-                        case "FoodTable":
-                            Option = new TableControl();
+                        case "Bill":
+                            Option = new Table();
                             break;
-                        case "HumanResouces":
-                            Option = new HumanResources();
-                            break;
-                        case "Statistic":
-                            Option = new StatisticsControl();
+                        case "History":
+                            Option = new History();
                             break;
                         default:
-                            Option = new Menu();
+                            Option = new OrderFood();
                             break;
                     }
                 }
             }
         }
 
-        public object Option { get => _option;
-            set 
-            { 
+        public object Option
+        {
+            get => _option;
+            set
+            {
                 _option = value;
                 OnPropertyChanged();
             }
@@ -47,9 +55,9 @@ namespace QuanLyQuanAn.ViewModel
 
         public bool IsMaximumWindow { get => _isMaximumWindow; set { _isMaximumWindow = value; OnPropertyChanged(); } }
 
-        public AdminVM()
+        public StaffVM()
         {
-            SelectedOption = "Menu";
+            SelectedOption = "Order";
         }
     }
 }
