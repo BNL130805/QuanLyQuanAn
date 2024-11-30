@@ -30,6 +30,7 @@ namespace QuanLyQuanAn.Model
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<BillInf> BillInfs { get; set; }
+        public virtual DbSet<CurrentSession> CurrentSessions { get; set; }
         public virtual DbSet<food> foods { get; set; }
         public virtual DbSet<foodCategory> foodCategories { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }

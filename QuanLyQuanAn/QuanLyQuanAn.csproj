@@ -173,6 +173,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.135\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero2, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\PresentationFramework.Aero2.1.0.1\lib\PresentationFramework.Aero2.dll</HintPath>
     </Reference>
@@ -201,6 +204,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Cheff.xaml.cs">
+      <DependentUpon>Cheff.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Account.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -208,6 +214,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\BillInf.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CurrentSession.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Dataprovider.cs" />
@@ -258,6 +267,7 @@
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\StaffVM.cs" />
     <Compile Include="ViewModel\StatisticVM\RevenuaVM.cs" />
     <Compile Include="ViewModel\TableControlVM.cs" />
     <Compile Include="View\CatagoryControl.xaml.cs">
@@ -272,6 +282,9 @@
     <Compile Include="View\DialogHost\AddTable.xaml.cs">
       <DependentUpon>AddTable.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DialogHost\ChooseTable.xaml.cs">
+      <DependentUpon>ChooseTable.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FoodControl.xaml.cs">
       <DependentUpon>FoodControl.xaml</DependentUpon>
     </Compile>
@@ -284,20 +297,17 @@
     <Compile Include="View\HumanResources.xaml.cs">
       <DependentUpon>HumanResources.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MenuStaffView\GetFoodMenu.xaml.cs">
-      <DependentUpon>GetFoodMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\HumanResouce\ManagerControl.xaml.cs">
       <DependentUpon>ManagerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MenuStaffView\MenuFood.xaml.cs">
-      <DependentUpon>MenuFood.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\StaffView\OrderFood.xaml.cs">
       <DependentUpon>OrderFood.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StaffView\Table.xaml.cs">
+      <DependentUpon>Table.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StatisticsControl.xaml.cs">
       <DependentUpon>StatisticsControl.xaml</DependentUpon>
@@ -314,6 +324,10 @@
     <Compile Include="View\TableControl.xaml.cs">
       <DependentUpon>TableControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Cheff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -357,6 +371,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DialogHost\ChooseTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FoodControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -373,10 +391,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MenuStaffView\GetFoodMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\HumanResouce\ManagerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -385,11 +399,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MenuStaffView\MenuFood.xaml">
+    <Page Include="View\StaffView\OrderFood.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\StaffView\OrderFood.xaml">
+    <Page Include="View\StaffView\Table.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -467,9 +481,10 @@
   <ItemGroup>
     <Resource Include="Images\MoneyIcon.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\EmptyImage.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

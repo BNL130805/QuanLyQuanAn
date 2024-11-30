@@ -12,14 +12,11 @@ namespace QuanLyQuanAn.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Account
+    public partial class CurrentSession
     {
-        public int idRes { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string TypeAccount { get; set; }
-        public int idAccout { get; set; }
-    
-        public virtual Restaurant Restaurant { get; set; }
+        public Nullable<System.DateTime> LoginTime { get; set; }
+        public Nullable<System.DateTime> LogoutTime { get; set; }
+        public string MachineId { get; set; }
+        public Nullable<int> idAccount { get; set; }
     }
 }

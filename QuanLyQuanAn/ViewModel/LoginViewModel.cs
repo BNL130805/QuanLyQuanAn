@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,6 @@ namespace QuanLyQuanAn.ViewModel
         private Visibility registerVisibility = Visibility.Collapsed;
 
         private Visibility loginVisibility = Visibility.Visible;
-
         public LoginViewModel() 
         {
             RegisterCommand = new RelayCommand(
@@ -88,9 +88,21 @@ namespace QuanLyQuanAn.ViewModel
                             TextBlock tb = TBtypeaccount.Children[1] as TextBlock;
                             if (AccountDataprovider.Account.GetAccountToLogin(RestaurantName, Username, tb.Text, _password).Count > 0)
                             {
+                                CurrentAccoutDataprovider.CurrentAccout.UpdateCurrentAccout(RestaurantName, Username);
                                 window.Hide();
-                                MainWindow w = new MainWindow();
-                                w.ShowDialog();
+                                if (tb.Text == "Quản lý")
+                                {
+                                    Admin w = new Admin();
+                                    w.ShowDialog();
+                                }
+                                else if(tb.Text == "Nhân viên")
+                                {
+                                    Staff w = new Staff(); w.ShowDialog();
+                                }   
+                                else if(tb.Text == "Đầu bếp")
+                                {
+                                    Cheff w = new Cheff(); w.ShowDialog();
+                                }    
                                 window.Show();
                             }
                             else

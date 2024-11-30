@@ -17,9 +17,30 @@ namespace QuanLyQuanAn.ViewModel.HumanResourceVM
 
         public ChefControlVM()
         {
+            DeleteChefCommand = new RelayCommand(
+                (p) =>
+                {
+                    HumanResouceDataProvider.Human.DeleteHuman(p.ToString(), "Đầu bếp");
 
+                    // Cập nhật lại danh sách sau khi xóa
+                    ChefList = HumanResouceDataProvider.Human.GetHuman("Đầu bếp");
+                }  
+                , 
+                p=>true
+                );
         }
 
         public object ChefList { get => _chefList; set { _chefList = value; OnPropertyChanged(); } }
+
+        public ICommand DeleteChefCommand { get; set; }
+
+        private void DeleteChef(string username)
+        {
+            // Xóa đầu bếp từ cơ sở dữ liệu
+            HumanResouceDataProvider.Human.DeleteHuman(username, "Đầu bếp");
+
+            // Cập nhật lại danh sách sau khi xóa
+            ChefList = HumanResouceDataProvider.Human.GetHuman("Đầu bếp");
+        }
     }
 }

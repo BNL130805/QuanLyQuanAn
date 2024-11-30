@@ -23,7 +23,6 @@ namespace QuanLyQuanAn
         public Login()
         {
             InitializeComponent();
-            DataContext = new LoginViewModel();
         }
     }
 }

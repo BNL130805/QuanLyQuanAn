@@ -14,6 +14,7 @@
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="TypeAccount" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="idAccout" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Bill">
           <Key>
@@ -37,6 +38,15 @@
           <Property Name="idFood" Type="int" Nullable="false" />
           <Property Name="count" Type="int" Nullable="false" />
           <Property Name="idBill" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CurrentSession">
+          <Key>
+            <PropertyRef Name="MachineId" />
+          </Key>
+          <Property Name="LoginTime" Type="datetime" />
+          <Property Name="LogoutTime" Type="datetime" />
+          <Property Name="MachineId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idAccount" Type="int" />
         </EntityType>
         <EntityType Name="food">
           <Key>
@@ -246,6 +256,7 @@
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BillInf" EntityType="Self.BillInf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurrentSession" EntityType="Self.CurrentSession" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="food" EntityType="Self.food" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="foodCategory" EntityType="Self.foodCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
@@ -305,6 +316,7 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TypeAccount" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idAccout" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Restaurant" Relationship="Self.AtoR" FromRole="Account" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="Bill">
@@ -335,6 +347,15 @@
           <NavigationProperty Name="Bill" Relationship="Self.BItoB" FromRole="BillInf" ToRole="Bill" />
           <NavigationProperty Name="food" Relationship="Self.BItoF" FromRole="BillInf" ToRole="food" />
           <NavigationProperty Name="Restaurant" Relationship="Self.BItoR" FromRole="BillInf" ToRole="Restaurant" />
+        </EntityType>
+        <EntityType Name="CurrentSession">
+          <Key>
+            <PropertyRef Name="MachineId" />
+          </Key>
+          <Property Name="LoginTime" Type="DateTime" Precision="3" />
+          <Property Name="LogoutTime" Type="DateTime" Precision="3" />
+          <Property Name="MachineId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idAccount" Type="Int32" />
         </EntityType>
         <EntityType Name="food">
           <Key>
@@ -508,6 +529,7 @@
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Bills" EntityType="Self.Bill" />
           <EntitySet Name="BillInfs" EntityType="Self.BillInf" />
+          <EntitySet Name="CurrentSessions" EntityType="Self.CurrentSession" />
           <EntitySet Name="foods" EntityType="Self.food" />
           <EntitySet Name="foodCategories" EntityType="Self.foodCategory" />
           <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
@@ -621,6 +643,7 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="TypeAccount" ColumnName="TypeAccount" />
+                <ScalarProperty Name="idAccout" ColumnName="idAccout" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -646,6 +669,16 @@
                 <ScalarProperty Name="idFood" ColumnName="idFood" />
                 <ScalarProperty Name="count" ColumnName="count" />
                 <ScalarProperty Name="idBill" ColumnName="idBill" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurrentSessions">
+            <EntityTypeMapping TypeName="QuanLyQuanAnModel.CurrentSession">
+              <MappingFragment StoreEntitySet="CurrentSession">
+                <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
+                <ScalarProperty Name="LogoutTime" ColumnName="LogoutTime" />
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="idAccount" ColumnName="idAccount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

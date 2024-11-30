@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuanLyQuanAn.View.MenuStaffView
+namespace QuanLyQuanAn
 {
     /// <summary>
-    /// Interaction logic for AllFoodMenu.xaml
+    /// Interaction logic for Cheff.xaml
     /// </summary>
-    public partial class GetFoodMenu : UserControl
+    public partial class Cheff : Window
     {
-        public GetFoodMenu()
+        public Cheff()
         {
             InitializeComponent();
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuanLyQuanAn.View.HumanResouce
+namespace QuanLyQuanAn.View.StaffView
 {
     /// <summary>
-    /// Interaction logic for StaffControl.xaml
+    /// Interaction logic for Table.xaml
     /// </summary>
-    public partial class StaffControl : UserControl
+    public partial class Table : UserControl
     {
-        public StaffControl()
+        public Table()
         {
             InitializeComponent();
-            
         }
-        
-        
     }
 }
