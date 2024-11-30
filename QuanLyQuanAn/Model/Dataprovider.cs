@@ -133,6 +133,15 @@ namespace QuanLyQuanAn.Model
                 return TableQuenry.tableFoods.ToList();
             }
         }
+        public object GetAllStatusTable()
+        {
+            using (var TableQuenry = new QuanLyQuanAnEntities())
+            {
+                var Status = (from status in TableQuenry.tableFoods
+                             select new { status.status }).Distinct().ToList();
+                return Status;
+            }
+        }
     }
     public class HumanResouceDataProvider
     {

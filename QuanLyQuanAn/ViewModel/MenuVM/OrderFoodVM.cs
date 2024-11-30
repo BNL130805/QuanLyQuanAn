@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf.Converters;
+﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf.Converters;
 using QuanLyQuanAn.Model;
 using QuanLyQuanAn.View.DialogHost;
 using System;
@@ -27,11 +28,40 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         private object _allFood;
         private ObservableCollection<ListBillInf> _billInfList;
         int _totalFood;
+        private object _currentDialogContent;
+        public ICommand AddBill { get; set; }
         public ICommand AddFoodCm { get; set; }
+        public ICommand SendBillToChef { get; set; }
+        public ICommand CloseAddBill { get; set; }
+        public ICommand ClearBill { get; set; }
         public OrderFoodVM()
         {
             CategoryNames.Insert(0, new foodCategory() { name = "Tất cả" });
             AllFood = FoodDataprovider.Food.GetAllFood();
+            SendBillToChef = new RelayCommand(
+                (p)=>CloseDialogHost(),
+                (p)=>true
+                );
+            ClearBill = new RelayCommand(
+                (p)=>
+                {
+                    BillInfList?.Clear();
+                    TotalFood = 0;
+                },
+                (p)=>true
+                );
+            CloseAddBill = new RelayCommand(
+                (p) => CloseDialogHost(),
+                (p)=>true
+                );
+            AddBill = new RelayCommand((p) =>
+            ShowAddFood(),
+            (p)=>
+            {
+                if (BillInfList != null && BillInfList?.Count > 0)
+                    return true;
+                else return false;
+            });
             AddFoodCm = new RelayCommand(
                 (p) =>
                 {
@@ -78,6 +108,15 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 (p) => { return true; }
                 );
         }
+        private async void ShowAddFood()
+        {
+            CurrentDialogContent = new ChooseTable(); // DialogContent1 là UserControl hoặc nội dung
+            await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
+        }
+        private void CloseDialogHost()
+        {
+            DialogHost.CloseDialogCommand.Execute(null, null);
+        }
         public ObservableCollection<foodCategory> CategoryNames { get => _categoryNames; set{ _categoryNames = value; OnPropertyChanged(); } }
         public object AllFood { get => _allFood; set { _allFood = value; OnPropertyChanged(); } }
         public ObservableCollection<ListBillInf> BillInfList { get => _billInfList;
@@ -89,6 +128,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
             } }
 
         public int TotalFood { get => _totalFood; set { _totalFood = value; OnPropertyChanged(); } }
+
+        public object CurrentDialogContent { get => _currentDialogContent; set { _currentDialogContent = value; OnPropertyChanged(); } }
     }
     public class ByteToImageConverter : IValueConverter
     {
