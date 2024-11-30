@@ -18,7 +18,7 @@ create table Account
 	Password nvarchar(20) not null,
 	TypeAccount nvarchar(20) not null default N'Nhân viên',
 
-	constraint PK__Account__7F906AD957D88891primary key(RestaurantName, idRes, Username),
+	constraint PK__Account__7F906AD957D88891 primary key (RestaurantName, idRes, Username),
 	constraint AtoR foreign key (idRes) references dbo.Restaurant(idRes)
 )
 go
@@ -96,14 +96,6 @@ alter table Account drop column RestaurantName
 ALTER TABLE Account
 ADD CONSTRAINT PK__Account__7F906AD957D88891 PRIMARY KEY (idRes, Username);
 
-SELECT 
-    CONSTRAINT_NAME AS PrimaryKeyName
-FROM 
-    INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-WHERE 
-    TABLE_NAME = 'Account' 
-    AND CONSTRAINT_TYPE = 'PRIMARY KEY';
-
 CREATE TABLE CurrentSession
 (
     SessionId INT IDENTITY constraint PK__CurrentS__C9F49290BABCA842 PRIMARY KEY,
@@ -111,7 +103,7 @@ CREATE TABLE CurrentSession
     Username NVARCHAR(50) NOT NULL,
     LoginTime DATETIME DEFAULT GETDATE(),
     LogoutTime DATETIME NULL,
-    FOREIGN KEY (idRes, Username) REFERENCES Account(idRes, Username)
+    constraint FK__CurrentSession__73BA3083 FOREIGN KEY (idRes, Username) REFERENCES Account(idRes, Username)
 )
 go
 ALTER TABLE CurrentSession DROP CONSTRAINT PK__CurrentS__C9F49290BABCA842; -- Xóa ràng buộc khóa chính
@@ -129,3 +121,33 @@ alter table CurrentSession drop column Username
 go
 alter table CurrentSession add idAccount int
 go
+
+create trigger UTG_UpdateBillInF
+on dbo.BillInf for insert, update
+as
+begin
+	declare @idBill int
+
+	select @idBill = idBill from inserted
+	
+	declare @idTable int
+	select @idTable = idTable from dbo.Bill where idBill = @idBill and status = N'Chưa thanh toán'
+	update dbo.tableFood set status = N'có người' where idTable = @idTable
+end
+go
+
+create trigger UTG_UpdateBill
+on dbo.Bill for update
+as
+begin
+	declare @idBill int
+	select @idBill = idBill from inserted
+	declare @idTable int
+	select @idTable = idTable from dbo.Bill where idBill = @idBill
+	declare @count int =0
+	select @count = count(*) from dbo.Bill where idTable = @idTable and status = N'Chưa thanh toán'
+	if(@count = 0)
+		update dbo.TableFood set status = N'trống' where idTable = @idTable
+end
+go
+

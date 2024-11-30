@@ -1,24 +1,14 @@
 ﻿using MaterialDesignThemes.Wpf;
-using MaterialDesignThemes.Wpf.Converters;
 using QuanLyQuanAn.Model;
 using QuanLyQuanAn.View.DialogHost;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Xml;
-using System.Xml.Linq;
-using static QuanLyQuanAn.Model.CategoryProvider;
 
 namespace QuanLyQuanAn.ViewModel.MenuVM
 {
@@ -27,6 +17,10 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         private ObservableCollection<foodCategory> _categoryNames = new ObservableCollection<foodCategory>(CategoryProvider.Category.GetAllCategory());
         private object _allFood;
         private ObservableCollection<ListBillInf> _billInfList;
+        private object _statusTable;
+        private object _table;
+        private string _currentTable;
+        private string _currentStatus;
         int _totalFood;
         private object _currentDialogContent;
         public ICommand AddBill { get; set; }
@@ -39,7 +33,13 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
             CategoryNames.Insert(0, new foodCategory() { name = "Tất cả" });
             AllFood = FoodDataprovider.Food.GetAllFood();
             SendBillToChef = new RelayCommand(
-                (p)=>CloseDialogHost(),
+                (p)=>
+                {
+                    BillDataprovider.Bill.InsertBillByTable(BillInfList, CurrentTable, TotalFood);
+                    BillInfList?.Clear();
+                    TotalFood = 0;
+                    CloseDialogHost();
+                },
                 (p)=>true
                 );
             ClearBill = new RelayCommand(
@@ -110,6 +110,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         }
         private async void ShowAddFood()
         {
+            StatusTable = TableProvider.Table.GetAllStatusTable();
             CurrentDialogContent = new ChooseTable(); // DialogContent1 là UserControl hoặc nội dung
             await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
         }
@@ -130,6 +131,20 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public int TotalFood { get => _totalFood; set { _totalFood = value; OnPropertyChanged(); } }
 
         public object CurrentDialogContent { get => _currentDialogContent; set { _currentDialogContent = value; OnPropertyChanged(); } }
+
+        public object StatusTable { get => _statusTable; set { _statusTable = value; OnPropertyChanged(); } }
+
+        public object Table { get => _table; set { _table = value; OnPropertyChanged(); } }
+
+        public string CurrentStatus { get => _currentStatus;
+            set 
+            {
+                _currentStatus = value; 
+                OnPropertyChanged();
+                Table = TableProvider.Table.GetTableByStatus(_currentStatus);
+            } }
+
+        public string CurrentTable { get => _currentTable; set { _currentTable = value; OnPropertyChanged(); } }
     }
     public class ByteToImageConverter : IValueConverter
     {

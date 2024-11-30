@@ -21,6 +21,9 @@
                   Grid.Row="0"
                   Height="50"
                   FontSize="18"
+                  ItemsSource="{Binding StatusTable}"
+                  Text="{Binding CurrentStatus}"
+                  DisplayMemberPath="status"
                   Margin="10 0 10 0" />
         <ComboBox VerticalAlignment="Center"
                  materialDesign:HintAssist.Hint="Chọn bàn"
@@ -28,6 +31,9 @@
                  Grid.Row="1"
                  Height="50"
                  FontSize="18"
+                  ItemsSource="{Binding Table}"
+                  Text="{Binding CurrentTable}"
+                  DisplayMemberPath="tableName"
                  Margin="10 0 10 0" />
         
         <Button FontSize="14"

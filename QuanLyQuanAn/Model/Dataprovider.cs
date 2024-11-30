@@ -1,12 +1,9 @@
-﻿using QuanLyQuanAn.ViewModel.MenuVM;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QuanLyQuanAn.Model;
-using System.Runtime.Remoting.Contexts;
 using System.Data.Entity;
+using QuanLyQuanAn.ViewModel.MenuVM;
+using System.Collections.ObjectModel;
 
 namespace QuanLyQuanAn.Model
 {
@@ -126,11 +123,27 @@ namespace QuanLyQuanAn.Model
         }
 
         private TableProvider() { }
+        public List<tableFood> GetAllTableByName(string name)
+        {
+            using(var TableQuenry = new QuanLyQuanAnEntities())
+            {
+                return TableQuenry.tableFoods.Where(p=>p.tableName == name).ToList();
+            }
+        }
         public List<tableFood> GetAllTable()
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())
             {
                 return TableQuenry.tableFoods.ToList();
+            }
+        }
+
+        public object GetTableByStatus(string status)
+        {
+            using(var TableQuenry = new QuanLyQuanAnEntities())
+            {
+                var table = TableQuenry.tableFoods.Where(p => p.status == status).ToList();
+                return table;
             }
         }
         public object GetAllStatusTable()
@@ -199,7 +212,7 @@ namespace QuanLyQuanAn.Model
         }
         
     }
-    class BillDataprovider
+    public class BillDataprovider
     {
         private static BillDataprovider _bill;
 
@@ -218,7 +231,42 @@ namespace QuanLyQuanAn.Model
         private BillDataprovider()
         {
         }
-
+        public void InsertBillByTable(ObservableCollection<ListBillInf> listBillInf, string table, int totalPrice)
+        {
+            using (var QuenryBill =  new QuanLyQuanAnEntities())
+            {
+                tableFood currentTable = TableProvider.Table.GetAllTableByName(table)[0];
+                if (currentTable.status == "trống")
+                {     
+                    Bill newBill = new Bill();
+                    int idCurrentAccout = (int)CurrentAccoutDataprovider.CurrentAccout.GetCurrentAccoutByIdMachine()[0].idAccount;
+                    Account currentAccout = AccountDataprovider.Account.GetAccountById(idCurrentAccout)[0];
+                    newBill.idRes = currentAccout.idRes;
+                    newBill.idTable = currentTable.idTable;
+                    newBill.TotalPrice = totalPrice;
+                    newBill.TimeIn = DateTime.Now;
+                    newBill.status = "Chưa thanh toán";
+                    QuenryBill.Bills.Add(newBill);
+                    QuenryBill.SaveChanges();
+                    BillInfDataprovider.BillInf.InsertBillInfByIdBill(newBill.idBill, listBillInf);
+                }
+                else
+                {
+                    Bill currentBill = GetBillUnpaidByTable(table);
+                    currentBill.TotalPrice += totalPrice;
+                    BillInfDataprovider.BillInf.InsertBillInfByIdBill(currentBill.idBill, listBillInf);
+                }    
+            }
+        }
+        public Bill GetBillUnpaidByTable(string table)
+        {
+            using(var QuenryBill = new QuanLyQuanAnEntities())
+            {
+                tableFood currentTable = TableProvider.Table.GetAllTableByName(table)[0];
+                var bill = QuenryBill.Bills.Where(p => p.idTable == currentTable.idTable && p.status == "Chưa thanh toán").ToList()[0];
+                return bill;
+            }
+        }
         public object GetBillInToday()
         {
             using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
@@ -340,4 +388,56 @@ namespace QuanLyQuanAn.Model
         }
         private CurrentAccoutDataprovider() { }
     }
+    public class BillInfDataprovider
+    {
+        private static BillInfDataprovider _billInf;
+
+        public static BillInfDataprovider BillInf {
+            get {
+                if (_billInf == null)
+                {
+                    _billInf = new BillInfDataprovider();
+                }
+                return _billInf;
+                    }
+            private set => _billInf = value; }
+        private BillInfDataprovider() { }
+        public void InsertBillInfByIdBill(int idBill, ObservableCollection<ListBillInf> listBillInf) 
+        {
+            using (var QuenryBillInf = new QuanLyQuanAnEntities())
+            {
+                int idCurrentAccout = (int)CurrentAccoutDataprovider.CurrentAccout.GetCurrentAccoutByIdMachine()[0].idAccount;
+                Account currentAccout = AccountDataprovider.Account.GetAccountById(idCurrentAccout)[0];
+
+                foreach (var lbi in listBillInf)
+                {
+                    // Kiểm tra món ăn đã có trong BillInf chưa
+                    var existingBillInf = QuenryBillInf.BillInfs
+                        .FirstOrDefault(b => b.idBill == idBill && b.idFood == lbi.IdFood);
+
+                    if (existingBillInf != null)
+                    {
+                        // Nếu món ăn đã có trong BillInf, cộng thêm count
+                        existingBillInf.count += lbi.Count;
+                    }
+                    else
+                    {
+                        // Nếu chưa có, thêm món mới vào BillInf
+                        BillInf newBillInf = new BillInf
+                        {
+                            idBill = idBill,
+                            idFood = lbi.IdFood,
+                            count = lbi.Count,
+                            idRes = currentAccout.idRes
+                        };
+                        QuenryBillInf.BillInfs.Add(newBillInf);
+                    }
+                }
+
+                // Lưu thay đổi
+                QuenryBillInf.SaveChanges();
+            }
+        }
+    }
+    
 }
