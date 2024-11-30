@@ -67,8 +67,43 @@ namespace QuanLyQuanAn.Model
                 return quenryCategory.foodCategories.ToList();
             }
         }
-        
+
+        public void DeleteCategory(int idFoodCtg)
+        {
+            using (var dbContext = new QuanLyQuanAnEntities())
+            {
+                // Lấy danh mục cần xóa
+                var categoryToDelete = dbContext.foodCategories
+                                                .FirstOrDefault(category => category.idFoodCtg == idFoodCtg);
+
+                if (categoryToDelete != null)
+                {
+                    // Xóa các món ăn liên quan đến danh mục (nếu tồn tại)
+                    var relatedFoods = dbContext.foods
+                                                .Where(food => food.idFoodCtg == idFoodCtg)
+                                                .ToList();
+
+                    if (relatedFoods.Any())
+                    {
+                        dbContext.foods.RemoveRange(relatedFoods);
+                    }
+
+                    // Xóa danh mục
+                    dbContext.foodCategories.Remove(categoryToDelete);
+
+                    // Lưu thay đổi
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("Danh mục không tồn tại");
+                }
+            }
+        }
     }
+
+    
+
     public class FoodDataprovider
     {
         private static FoodDataprovider _food;
@@ -102,6 +137,24 @@ namespace QuanLyQuanAn.Model
                                 CategoryName = categories.name
                             }).ToList();
                 return Food;
+            }
+        }
+
+        public void DeleteFood(int idFood)
+        {
+            using (var dbContext = new QuanLyQuanAnEntities())
+            {
+                var foodToDelete = dbContext.foods
+                                            .FirstOrDefault(food => food.idFood == idFood);
+                if (foodToDelete != null)
+                {
+                    dbContext.foods.Remove(foodToDelete);
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("Không tìm thấy món ăn với idFood: " + idFood);
+                }
             }
         }
     }
@@ -146,6 +199,26 @@ namespace QuanLyQuanAn.Model
                 return table;
             }
         }
+
+        public void DeleteTable(int idTable)
+        {
+            using (var TableQuenry = new QuanLyQuanAnEntities())
+            {
+                var tableToDelete = TableQuenry.tableFoods
+                                               .FirstOrDefault(table => table.idTable == idTable);
+                if (tableToDelete != null)
+                {
+                    TableQuenry.tableFoods.Remove(tableToDelete);
+
+                    TableQuenry.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("Tên bàn không tồn tại");
+                }
+            }
+        }
+
         public object GetAllStatusTable()
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using QuanLyQuanAn.View.DialogHost;
 using QuanLyQuanAn.Model;
+using System.Windows;
 
 namespace QuanLyQuanAn.ViewModel.MenuVM
 {
@@ -37,6 +38,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public ICommand ShowAddCatagoryCommand { get; }
         public ICommand CloseAddCatagory {  get; }
         public ICommand AddCatagory { get; }
+        public ICommand DeleteCommand { get; }
+
         public object Title { get => _title; set => _title = value; }
         public object CategoryList { get => _categoryList; set { _categoryList = value; OnPropertyChanged(); } }
 
@@ -56,7 +59,29 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 (p) => true
                 );
             CategoryList = CategoryProvider.Category.GetAllCategory();
-      
+
+            CategoryList = new ObservableCollection<foodCategory>(CategoryProvider.Category.GetAllCategory());
+
+            // Khởi tạo lệnh xóa
+            DeleteCommand = new RelayCommand(
+                (selectedCategory) =>
+                {
+                    if (selectedCategory is foodCategory category)
+                    {
+                        var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa danh mục {category.name} không?",
+                                                    "Xác nhận",
+                                                    MessageBoxButton.YesNo,
+                                                    MessageBoxImage.Question);
+
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            CategoryProvider.Category.DeleteCategory(category.idFoodCtg);
+                            ((ObservableCollection<foodCategory>)CategoryList).Remove(category);
+                        }
+                    }
+                },
+                (selectedCategory) => true);
+
         }
 
         private async void ShowAddCatagory()
