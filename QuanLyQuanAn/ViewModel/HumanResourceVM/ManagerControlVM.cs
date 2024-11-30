@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using QuanLyQuanAn.Model;
 
@@ -13,32 +14,36 @@ namespace QuanLyQuanAn.ViewModel.HumanResourceVM
     {
         private object _managerList = HumanResouceDataProvider.Human.GetHuman("Quản lí");
 
+        public object ManagerList { get => _managerList; set { _managerList = value; OnPropertyChanged(); } }
+
+        
+        
+        public ICommand DeleteCommand { get; set; }
+
         public ManagerControlVM()
         {
-            DeleteManagerCommand = new RelayCommand(
-                (p) =>
+            //Lấy danh sách nhân viên từ cơ sở dữ liệu
+            ManagerList = new ObservableCollection<Account>(HumanResouceDataProvider.Human.GetHuman("Quản lý"));
+
+            // Khởi tạo lệnh xóa
+            DeleteCommand = new RelayCommand(
+                (selectedManager) =>
                 {
-                    HumanResouceDataProvider.Human.DeleteHuman(p.ToString(), "Quản lí");
+                    if (selectedManager is Account manager)
+                    {
+                        var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa Quản lý {manager.Username} không?",
+                                                    "Xác nhận",
+                                                    MessageBoxButton.YesNo,
+                                                    MessageBoxImage.Question);
 
-                    // Cập nhật lại danh sách sau khi xóa
-                    ManagerList = HumanResouceDataProvider.Human.GetHuman("Quản lí");
-                }
-                ,
-                p => true
-                );
-        }
-
-        public object ManagerList { get => _managerList; set { _managerList = value; OnPropertyChanged(); } }
-        
-        public ICommand DeleteManagerCommand { get; set; }
-
-        private void DeleteManager(string username)
-        {
-            // Xóa đầu bếp từ cơ sở dữ liệu
-            HumanResouceDataProvider.Human.DeleteHuman(username, "Quản lí");
-
-            // Cập nhật lại danh sách sau khi xóa
-            ManagerList = HumanResouceDataProvider.Human.GetHuman("Quản lí");
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            HumanResouceDataProvider.Human.DeleteHuman(manager.Username, "Quản lý");
+                            ((ObservableCollection<Account>)ManagerList).Remove(manager);
+                        }
+                    }
+                },
+                (selectedManager) => true);
         }
     }   
 

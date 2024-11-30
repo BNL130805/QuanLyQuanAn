@@ -8,6 +8,7 @@
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel.MenuVM"
              xmlns:dlh="clr-namespace:QuanLyQuanAn.View.DialogHost"
+             x:Name="CategoryControls"
              mc:Ignorable="d" >
     <UserControl.DataContext>
         <vm:CatagoryControlVM/>
@@ -137,7 +138,9 @@
                                                                    Style="{StaticResource gridButtonIcon}" />
                                         </Button>
                                         <Button Margin="5 0 0 0"
-                                                Style="{StaticResource gridRemoveButton}">
+                                                Style="{StaticResource gridRemoveButton}"
+                                                Command="{Binding DataContext.DeleteCommand, ElementName=CategoryControls }"
+                                                CommandParameter="{Binding}">
                                             <Icon:PackIconMaterial Kind="DeleteOutline"
                                                                    Style="{StaticResource gridButtonIcon}" />
                                         </Button>

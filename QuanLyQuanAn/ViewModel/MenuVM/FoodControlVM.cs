@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+
+
 
 namespace QuanLyQuanAn.ViewModel.MenuVM
 {
@@ -32,6 +35,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public ICommand ShowAddFoodCommand { get; }
         public ICommand CloseAddFood { get; }
         public ICommand AddFood { get; }
+        public ICommand DeleteCommand { get; }
+
         public object Title { get => _title; set => _title = value; }
         public object FoodList { get => _foodList; set { _foodList = value; OnPropertyChanged(); } }
 
@@ -52,8 +57,14 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 },
                 (p) => true
                 );
+            DeleteCommand = new RelayCommand(
+                (selectedFood) => DeleteFood(selectedFood),
+                (selectedFood) => true // Chỉ kích hoạt nếu món ăn được chọn
+            );
+
             FoodList = FoodDataprovider.Food.GetAllFood();
             CatagoryList = CategoryProvider.Category.GetAllCategory();
+
         }
 
         private async void ShowAddFood()
@@ -65,6 +76,29 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         private void CloseDialogHost()
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
+        }
+
+        private void DeleteFood(Object selectedFood)
+        {
+            dynamic food = selectedFood as dynamic;
+            if (food != null)
+            {
+                // Hiển thị hộp thoại xác nhận
+                var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa món ăn {food.name} không?",
+                                             "Xác nhận xóa",
+                                             MessageBoxButton.YesNo,
+                                             MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Gọi phương thức xóa trong DataProvider
+                    FoodDataprovider.Food.DeleteFood(food.idFood);
+
+                    // Cập nhật lại danh sách món ăn
+                    FoodList = FoodDataprovider.Food.GetAllFood();
+                    OnPropertyChanged(nameof(FoodList));
+                }
+            }
         }
 
     }
