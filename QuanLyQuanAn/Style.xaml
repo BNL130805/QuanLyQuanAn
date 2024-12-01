@@ -163,6 +163,106 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="LogoutButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="#104E8B" />
+        <Setter Property="Foreground"
+                Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Margin="5,1,0,1"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3" />
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="5*" />
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="hightligh"
+                                    Grid.Column="0"
+                                    Margin="0,4,0,4"
+                                    Background="#00AADA"
+                                    CornerRadius="3"
+                                    Visibility="Hidden" />
+                            <Grid x:Name="mainpage"
+                                  Grid.Column="1"
+                                  Grid.ColumnSpan="2"
+                                  Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="{Binding ElementName=TextButton, Path=Width}" />
+                                </Grid.ColumnDefinitions>
+                                <Image x:Name="ImageButton"
+                                       Grid.Column="0"
+                                       Width="25"
+                                       Height="25"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Image.RenderTransform>
+                                        <TranslateTransform X="30"
+                                                            Y="0" />
+                                    </Image.RenderTransform>
+                                </Image>
+                                <TextBlock x:Name="TextButton"
+                                           Grid.Column="1"
+                                           Width="120"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontSize="18"
+                                           Text="{TemplateBinding Property=Content}" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="Black" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding ElementName=ButtonControl, Path=IsChecked}"
+                                     Value="False">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ImageButton"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                                         From="30"
+                                                         To="0"
+                                                         Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="TextButton"
+                                                         Storyboard.TargetProperty="Width"
+                                                         From="120"
+                                                         To="0"
+                                                         Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ImageButton"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                                         From="0"
+                                                         To="30"
+                                                         Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="TextButton"
+                                                         Storyboard.TargetProperty="Width"
+                                                         From="0"
+                                                         To="120"
+                                                         Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="8" />
         <Setter Property="Background" Value="Transparent" />

@@ -28,6 +28,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public ICommand SendBillToChef { get; set; }
         public ICommand CloseAddBill { get; set; }
         public ICommand ClearBill { get; set; }
+        public ICommand PlusCount { get; set; }
+        public ICommand MinusCount { get; set; }
         public OrderFoodVM()
         {
             CategoryNames.Insert(0, new foodCategory() { name = "Tất cả" });
@@ -39,8 +41,17 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                     BillInfList?.Clear();
                     TotalFood = 0;
                     CloseDialogHost();
+                    CurrentStatus = null;
+                    CurrentTable = null;
                 },
-                (p)=>true
+                (p)=>
+                {
+                    if(CurrentTable != null && CurrentStatus != null)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
                 );
             ClearBill = new RelayCommand(
                 (p)=>
@@ -106,6 +117,26 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                     }
                 },
                 (p) => { return true; }
+                );
+            PlusCount = new RelayCommand(
+                (p) =>
+                {
+                    if(p is ListBillInf bill)
+                    {
+                        bill.Count++;
+                    }
+                },
+                (p) => true
+                );
+            MinusCount = new RelayCommand(
+                (p) =>
+                {
+                    if (p is ListBillInf bill)
+                    {
+                        bill.Count--;
+                    }
+                },
+                (p) => true
                 );
         }
         private async void ShowAddFood()
@@ -204,10 +235,10 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
             set 
             {
                 _count = value; OnPropertyChanged();
-                Pay.Invoke(this);
+                Pay?.Invoke(this);
                 if(_count==0)
                 {
-                    CoutZeroed.Invoke(this);
+                    CoutZeroed?.Invoke(this);
                 }
             } }
 

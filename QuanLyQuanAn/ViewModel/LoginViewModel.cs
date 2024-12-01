@@ -102,8 +102,12 @@ namespace QuanLyQuanAn.ViewModel
                                 else if(tb.Text == "Đầu bếp")
                                 {
                                     Cheff w = new Cheff(); w.ShowDialog();
-                                }    
-                                window.Show();
+                                }
+                                try
+                                {
+                                    window.Show();
+                                }
+                                catch { }
                             }
                             else
                             {

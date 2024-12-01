@@ -1,4 +1,7 @@
-﻿using QuanLyQuanAn.View;
+﻿using QuanLyQuanAn.Model;
+using QuanLyQuanAn.View;
+using System.Windows;
+using System.Windows.Input;
 
 namespace QuanLyQuanAn.ViewModel
 {
@@ -7,7 +10,7 @@ namespace QuanLyQuanAn.ViewModel
         private string _selectedOption;
         private object _option=new Menu();
         private bool _isMaximumWindow = false;
-
+        public ICommand LogoutCm { get; set; }
         public string SelectedOption { get => _selectedOption; 
             set 
             {
@@ -49,6 +52,17 @@ namespace QuanLyQuanAn.ViewModel
 
         public AdminVM()
         {
+            LogoutCm = new RelayCommand(
+                p =>
+                {
+                    if (p is Window window)
+                    {
+                        CurrentAccoutDataprovider.CurrentAccout.LogoutCurrentAccout();
+                        window.Close();
+                    }
+                },
+                p => true
+                );
             SelectedOption = "Menu";
         }
     }

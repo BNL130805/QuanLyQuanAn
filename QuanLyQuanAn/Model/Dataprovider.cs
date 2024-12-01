@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.Entity;
 using QuanLyQuanAn.ViewModel.MenuVM;
 using System.Collections.ObjectModel;
+using System.Runtime.Remoting.Contexts;
 
 namespace QuanLyQuanAn.Model
 {
@@ -101,9 +102,6 @@ namespace QuanLyQuanAn.Model
             }
         }
     }
-
-    
-
     public class FoodDataprovider
     {
         private static FoodDataprovider _food;
@@ -304,6 +302,17 @@ namespace QuanLyQuanAn.Model
         private BillDataprovider()
         {
         }
+        public void PayBillByIdTable(int idTable)
+        {
+            using (var quenryBill = new QuanLyQuanAnEntities())
+            {
+                Bill currentBill = quenryBill.Bills.FirstOrDefault(b => b.idTable == idTable && b.status == "Chưa thanh toán");
+                tableFood currentTable = quenryBill.tableFoods.FirstOrDefault(t => t.idTable == idTable);
+                currentTable.status = "trống";
+                currentBill.status = "Đã thanh toán";
+                quenryBill.SaveChanges();
+            }
+        }
         public void InsertBillByTable(ObservableCollection<ListBillInf> listBillInf, string table, int totalPrice)
         {
             using (var QuenryBill =  new QuanLyQuanAnEntities())
@@ -325,8 +334,16 @@ namespace QuanLyQuanAn.Model
                 }
                 else
                 {
-                    Bill currentBill = GetBillUnpaidByTable(table);
-                    currentBill.TotalPrice += totalPrice;
+                    var currentBill = QuenryBill.Bills.FirstOrDefault(b => b.idTable == currentTable.idTable && b.status == "Chưa thanh toán");
+
+                    if (currentBill != null)
+                    {
+                        // Cập nhật TotalPrice
+                        currentBill.TotalPrice += totalPrice;
+
+                        // Lưu thay đổi
+                        QuenryBill.SaveChanges();
+                    }
                     BillInfDataprovider.BillInf.InsertBillInfByIdBill(currentBill.idBill, listBillInf);
                 }    
             }
@@ -348,7 +365,7 @@ namespace QuanLyQuanAn.Model
                 var tomorrow = today.AddDays(1);
 
                 var doanhThuHomNay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= today && bill.TimeIn < tomorrow) // So sánh phạm vi
+                    .Where(bill => bill.TimeIn >= today && bill.TimeIn < tomorrow && bill.status == "Đã thanh toán") // So sánh phạm vi
                     .GroupBy(bill => bill.TimeIn.Hour)
                     .Select(group => new
                     {
@@ -371,7 +388,7 @@ namespace QuanLyQuanAn.Model
                 var endOfToday = today.AddDays(1).AddTicks(-1); // Đến 23:59:59 của ngày hôm nay
 
                 var doanhThu7Ngay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= past7Days && bill.TimeIn <= endOfToday)  // So sánh với phạm vi thời gian
+                    .Where(bill => bill.TimeIn >= past7Days && bill.TimeIn <= endOfToday && bill.status == "Đã thanh toán")  // So sánh với phạm vi thời gian
                     .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn)) // Sử dụng DbFunctions.TruncateTime để loại bỏ giờ
                     .Select(group => new
                     {
@@ -392,7 +409,7 @@ namespace QuanLyQuanAn.Model
                 var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1); // Cuối tháng
 
                 var doanhThuThangNay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= firstDayOfMonth && bill.TimeIn <= lastDayOfMonth)
+                    .Where(bill => bill.TimeIn >= firstDayOfMonth && bill.TimeIn <= lastDayOfMonth && bill.status == "Đã thanh toán")
                     .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn)) // Sử dụng DbFunctions.TruncateTime để loại bỏ giờ
                     .Select(group => new
                     {
@@ -411,7 +428,7 @@ namespace QuanLyQuanAn.Model
             {
                 var firstDayOfYear = new DateTime(DateTime.Today.Year, 1, 1);
                 var doanhThuNamNay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= firstDayOfYear)
+                    .Where(bill => bill.TimeIn >= firstDayOfYear && bill.status == "Đã thanh toán")
                     .GroupBy(bill => bill.TimeIn.Month)
                     .Select(group => new
                     {
@@ -457,6 +474,16 @@ namespace QuanLyQuanAn.Model
                 int idAcount = (int)accout[0].idAccout;
                 QuenryCurrentAccout.CurrentSessions.Add(new CurrentSession { idAccount = idAcount, MachineId = Environment.MachineName });
                 QuenryCurrentAccout.SaveChanges();
+            }
+        }
+        public void LogoutCurrentAccout()
+        {
+            using(var QuenryCurrentAccout = new QuanLyQuanAnEntities())
+            {
+                var CurrentAccout = QuenryCurrentAccout.CurrentSessions.FirstOrDefault(p => p.MachineId == Environment.MachineName);
+                QuenryCurrentAccout.CurrentSessions.Remove(CurrentAccout);
+                QuenryCurrentAccout.SaveChanges();
+
             }
         }
         private CurrentAccoutDataprovider() { }
@@ -509,6 +536,24 @@ namespace QuanLyQuanAn.Model
 
                 // Lưu thay đổi
                 QuenryBillInf.SaveChanges();
+            }
+        }
+        public List<ListBillInf> GetBillInfByTable(int idTable)
+        {
+            using (var BillInfQuenry = new QuanLyQuanAnEntities())
+            {
+                var listBill = (from b in BillInfQuenry.Bills
+                                join inf in BillInfQuenry.BillInfs
+                                on b.idBill equals inf.idBill
+                                join f in BillInfQuenry.foods
+                                on inf.idFood equals f.idFood
+                                where b.idTable == idTable && b.status == "Chưa thanh toán"
+                                select new ListBillInf { Count = inf.count, FoodImage = f.FoodImage, IdFood = inf.idFood, Name = f.name, Price = f.price}).ToList();
+                for (int i = 0; i< listBill.Count; i++)
+                {
+                    listBill[i].No = i + 1;
+                }
+                return listBill;
             }
         }
     }

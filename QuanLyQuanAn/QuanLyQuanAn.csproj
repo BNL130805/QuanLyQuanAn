@@ -270,6 +270,7 @@
     <Compile Include="ViewModel\StaffVM.cs" />
     <Compile Include="ViewModel\StatisticVM\RevenuaVM.cs" />
     <Compile Include="ViewModel\TableControlVM.cs" />
+    <Compile Include="ViewModel\TableStaffVM.cs" />
     <Compile Include="View\CatagoryControl.xaml.cs">
       <DependentUpon>CatagoryControl.xaml</DependentUpon>
     </Compile>
@@ -284,6 +285,9 @@
     </Compile>
     <Compile Include="View\DialogHost\ChooseTable.xaml.cs">
       <DependentUpon>ChooseTable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogHost\ListBillInfShow.xaml.cs">
+      <DependentUpon>ListBillInfShow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FoodControl.xaml.cs">
       <DependentUpon>FoodControl.xaml</DependentUpon>
@@ -372,6 +376,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogHost\ChooseTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogHost\ListBillInfShow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -485,6 +493,7 @@
     <Resource Include="Images\EmptyImage.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\LogoutIcon.png" />
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

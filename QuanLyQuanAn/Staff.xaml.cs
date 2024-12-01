@@ -59,7 +59,7 @@ namespace QuanLyQuanAn
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Application.Current.Shutdown();
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)

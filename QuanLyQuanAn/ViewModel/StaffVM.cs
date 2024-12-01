@@ -1,4 +1,5 @@
-﻿using QuanLyQuanAn.View;
+﻿using QuanLyQuanAn.Model;
+using QuanLyQuanAn.View;
 using QuanLyQuanAn.View.StaffView;
 using QuanLyQuanAn.View.Statistics;
 using System;
@@ -6,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace QuanLyQuanAn.ViewModel
 {
@@ -14,7 +17,7 @@ namespace QuanLyQuanAn.ViewModel
         private string _selectedOption;
         private object _option = new OrderFood();
         private bool _isMaximumWindow = false;
-
+        public ICommand LogoutCm { get; set; }
         public string SelectedOption
         {
             get => _selectedOption;
@@ -57,6 +60,17 @@ namespace QuanLyQuanAn.ViewModel
 
         public StaffVM()
         {
+            LogoutCm = new RelayCommand(
+                p=>
+                {
+                    if (p is Window window)
+                    {
+                        CurrentAccoutDataprovider.CurrentAccout.LogoutCurrentAccout();
+                        window.Close();
+                    }
+                },
+                p=>true
+                );
             SelectedOption = "Order";
         }
     }

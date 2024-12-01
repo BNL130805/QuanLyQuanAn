@@ -31,18 +31,40 @@ namespace QuanLyQuanAn
                 // Hiển thị cửa sổ phù hợp với loại tài khoản
                 if (typeAccount == "Quản lý")
                 {
+                    Login loginWindow = new Login();
+                    loginWindow.Hide();
                     Admin adminWindow = new Admin();
-                    adminWindow.Show();
+                    adminWindow.ShowDialog();
+                    try
+                    {
+                        loginWindow.Show();
+                    }
+                    catch { }
                 }
                 else if (typeAccount == "Nhân viên")
                 {
+                    Login loginWindow = new Login();
+                    loginWindow.Hide();
                     Staff staffWindow = new Staff();
-                    staffWindow.Show();
+                    staffWindow.ShowDialog();
+                    try
+                    {
+                        loginWindow.Show();
+                    }
+                    catch { }
+                    
                 }
                 else if (typeAccount == "Đầu bếp")
                 {
+                    Login loginWindow = new Login();
+                    loginWindow.Hide();
                     Cheff cheffWindow = new Cheff();
-                    cheffWindow.Show();
+                    cheffWindow.ShowDialog();
+                    try
+                    {
+                        loginWindow.Show();
+                    }
+                    catch { }
                 }
             }
             else

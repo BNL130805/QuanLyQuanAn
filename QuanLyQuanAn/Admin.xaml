@@ -142,6 +142,14 @@
                             Thống kê
                         </RadioButton>
                     </Grid>
+                    <Button Grid.Row="2"
+                            Style="{StaticResource LogoutButtonStyle}"
+                            Content="Đăng xuất"
+                            Tag="Images/LogoutIcon.png"
+                            VerticalAlignment="Center"
+                            Command="{Binding LogoutCm}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Height="40"></Button>
                 </Grid>
             </Border>
             <Border
