@@ -220,6 +220,27 @@ namespace QuanLyQuanAn.Model
             }
         }
 
+        public void DeleteTables(List<int> idTables)
+        {
+            using (var TableQuery = new QuanLyQuanAnEntities())
+            {
+                var tablesToDelete = TableQuery.tableFoods
+                                                .Where(table => idTables.Contains(table.idTable))
+                                                .ToList();
+
+                if (tablesToDelete.Any())
+                {
+                    TableQuery.tableFoods.RemoveRange(tablesToDelete);
+                    TableQuery.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("Không có bàn nào tồn tại để xóa.");
+                }
+            }
+        }
+
+
         public object GetAllStatusTable()
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())
