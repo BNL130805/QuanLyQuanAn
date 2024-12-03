@@ -20,9 +20,9 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
     internal class CatagoryControlVM : BaseViewModel
     {
         private object _currentDialogContent;
-
         private object _categoryList;
-
+        private string _message;
+        private bool _check;
         public object CurrentDialogContent
         {
             get => _currentDialogContent;
@@ -32,20 +32,28 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 OnPropertyChanged();
             }
         }
-
-        private object _title="xinchao";
-
         public ICommand ShowAddCatagoryCommand { get; }
         public ICommand CloseAddCatagory {  get; }
         public ICommand AddCatagory { get; }
         public ICommand DeleteCommand { get; }
+        public ICommand FalseCm { get; set; }
+        public ICommand TrueCm { get; set; }
 
-        public object Title { get => _title; set => _title = value; }
         public object CategoryList { get => _categoryList; set { _categoryList = value; OnPropertyChanged(); } }
+
+        public string Message { get => _message; set { _message = value; OnPropertyChanged(); } }
+
+        public bool Check { get => _check; set { _check = value; OnPropertyChanged(); } }
 
         public CatagoryControlVM()
         {
-            ShowAddCatagoryCommand = new RelayCommand((p)=>ShowAddCatagory(), (p)=>true);
+            ShowAddCatagoryCommand = new RelayCommand(
+                async (p)=>
+                {
+                    CurrentDialogContent = new AddCatagory();
+                    await ShowDialogContent(); 
+                }, 
+                (p)=>true);
             CloseAddCatagory = new RelayCommand(
                 (p) => CloseDialogHost()
                 ,
@@ -58,25 +66,48 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 },
                 (p) => true
                 );
+            FalseCm = new RelayCommand(
+                p=>
+                {
+                    Check = false;
+                    CloseDialogHost();
+                },
+                p=> true
+                );
+            TrueCm = new RelayCommand(
+                p =>
+                {
+                    Check = true;
+                    CloseDialogHost();
+                },
+                p => true
+                );
             CategoryList = CategoryProvider.Category.GetAllCategory();
 
             CategoryList = new ObservableCollection<foodCategory>(CategoryProvider.Category.GetAllCategory());
 
             // Khởi tạo lệnh xóa
             DeleteCommand = new RelayCommand(
-                (selectedCategory) =>
+                async (selectedCategory) =>
                 {
                     if (selectedCategory is foodCategory category)
                     {
-                        var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa danh mục {category.name} không?",
-                                                    "Xác nhận",
-                                                    MessageBoxButton.YesNo,
-                                                    MessageBoxImage.Question);
-
-                        if (result == MessageBoxResult.Yes)
+                        Message = $"Bạn có chắc chắn muốn xóa danh mục {category.name} không?";
+                        CurrentDialogContent = new MessageYesNo();
+                        await ShowDialogContent() ;
+                        if (Check == true)
                         {
-                            CategoryProvider.Category.DeleteCategory(category.idFoodCtg);
-                            ((ObservableCollection<foodCategory>)CategoryList).Remove(category);
+                            if(!CategoryProvider.Category.DeleteCategory(category.idFoodCtg))
+                            {
+                                CloseDialogHost();
+                                Message = $"Bạn phải xóa hết món ăn có danh mục {category.name}!";
+                                CurrentDialogContent = new Message();
+                                await ShowDialogContent();
+                            } 
+                            else
+                            {     
+                               ((ObservableCollection<foodCategory>)CategoryList).Remove(category);
+                            }
                         }
                     }
                 },
@@ -84,9 +115,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
 
         }
 
-        private async void ShowAddCatagory()
+        private async Task ShowDialogContent()
         {
-            CurrentDialogContent = new AddCatagory(); // DialogContent1 là UserControl hoặc nội dung
             await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
         }
 

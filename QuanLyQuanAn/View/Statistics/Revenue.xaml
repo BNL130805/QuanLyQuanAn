@@ -69,6 +69,7 @@
                             Width="{Binding ElementName=GridDatePicker, Path=ActualWidth, Converter={StaticResource Convert}}"
                             Height="auto"
                             FontSize="20"
+                            SelectedDate="{Binding Begin}"
                             FontWeight="SemiBold" />
             </Grid>
             <Grid Grid.Column="1">
@@ -87,6 +88,7 @@
                             Grid.Column="1"
                             Width="{Binding ElementName=GridDatePicker, Path=ActualWidth, Converter={StaticResource Convert}}"
                             Height="auto"
+                            SelectedDate="{Binding End}"
                             FontSize="20"
                             FontWeight="SemiBold" />
             </Grid>

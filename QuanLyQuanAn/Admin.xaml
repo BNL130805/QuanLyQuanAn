@@ -38,8 +38,8 @@
                 CornerRadius="10 0 0 10">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80" />
-                        <RowDefinition Height="280" />
+                        <RowDefinition Height="120" />
+                        <RowDefinition Height="230" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid x:Name="MainPanelControl" Grid.Row="0">

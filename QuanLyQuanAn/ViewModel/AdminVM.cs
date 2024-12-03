@@ -39,7 +39,6 @@ namespace QuanLyQuanAn.ViewModel
                 }
             }
         }
-
         public object Option { get => _option;
             set 
             { 

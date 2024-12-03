@@ -5,6 +5,7 @@ using QuanLyQuanAn.Model;
 using LiveCharts;
 using System.Windows.Data;
 using System.Globalization;
+using System.Diagnostics.Eventing.Reader;
 
 namespace QuanLyQuanAn.ViewModel.StatisticVM
 {
@@ -12,6 +13,8 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
     {
         private string _typeRevenua="Hôm nay" ;
         private object _timeLable;
+        private DateTime _begin;
+        private DateTime _end;
         public Func<double, string> Formatter { get; set; }
         private ChartValues<double> _revenueData;
 
@@ -32,34 +35,20 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                 switch (_typeRevenua)
                 {
                     case "Hôm nay":
-                        // Lấy dữ liệu doanh thu theo giờ cho hôm nay
-                        var todayBills = (BillDataprovider.Bill.GetBillInToday() as IEnumerable<dynamic>)?
-                            .Select(b => (Gio: (int)b.Gio, TotalPrice: (double)b.TongDoanhThu));
-                        TimeLable = todayBills?.Select(d => $"{d.Gio}:00").ToList();
-                        RevenueData = new ChartValues<double>(todayBills?.Select(d => d.TotalPrice) ?? Enumerable.Empty<double>());
+                        Begin = DateTime.Today;
+                        End = DateTime.Today;
                         break;
                     case "7 ngày gần đây":
-                        // Lấy dữ liệu doanh thu trong 7 ngày gần đây
-                        var Lastest7DaysBill = (BillDataprovider.Bill.GetBillInLatest7Day() as IEnumerable<dynamic>)?
-                             .Select(b => (Ngay: (DateTime)b.Ngay, TotalPrice: (double)b.TongDoanhThu));
-                        TimeLable = Lastest7DaysBill?.Select(d => d.Ngay.ToShortDateString()).ToList();
-                        RevenueData = new ChartValues<double>(Lastest7DaysBill?.Select(d => d.TotalPrice) ?? Enumerable.Empty<double>());
+                        Begin = DateTime.Today.AddDays(-7);
+                        End = DateTime.Today;
                         break;
                     case "Tháng này":
-                        // Lấy dữ liệu doanh thu trong tháng này
-                        var ThisMonthBills = (BillDataprovider.Bill.GetBillInThisMonth() as IEnumerable<dynamic>)?
-                                .Select(b => (Ngay: (DateTime)b.Ngay, TotalPrice: (double)b.TongDoanhThu));
-
-                        TimeLable = ThisMonthBills?.Select(d => d.Ngay.ToShortDateString()).ToList();
-                        RevenueData = new ChartValues<double>(ThisMonthBills?.Select(d => d.TotalPrice) ?? Enumerable.Empty<double>());
+                        Begin = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        End = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1).AddDays(-1);
                         break;
                     case "Năm nay":
-                        // Lấy dữ liệu doanh thu trong năm nay
-                        var ThisYearBills = (BillDataprovider.Bill.GetBillThisYear() as IEnumerable<dynamic>)?
-                                  .Select(b => (Thang: (int)b.Thang, TotalPrice: (double)b.TongDoanhThu));
-
-                        TimeLable = ThisYearBills?.Select(d => d.Thang.ToString()).ToList();
-                        RevenueData = new ChartValues<double>(ThisYearBills?.Select(d => d.TotalPrice) ?? Enumerable.Empty<double>());
+                        Begin = new DateTime(DateTime.Today.Year, 1, 1);
+                        End = new DateTime(DateTime.Today.Year, 12, 31);                        
                         break;
                     case "Chọn khoảng thời gian":
                         // Xử lý khi người dùng chọn khoảng thời gian cụ thể (nếu có)
@@ -67,9 +56,9 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                     default:
                         break;
                 }
+                
             }
         }
-
         public object TimeLable
         {
             get => _timeLable;
@@ -89,6 +78,32 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                 OnPropertyChanged();
             }
         }
+        private void ShowRevenua()
+        {
+            int PeriodOfTime = (End.AddDays(1) - Begin).Days;
+            var Bills = (BillDataprovider.Bill.GetBillByDate(Begin, End.AddDays(1)) as IEnumerable<dynamic>)?
+                        .Select(b => (ThoiGian: b.ThoiGian, TotalPrice: (double)b.TongDoanhThu));
+            if (PeriodOfTime <= 2)
+            {
+                TimeLable = Bills?.Select(d => $"{(int)d.ThoiGian}:00").ToList();
+            }
+            else if (PeriodOfTime > 2 && PeriodOfTime <= 60)
+            {
+                TimeLable = Bills?.Select(d => ((DateTime)d.ThoiGian).ToShortDateString()).ToList();
+            }
+            else if (PeriodOfTime > 60 && PeriodOfTime <= 730)
+            {
+                TimeLable = Bills?.Select(d => ((int)d.ThoiGian).ToString()).ToList();
+            }
+            else
+            {
+                TimeLable = Bills?.Select(d => ((int)d.ThoiGian).ToString()).ToList();
+            }
+            RevenueData = new ChartValues<double>(Bills?.Select(d => d.TotalPrice) ?? Enumerable.Empty<double>());
+        }
+
+        public DateTime Begin { get => _begin; set { _begin = value; OnPropertyChanged(); ShowRevenua(); } }
+        public DateTime End { get => _end; set { _end = value; OnPropertyChanged(); ShowRevenua(); } }
     }
     public class WidthOfDatePickerAcrossGrid : IValueConverter
     {

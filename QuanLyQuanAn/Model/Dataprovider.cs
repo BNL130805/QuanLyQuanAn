@@ -5,6 +5,7 @@ using System.Data.Entity;
 using QuanLyQuanAn.ViewModel.MenuVM;
 using System.Collections.ObjectModel;
 using System.Runtime.Remoting.Contexts;
+using System.Web;
 
 namespace QuanLyQuanAn.Model
 {
@@ -69,7 +70,7 @@ namespace QuanLyQuanAn.Model
             }
         }
 
-        public void DeleteCategory(int idFoodCtg)
+        public bool DeleteCategory(int idFoodCtg)
         {
             using (var dbContext = new QuanLyQuanAnEntities())
             {
@@ -86,19 +87,15 @@ namespace QuanLyQuanAn.Model
 
                     if (relatedFoods.Any())
                     {
-                        dbContext.foods.RemoveRange(relatedFoods);
+                        return false;
                     }
-
-                    // Xóa danh mục
                     dbContext.foodCategories.Remove(categoryToDelete);
 
                     // Lưu thay đổi
                     dbContext.SaveChanges();
+                    return true;
                 }
-                else
-                {
-                    Console.WriteLine("Danh mục không tồn tại");
-                }
+                return false;
             }
         }
     }
@@ -146,6 +143,12 @@ namespace QuanLyQuanAn.Model
                                             .FirstOrDefault(food => food.idFood == idFood);
                 if (foodToDelete != null)
                 {
+                    var listBillInf = dbContext.BillInfs.Where(p => p.idFood == idFood);
+                    if (listBillInf.Any())
+                    {
+                        dbContext.BillInfs.RemoveRange(listBillInf);
+                        dbContext.SaveChanges();
+                    }
                     dbContext.foods.Remove(foodToDelete);
                     dbContext.SaveChanges();
                 }
@@ -439,6 +442,65 @@ namespace QuanLyQuanAn.Model
                     .ToList();
 
                 return doanhThuNamNay;
+            }
+        }
+        public object GetBillByDate(DateTime Begin, DateTime End)
+        {
+            using(var QuenryBill = new QuanLyQuanAnEntities())
+            {
+                int PeriodOfTime = (End - Begin).Days;
+                if (PeriodOfTime <= 2)
+                {
+                    var doanhthu = QuenryBill.Bills
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .GroupBy(bill => bill.TimeIn.Hour)
+                        .Select(listBill => new
+                        {
+                            ThoiGian = listBill.Key,
+                            TongDoanhThu = listBill.Sum(bill => bill.TotalPrice)
+                        })
+                        .ToList();
+                    return doanhthu;
+                }
+                else if (PeriodOfTime > 2 && PeriodOfTime<=60) 
+                {
+                    var doanhthu = QuenryBill.Bills
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn))
+                        .Select(listBill => new
+                        {
+                            ThoiGian = listBill.Key,
+                            TongDoanhThu = listBill.Sum(bill => bill.TotalPrice)
+                        })
+                        .ToList();
+                    return doanhthu;
+                }
+                else if(PeriodOfTime > 60 && PeriodOfTime <= 730)
+                {
+                    var doanhthu = QuenryBill.Bills
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .GroupBy(bill => bill.TimeIn.Month)
+                        .Select(listBill => new
+                        {
+                            ThoiGian = listBill.Key,
+                            TongDoanhThu = listBill.Sum(bill => bill.TotalPrice)
+                        })
+                        .ToList();
+                    return doanhthu;
+                }
+                else
+                {
+                    var doanhthu = QuenryBill.Bills
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .GroupBy(bill => bill.TimeIn.Year)
+                        .Select(listBill => new
+                        {
+                            ThoiGian = listBill.Key,
+                            TongDoanhThu = listBill.Sum(bill => bill.TotalPrice)
+                        })
+                        .ToList();
+                    return doanhthu;
+                }
             }
         }
     }

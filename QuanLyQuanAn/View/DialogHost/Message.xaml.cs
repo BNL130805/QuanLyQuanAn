@@ -1,5 +1,4 @@
-﻿using LiveCharts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LiveCharts.Wpf;
 
-namespace QuanLyQuanAn.View.Statistics
+namespace QuanLyQuanAn.View.DialogHost
 {
     /// <summary>
-    /// Interaction logic for Revenue.xaml
+    /// Interaction logic for Message.xaml
     /// </summary>
-    public partial class Revenue : UserControl
+    public partial class Message : UserControl
     {
-        public Revenue()
+        public Message()
         {
             InitializeComponent();
         }
-        
     }
 }

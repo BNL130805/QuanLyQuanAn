@@ -17,9 +17,9 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
     {
         private object _catagoryList;
         private object _currentDiaLogContent;
-
+        private string _message;
         private object _foodList;
-
+        private bool _check;
         public object CurrentDialogContent
         {
             get => _currentDiaLogContent;
@@ -36,15 +36,21 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public ICommand CloseAddFood { get; }
         public ICommand AddFood { get; }
         public ICommand DeleteCommand { get; }
+        public ICommand FalseCm { get; set; }
+        public ICommand TrueCm { get; set; }
 
         public object Title { get => _title; set => _title = value; }
         public object FoodList { get => _foodList; set { _foodList = value; OnPropertyChanged(); } }
 
         public object CatagoryList { get => _catagoryList; set { _catagoryList = value; OnPropertyChanged(); } }
 
+        public string Message { get => _message; set { _message = value;OnPropertyChanged(); } }
+
+        public bool Check { get => _check; set { _check = value;OnPropertyChanged(); } }
+
         public FoodControlVM()
         {
-            ShowAddFoodCommand = new RelayCommand((p) => ShowAddFood(), (p) => true);
+            ShowAddFoodCommand = new RelayCommand(async (p)=> { CurrentDialogContent = new AddFood(); await ShowDialogContent(); }, (p) => true);
             CloseAddFood = new RelayCommand(
                 (p) => CloseDialogHost()
                 ,
@@ -61,15 +67,30 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 (selectedFood) => DeleteFood(selectedFood),
                 (selectedFood) => true // Chỉ kích hoạt nếu món ăn được chọn
             );
-
+            FalseCm = new RelayCommand(
+                p =>
+                {
+                    Check = false;
+                    CloseDialogHost();
+                },
+                p => true
+                );
+            TrueCm = new RelayCommand(
+                p =>
+                {
+                    Check = true;
+                    CloseDialogHost();
+                },
+                p => true
+                );
             FoodList = FoodDataprovider.Food.GetAllFood();
             CatagoryList = CategoryProvider.Category.GetAllCategory();
 
         }
 
-        private async void ShowAddFood()
+        private async Task ShowDialogContent()
         {
-            CurrentDialogContent = new AddFood(); // DialogContent1 là UserControl hoặc nội dung
+             // DialogContent1 là UserControl hoặc nội dung
             await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
         }
 
@@ -78,25 +99,23 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
 
-        private void DeleteFood(Object selectedFood)
+        private async void DeleteFood(Object selectedFood)
         {
             dynamic food = selectedFood as dynamic;
             if (food != null)
             {
                 // Hiển thị hộp thoại xác nhận
-                var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa món ăn {food.name} không?",
-                                             "Xác nhận xóa",
-                                             MessageBoxButton.YesNo,
-                                             MessageBoxImage.Question);
+                Message = $"Bạn có chắc chắn muốn xóa món {food.name} không?";
+                CurrentDialogContent = new MessageYesNo();
+                await ShowDialogContent();
 
-                if (result == MessageBoxResult.Yes)
+                if (Check)
                 {
                     // Gọi phương thức xóa trong DataProvider
                     FoodDataprovider.Food.DeleteFood(food.idFood);
 
                     // Cập nhật lại danh sách món ăn
                     FoodList = FoodDataprovider.Food.GetAllFood();
-                    OnPropertyChanged(nameof(FoodList));
                 }
             }
         }

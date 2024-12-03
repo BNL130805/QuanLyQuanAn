@@ -289,6 +289,12 @@
     <Compile Include="View\DialogHost\ListBillInfShow.xaml.cs">
       <DependentUpon>ListBillInfShow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DialogHost\Message.xaml.cs">
+      <DependentUpon>Message.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogHost\MessageYesNo.xaml.cs">
+      <DependentUpon>MessageYesNo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FoodControl.xaml.cs">
       <DependentUpon>FoodControl.xaml</DependentUpon>
     </Compile>
@@ -380,6 +386,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogHost\ListBillInfShow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogHost\Message.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogHost\MessageYesNo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -494,6 +508,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\LogoutIcon.png" />
+    <Resource Include="Images\BackgroundForLoggin.jpg" />
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
