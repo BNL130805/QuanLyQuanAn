@@ -93,7 +93,8 @@
                             Width="40"
                             Height="40"
                             HorizontalAlignment="Right"
-                            >
+                            Command="{Binding DataContext.DeleteCommand, ElementName=TableControls }"
+                            CommandParameter="{Binding}">
                             
                         <Icon:PackIconMaterial Kind="DeleteOutline"
                                                Style="{StaticResource gridButtonIcon}" />
