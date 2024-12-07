@@ -268,6 +268,7 @@
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\StaffVM.cs" />
+    <Compile Include="ViewModel\StatisticVM\HistoryVM.cs" />
     <Compile Include="ViewModel\StatisticVM\RevenuaVM.cs" />
     <Compile Include="ViewModel\TableControlVM.cs" />
     <Compile Include="ViewModel\TableStaffVM.cs" />

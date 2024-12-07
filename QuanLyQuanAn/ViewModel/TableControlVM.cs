@@ -27,17 +27,8 @@ namespace QuanLyQuanAn.ViewModel
                 OnPropertyChanged();
             }
         }
-        //
-        private ObservableCollection<tableFood> _selectedTables = new ObservableCollection<tableFood>();
-        public ObservableCollection<tableFood> SelectedTables
-        {
-            get => _selectedTables;
-            set
-            {
-                _selectedTables = value;
-                OnPropertyChanged();
-            }
-        }
+        
+        
         private object _title = "xinchao";
 
         public ICommand ShowAddTableCommand { get; }
@@ -85,37 +76,7 @@ namespace QuanLyQuanAn.ViewModel
                     }
                 },
                 (selectedTable) => true);
-            DeleteCommand = new RelayCommand(
-                (p) =>
-                {
-                    if (SelectedTables.Any())
-                    {
-                        var result = MessageBox.Show(
-                            $"Bạn có chắc chắn muốn xóa {SelectedTables.Count} bàn đã chọn không?",
-                            "Xác nhận",
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Question);
-
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            foreach (var table in SelectedTables.ToList())
-                            {
-                                TableProvider.Table.DeleteTable(table.idTable);
-                                ((ObservableCollection<tableFood>)TableList).Remove(table);
-                            }
-
-                            // Xóa danh sách bàn đã chọn sau khi xóa thành công
-                            SelectedTables.Clear();
-                        }
-                    }
-                else
-                {
-                    MessageBox.Show("Vui lòng chọn ít nhất một bàn để xóa!", "Thông báo",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-        },
-        (p) => true
-    );
+            
 
         }
         private async void ShowAddFood()
