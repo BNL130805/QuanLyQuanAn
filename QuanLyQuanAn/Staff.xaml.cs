@@ -30,8 +30,6 @@ namespace QuanLyQuanAn
             WindowState = WindowState.Minimized;
         }
 
-        private bool WindowMaximum = false;
-
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.DataContext is StaffVM VM && VM.IsMaximumWindow == false)

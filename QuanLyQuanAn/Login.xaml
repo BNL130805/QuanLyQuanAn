@@ -9,16 +9,19 @@
         AllowsTransparency="True"
         x:Name="LoginWindow"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
         Title="Login"
         Height="370"
         Width="700"
-        MouseDown="Border_MouseDown">
+        Background="Transparent"
+        MouseDown="Border_MouseDown"
+        Icon="Images/Icon.ico">
     <Window.DataContext>
         <vm:LoginViewModel />
     </Window.DataContext>
-    <Border >
+    <Border CornerRadius="10">
         <Border.Background>
             <ImageBrush ImageSource="Images/BackgroundForLoggin.jpg"></ImageBrush>
         </Border.Background>

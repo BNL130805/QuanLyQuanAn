@@ -84,10 +84,11 @@
                    Style="{StaticResource gridButtonIcon}" />
                     </Button>
                     <Button Margin="0 10 10 0"
-                    Style="{StaticResource gridRemoveButton}"
-                    Width="40"
-                    Height="40"
-                    HorizontalAlignment="Right">
+                            Style="{StaticResource gridRemoveButton}"
+                            Width="40"
+                            Height="40"
+                            Command="{Binding DeleteFoods}"
+                            HorizontalAlignment="Right">
                         <Icon:PackIconMaterial Kind="DeleteOutline"
                            Style="{StaticResource gridButtonIcon}" />
                     </Button>
@@ -105,10 +106,13 @@
                         <DataGridCheckBoxColumn Header="C"
                                         CanUserResize="False"
                                         Width="auto"
+                                        Binding="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
                                         ElementStyle="{StaticResource CheckBoxStyle1}">
                             <DataGridCheckBoxColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <CheckBox Style="{StaticResource CheckBoxStyle1}" />
+                                    <CheckBox Style="{StaticResource CheckBoxStyle1}"
+                                              Command="{Binding DataContext.AllCheckCm, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                              IsChecked="{Binding DataContext.IsAllChecked, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                                 </DataTemplate>
                             </DataGridCheckBoxColumn.HeaderTemplate>
                         </DataGridCheckBoxColumn>
@@ -116,7 +120,7 @@
                                     IsReadOnly="True"
                                     CanUserResize="False"
                                     Width="auto"
-                                    Binding="{Binding idFood}" />
+                                    Binding="{Binding No}" />
                         <DataGridTemplateColumn Header="Tên món ăn"
                                         IsReadOnly="True"
                                         Width="*">
@@ -133,14 +137,14 @@
                                             </Border.Background>
                                         </Border>
 
-                                        <TextBlock Text="{Binding name}"
+                                        <TextBlock Text="{Binding Name}"
                                            VerticalAlignment="Center" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Danh mục"
-                                    Binding="{Binding CategoryName}"
+                                    Binding="{Binding Category}"
                                     IsReadOnly="True"
                                     Width="*" 
                                     />
@@ -151,7 +155,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                                        <TextBlock Text="{Binding price}" Width="45"/>
+                                        <TextBlock Text="{Binding Price, StringFormat=N0}" Width="45"/>
                                         <TextBlock > VNĐ</TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
@@ -163,7 +167,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource gridEditButton}">
+                                        <Button Style="{StaticResource gridEditButton}"
+                                                Command="{Binding DataContext.AdjustFood, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}">
                                             <Icon:PackIconMaterial Kind="PencilOutline"
                                                            Style="{StaticResource gridButtonIcon}" />
                                         </Button>

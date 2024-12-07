@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QuanLyQuanAn.ViewModel.StatisticVM;
+using QuanLyQuanAn.Model;
+using System.Web.UI.WebControls;
 
 namespace QuanLyQuanAn.View.Statistics
 {
@@ -25,40 +28,6 @@ namespace QuanLyQuanAn.View.Statistics
         public FoodStatistics()
         {
             InitializeComponent();
-            foodPieChart.Series = new SeriesCollection
-            {
-                new PieSeries
-                {
-                    Title = "Phở",
-                    Values = new ChartValues<double> { 50 }, // Số lượng món Phở
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Bún bò",
-                    Values = new ChartValues<double> { 40 }, // Số lượng món Bún bò
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Cơm tấm",
-                    Values = new ChartValues<double> { 30 }, // Số lượng món Cơm tấm
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Hủ tiếu",
-                    Values = new ChartValues<double> { 20 }, // Số lượng món Hủ tiếu
-                    DataLabels = true
-                }
-            };
-
-            // Tùy chỉnh hiển thị nhãn trên từng phần của biểu đồ tròn
-            foreach (var series in foodPieChart.Series)
-            {
-                (series as PieSeries).LabelPoint = chartPoint =>
-                    string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
-            }
         }
     }
 }

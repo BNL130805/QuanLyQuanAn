@@ -4,8 +4,7 @@ using System.Linq;
 using System.Data.Entity;
 using QuanLyQuanAn.ViewModel.MenuVM;
 using System.Collections.ObjectModel;
-using System.Runtime.Remoting.Contexts;
-using System.Web;
+using QuanLyQuanAn.ViewModel;
 
 namespace QuanLyQuanAn.Model
 {
@@ -29,11 +28,20 @@ namespace QuanLyQuanAn.Model
 
         }
 
-        public List<Account> GetAccountToLogin(string NameRes, string UserName, string TypeAccount, string Password)
+        public List<dynamic> GetAccountToLogin(string NameRes, string UserName, string TypeAccount, string Password)
         {
             using (var QuenryAccount = new QuanLyQuanAnEntities())
             {
-                return QuenryAccount.Accounts.Where(p =>  p.Username == UserName && p.TypeAccount == TypeAccount && p.Password == Password).ToList();
+                var Account = (from Res in QuenryAccount.Restaurants
+                               join A in QuenryAccount.Accounts
+                               on Res.idRes equals A.idRes
+                               where (Res.RestaurantName == NameRes && A.Username == UserName && A.TypeAccount == TypeAccount && A.Password == Password)
+                               select new
+                               {
+                                   A.idAccout
+                               })
+                              .ToList<dynamic>();
+                return Account;
             }
         }
         public List<Account> GetAccountById(int Id)
@@ -47,7 +55,6 @@ namespace QuanLyQuanAn.Model
     public class CategoryProvider
     {
         private static CategoryProvider _category;
-
         public static CategoryProvider Category { 
             get
             {
@@ -61,7 +68,6 @@ namespace QuanLyQuanAn.Model
         private CategoryProvider()
         {
         }
-
         public List<foodCategory> GetAllCategory()
         {
             using (QuanLyQuanAnEntities quenryCategory = new QuanLyQuanAnEntities())
@@ -69,7 +75,6 @@ namespace QuanLyQuanAn.Model
                 return quenryCategory.foodCategories.ToList();
             }
         }
-
         public bool DeleteCategory(int idFoodCtg)
         {
             using (var dbContext = new QuanLyQuanAnEntities())
@@ -98,6 +103,44 @@ namespace QuanLyQuanAn.Model
                 return false;
             }
         }
+
+        public bool AddCategory(CatagoryShow categoryAdd)
+        {
+            using(var QuenryCategory = new QuanLyQuanAnEntities())
+            {
+                if(QuenryCategory.foodCategories.Any(p=> p.name == categoryAdd.Name && p.idFoodCtg != categoryAdd.ID))
+                {
+                    return false;
+                }
+                else
+                {
+                    if (categoryAdd.ID == 0)
+                    {
+                        var category = (from CA in QuenryCategory.CurrentSessions
+                                        join A in QuenryCategory.Accounts
+                                        on CA.idAccount equals A.idAccout
+                                        select new
+                                        {
+                                            A.idRes
+                                        }
+                                        ).ToList().Select(p => new foodCategory
+                                        {
+                                            idRes = p.idRes,
+                                            name = categoryAdd.Name
+                                        }).First();
+                        QuenryCategory.foodCategories.Add(category);
+                        QuenryCategory.SaveChanges();
+                    }
+                    else
+                    {
+                        var category = QuenryCategory.foodCategories.FirstOrDefault(p => p.idFoodCtg == categoryAdd.ID);
+                        category.name = categoryAdd.Name;
+                        QuenryCategory.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+        }
     }
     public class FoodDataprovider
     {
@@ -117,20 +160,23 @@ namespace QuanLyQuanAn.Model
         }
 
         private FoodDataprovider() { }
-        public object GetAllFood()
+        public List<dynamic> GetAllFood()
         {
             using (var FoodQuenry = new QuanLyQuanAnEntities())
             {
                 var Food = (from foods in FoodQuenry.foods
                             join categories in FoodQuenry.foodCategories on foods.idFoodCtg equals categories.idFoodCtg
+                            orderby categories.idFoodCtg
                             select new
                             {
                                 foods.idFood,
                                 foods.name,
                                 foods.FoodImage,
                                 foods.price,
+                                foods.idFoodCtg,
                                 CategoryName = categories.name
-                            }).ToList();
+                            }
+                            ).ToList<dynamic>();
                 return Food;
             }
         }
@@ -158,11 +204,53 @@ namespace QuanLyQuanAn.Model
                 }
             }
         }
+        public bool AddFood(FoodShow foodshow)
+        {
+            using (var QuenryFood = new QuanLyQuanAnEntities())
+            {
+                if (QuenryFood.foods.Any(p => p.name == foodshow.Name && p.idFood != foodshow.Id))
+                {
+                    return false;
+                }
+                else
+                {
+                    if(foodshow.Id == 0)
+                    { 
+                        var food = (from CA in QuenryFood.CurrentSessions
+                                    join A in QuenryFood.Accounts
+                                    on CA.idAccount equals A.idAccout
+                                    select new
+                                    {
+                                        A.idRes
+                                    }
+                                            ).ToList().Select(p => new food
+                                            {
+                                                idRes = p.idRes,
+                                                idFoodCtg = (int)foodshow.IdCategory,
+                                                FoodImage = foodshow.FoodImage,
+                                                name = foodshow.Name,
+                                                price = foodshow.Price
+                                            }).First();
+                        QuenryFood.foods.Add(food);
+                        QuenryFood.SaveChanges();
+                    }
+                    else
+                    {
+                        var food = QuenryFood.foods.FirstOrDefault(p=> p.idFood ==  foodshow.Id);
+                        food.price = foodshow.Price;
+                        food.name = foodshow.Name;
+                        food.FoodImage = foodshow.FoodImage;
+                        food.idFoodCtg = foodshow.IdCategory;
+                        QuenryFood.SaveChanges();
+                    }    
+                    return true;
+                }
+            }
+        }
     }
     public class TableProvider
     {
         private static TableProvider _table;
-
         public static TableProvider Table
         {
             get
@@ -175,7 +263,6 @@ namespace QuanLyQuanAn.Model
             }
             private set => _table = value;
         }
-
         private TableProvider() { }
         public List<tableFood> GetAllTableByName(string name)
         {
@@ -191,7 +278,6 @@ namespace QuanLyQuanAn.Model
                 return TableQuenry.tableFoods.ToList();
             }
         }
-
         public object GetTableByStatus(string status)
         {
             using(var TableQuenry = new QuanLyQuanAnEntities())
@@ -200,7 +286,6 @@ namespace QuanLyQuanAn.Model
                 return table;
             }
         }
-
         public void DeleteTable(int idTable)
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())
@@ -209,38 +294,13 @@ namespace QuanLyQuanAn.Model
                                                .FirstOrDefault(table => table.idTable == idTable);
                 if (tableToDelete != null)
                 {
+                    TableQuenry.Bills.RemoveRange(TableQuenry.Bills.Where(p => p.idTable == idTable));
+                    TableQuenry.SaveChanges();
                     TableQuenry.tableFoods.Remove(tableToDelete);
-
                     TableQuenry.SaveChanges();
                 }
-                else
-                {
-                    Console.WriteLine("Tên bàn không tồn tại");
-                }
             }
         }
-
-        public void DeleteTables(List<int> idTables)
-        {
-            using (var TableQuery = new QuanLyQuanAnEntities())
-            {
-                var tablesToDelete = TableQuery.tableFoods
-                                                .Where(table => idTables.Contains(table.idTable))
-                                                .ToList();
-
-                if (tablesToDelete.Any())
-                {
-                    TableQuery.tableFoods.RemoveRange(tablesToDelete);
-                    TableQuery.SaveChanges();
-                }
-                else
-                {
-                    Console.WriteLine("Không có bàn nào tồn tại để xóa.");
-                }
-            }
-        }
-
-
         public object GetAllStatusTable()
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())
@@ -248,6 +308,44 @@ namespace QuanLyQuanAn.Model
                 var Status = (from status in TableQuenry.tableFoods
                              select new { status.status }).Distinct().ToList();
                 return Status;
+            }
+        }
+        public bool AddTable(TableShow tableshow)
+        {
+            using (var QuenryTable = new QuanLyQuanAnEntities())
+            {
+                if (QuenryTable.tableFoods.Any(p => p.tableName == tableshow.Name && p.idTable != tableshow.IdTable))
+                {
+                    return false;
+                }
+                else
+                {
+                    if (tableshow.IdTable == 0)
+                    {
+                        var table = (from CA in QuenryTable.CurrentSessions
+                                        join A in QuenryTable.Accounts
+                                        on CA.idAccount equals A.idAccout
+                                        select new
+                                        {
+                                            A.idRes
+                                        }
+                                        ).ToList().Select(p => new tableFood
+                                        {
+                                            idRes = p.idRes,
+                                            status = "trống",
+                                            tableName = tableshow.Name,
+                                        }).First();
+                        QuenryTable.tableFoods.Add(table);
+                        QuenryTable.SaveChanges();
+                    }
+                    else
+                    {
+                        var table = QuenryTable.tableFoods.FirstOrDefault(p => p.idTable == tableshow.IdTable);
+                        table.tableName = tableshow.Name;
+                        QuenryTable.SaveChanges();
+                    }
+                    return true;
+                }
             }
         }
     }
@@ -280,14 +378,12 @@ namespace QuanLyQuanAn.Model
                                 .ToList();
             }
         }
-
-        public void DeleteHuman(string Username, string TypeAccount)
+        public void DeleteHuman(int idaccount)
         {
             using (var hmContext = new QuanLyQuanAnEntities())
             {
                 var accountToDelete = hmContext.Accounts
-                                               .FirstOrDefault(account => account.Username == Username && account.TypeAccount == TypeAccount);
-
+                                               .FirstOrDefault(account => account.idAccout == idaccount );
                 // Kiểm tra nếu tài khoản tồn tại
                 if (accountToDelete != null)
                 {
@@ -297,15 +393,60 @@ namespace QuanLyQuanAn.Model
                     // Lưu thay đổi vào cơ sở dữ liệu
                     hmContext.SaveChanges();
                 }
-                else
-                {
-                    // Nếu không tìm thấy tài khoản, có thể ghi log hoặc thông báo lỗi
-                    Console.WriteLine("Tài khoản không tồn tại.");
-                }
             }
 
         }
-        
+        public bool AddHuman(HumanShow humanshow)
+        {
+            
+            using (var QuenryHuman = new QuanLyQuanAnEntities())
+            {
+                var idRes = (from CA in QuenryHuman.CurrentSessions
+                             join A in QuenryHuman.Accounts
+                             on CA.idAccount equals A.idAccout
+                             select new
+                             {
+                                 A.idRes
+                             }).First();
+                if (QuenryHuman.Accounts.Any(p => p.Username == humanshow.Name && p.idRes == idRes.idRes && p.idAccout != humanshow.IdAccount))
+                {
+                    return false;
+                }
+                else
+                {
+                    if (humanshow.IdAccount == 0)
+                    {
+                        var human = (from CA in QuenryHuman.CurrentSessions
+                                     join A in QuenryHuman.Accounts
+                                     on CA.idAccount equals A.idAccout
+                                     select new
+                                     {
+                                         A.idRes
+                                     }
+                                        ).ToList().Select(p => new Account
+                                        {
+                                            idRes = p.idRes,
+                                            Username = humanshow.Name,
+                                            Password = humanshow.Password,
+                                            TypeAccount = humanshow.TypeAccout,
+                                        }).First();
+                        QuenryHuman.Accounts.Add(human);
+                        QuenryHuman.SaveChanges();
+                    }
+                    else
+                    {
+                        var human = QuenryHuman.Accounts.FirstOrDefault(p => p.idAccout == humanshow.IdAccount);
+                        human.Username = humanshow.Name;
+                        human.Password = humanshow.Password;
+                        human.TypeAccount = humanshow.TypeAccout;
+                        QuenryHuman.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+        }
+
+
     }
     public class BillDataprovider
     {
@@ -379,90 +520,6 @@ namespace QuanLyQuanAn.Model
                 tableFood currentTable = TableProvider.Table.GetAllTableByName(table)[0];
                 var bill = QuenryBill.Bills.Where(p => p.idTable == currentTable.idTable && p.status == "Chưa thanh toán").ToList()[0];
                 return bill;
-            }
-        }
-        public object GetBillInToday()
-        {
-            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
-            {
-                var today = DateTime.Today;
-                var tomorrow = today.AddDays(1);
-
-                var doanhThuHomNay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= today && bill.TimeIn < tomorrow && bill.status == "Đã thanh toán") // So sánh phạm vi
-                    .GroupBy(bill => bill.TimeIn.Hour)
-                    .Select(group => new
-                    {
-                        Gio = group.Key,
-                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
-                    })
-                    .OrderBy(item => item.Gio)
-                    .ToList();
-
-                return doanhThuHomNay;
-            }
-        }
-
-        public object GetBillInLatest7Day()
-        {
-            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
-            {
-                var past7Days = DateTime.Today.AddDays(-7);
-                var today = DateTime.Today;
-                var endOfToday = today.AddDays(1).AddTicks(-1); // Đến 23:59:59 của ngày hôm nay
-
-                var doanhThu7Ngay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= past7Days && bill.TimeIn <= endOfToday && bill.status == "Đã thanh toán")  // So sánh với phạm vi thời gian
-                    .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn)) // Sử dụng DbFunctions.TruncateTime để loại bỏ giờ
-                    .Select(group => new
-                    {
-                        Ngay = group.Key, // Trả về ngày (không có giờ)
-                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
-                    })
-                    .OrderBy(item => item.Ngay)
-                    .ToList();
-
-                return doanhThu7Ngay;
-            }
-        }
-        public object GetBillInThisMonth()
-        {
-            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
-            {
-                var firstDayOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-                var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1); // Cuối tháng
-
-                var doanhThuThangNay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= firstDayOfMonth && bill.TimeIn <= lastDayOfMonth && bill.status == "Đã thanh toán")
-                    .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn)) // Sử dụng DbFunctions.TruncateTime để loại bỏ giờ
-                    .Select(group => new
-                    {
-                        Ngay = group.Key, // Trả về ngày mà không có giờ
-                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
-                    })
-                    .OrderBy(item => item.Ngay)
-                    .ToList();
-
-                return doanhThuThangNay;
-            }
-        }
-        public object GetBillThisYear()
-        {
-            using (QuanLyQuanAnEntities quenryBill = new QuanLyQuanAnEntities())
-            {
-                var firstDayOfYear = new DateTime(DateTime.Today.Year, 1, 1);
-                var doanhThuNamNay = quenryBill.Bills
-                    .Where(bill => bill.TimeIn >= firstDayOfYear && bill.status == "Đã thanh toán")
-                    .GroupBy(bill => bill.TimeIn.Month)
-                    .Select(group => new
-                    {
-                        Thang = group.Key,
-                        TongDoanhThu = group.Sum(bill => bill.TotalPrice)
-                    })
-                    .OrderBy(item => item.Thang)
-                    .ToList();
-
-                return doanhThuNamNay;
             }
         }
         public object GetBillByDate(DateTime Begin, DateTime End)
@@ -637,6 +694,35 @@ namespace QuanLyQuanAn.Model
                     listBill[i].No = i + 1;
                 }
                 return listBill;
+            }
+        }
+        public List<dynamic> GetBillInfByDate(DateTime Begin, DateTime End)
+        {
+            using (var QuenryBillInf = new QuanLyQuanAnEntities())
+            {
+                var listBillWithIdFood = (from b in QuenryBillInf.Bills
+                                join bi in QuenryBillInf.BillInfs
+                                on b.idBill equals bi.idBill
+                                where (b.TimeIn >= Begin && b.TimeIn <= End)
+                                select new
+                                {
+                                    bi.idFood,
+                                    bi.count
+                                }).ToList();
+                var listBill = (from list in listBillWithIdFood
+                                join f in QuenryBillInf.foods
+                                on list.idFood equals f.idFood
+                                select new
+                                {
+                                    list.count,
+                                    f.name
+                                }).ToList();
+                return listBill.GroupBy(p=> p.name)
+                    .Select(p => new
+                    {
+                        FoodName = p.Key,
+                        Count = p.Sum(bi => bi.count)
+                    }).ToList<dynamic>();
             }
         }
     }

@@ -1,23 +1,27 @@
 ﻿using MaterialDesignThemes.Wpf;
 using QuanLyQuanAn.Model;
 using QuanLyQuanAn.View.DialogHost;
+using QuanLyQuanAn.ViewModel.MenuVM;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace QuanLyQuanAn.ViewModel
 {
     internal class TableControlVM : BaseViewModel
     {
         private object _currentDialogContent;
-
-        private object _tableList;
-
+        private ObservableCollection<TableShow> _tableList;
+        private bool _check;
+        private bool _isAllChecked;
+        private string _message;
+        private TableShow _tableReadyToAdd;
+        public string TypeAdd { get; set; }
         public object CurrentDialogContent
         {
             get => _currentDialogContent;
@@ -27,100 +31,172 @@ namespace QuanLyQuanAn.ViewModel
                 OnPropertyChanged();
             }
         }
-        //
-        private ObservableCollection<tableFood> _selectedTables = new ObservableCollection<tableFood>();
-        public ObservableCollection<tableFood> SelectedTables
-        {
-            get => _selectedTables;
-            set
-            {
-                _selectedTables = value;
-                OnPropertyChanged();
-            }
-        }
-        private object _title = "xinchao";
 
         public ICommand ShowAddTableCommand { get; }
         public ICommand CloseAddTable { get; }
         public ICommand AddTable { get; }
         public ICommand DeleteCommand { get; }
-        public object Title { get => _title; set => _title = value; }
-        public object TableList { get => _tableList; set { _tableList = value; OnPropertyChanged(); } }
+        public ICommand AllCheckCm { get; set; }
+        public ICommand DeleteTables { get; }
+        public ICommand FalseCm { get; set; }
+        public ICommand TrueCm { get; set; }
+        public ICommand AdjustTable { get; set; }
+        public ObservableCollection<TableShow> TableList { get => _tableList; set { _tableList = value; OnPropertyChanged(); } }
+        public string Message { get => _message; set { _message = value; OnPropertyChanged(); } }
+        public bool IsAllChecked { get => _isAllChecked; set { _isAllChecked = value; OnPropertyChanged(); } }
+        public bool Check { get => _check; set { _check = value; OnPropertyChanged(); } }
+
+        public TableShow TableReadyToAdd {
+            get 
+            {
+                if (_tableReadyToAdd == null)
+                {
+                    _tableReadyToAdd = new TableShow();
+                }
+                return _tableReadyToAdd;
+            } 
+            set { _tableReadyToAdd = value; OnPropertyChanged(); } }
 
         public TableControlVM()
         {
-            ShowAddTableCommand = new RelayCommand((p) => ShowAddFood(), (p) => true);
+            ShowAddTableCommand = new RelayCommand(
+                async (p) =>
+                {
+                    TypeAdd = "Thêm";
+                    CurrentDialogContent = new AddTable(); // DialogContent1 là UserControl hoặc nội dung
+                    await ShowDialogContent();
+                },
+                (p) => true);
             CloseAddTable = new RelayCommand(
-                (p) => CloseDialogHost()
-                ,
-                (p) => true
-                );
-            AddTable = new RelayCommand(
                 (p) =>
                 {
                     CloseDialogHost();
                 },
                 (p) => true
                 );
-            TableList = TableProvider.Table.GetAllTable();
-
-            TableList = new ObservableCollection<tableFood>(TableProvider.Table.GetAllTable());
-
+            AddTable = new RelayCommand(
+                async (p) =>
+                {
+                    if (!TableProvider.Table.AddTable(TableReadyToAdd))
+                    {
+                        var addCatagory = CurrentDialogContent;
+                        Message = $"Đã có bàn {TableReadyToAdd.Name}!";
+                        CurrentDialogContent = new Message();
+                        CloseDialogHost();
+                        await ShowDialogContent();
+                        CurrentDialogContent = addCatagory;
+                        await ShowDialogContent();
+                    }
+                    else
+                    {
+                        if (TableReadyToAdd.IdTable == 0)
+                        {
+                            Message = $"Thêm thành công {TableReadyToAdd.Name}!";
+                        }
+                        else
+                        {
+                            Message = $"Đã sửa bàn {TableReadyToAdd.Name}";
+                        }
+                        CurrentDialogContent = new Message();
+                        CloseDialogHost();
+                        await ShowDialogContent();
+                        LoadTable();
+                        TableReadyToAdd = null;
+                    }
+                },
+                (p) => (TableReadyToAdd.Name != null && TableReadyToAdd.Name != "")
+                );
+            FalseCm = new RelayCommand(
+                p =>
+                {
+                    Check = false;
+                    CloseDialogHost();
+                },
+                p => true
+                );
+            TrueCm = new RelayCommand(
+                p =>
+                {
+                    Check = true;
+                    CloseDialogHost();
+                },
+                p => true
+                );
             // Khởi tạo lệnh xóa
             DeleteCommand = new RelayCommand(
-                (selectedTable) =>
+                async (selectedTable) =>
                 {
-                    if (selectedTable is tableFood table)
+                    if (selectedTable is TableShow table)
                     {
-                        var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa bàn ăn {table.tableName} không?",
-                                                    "Xác nhận",
-                                                    MessageBoxButton.YesNo,
-                                                    MessageBoxImage.Question);
+                        Message = $"Bạn có chắc chắn muốn xóa bàn {table.Name} không?";
+                        CurrentDialogContent = new MessageYesNo();
+                        await ShowDialogContent();
 
-                        if (result == MessageBoxResult.Yes)
+                        if (Check)
                         {
-                            TableProvider.Table.DeleteTable(table.idTable);
-                            ((ObservableCollection<tableFood>)TableList).Remove(table);
+                            TableProvider.Table.DeleteTable(table.IdTable);
+                            LoadTable();
                         }
                     }
                 },
                 (selectedTable) => true);
-            DeleteCommand = new RelayCommand(
-                (p) =>
+            DeleteTables = new RelayCommand(
+                async(p)=>
                 {
-                    if (SelectedTables.Any())
+                    var DeleteList = TableList.Where(l => l.IsChecked == true).ToList();
+                    Message = $"Bạn có chắc chắn muốn xóa {DeleteList.Count} bàn này không?";
+                    CurrentDialogContent = new MessageYesNo();
+                    await ShowDialogContent();
+                    if (Check == true)
                     {
-                        var result = MessageBox.Show(
-                            $"Bạn có chắc chắn muốn xóa {SelectedTables.Count} bàn đã chọn không?",
-                            "Xác nhận",
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Question);
-
-                        if (result == MessageBoxResult.Yes)
+                        foreach (var table in DeleteList)
                         {
-                            foreach (var table in SelectedTables.ToList())
-                            {
-                                TableProvider.Table.DeleteTable(table.idTable);
-                                ((ObservableCollection<tableFood>)TableList).Remove(table);
-                            }
-
-                            // Xóa danh sách bàn đã chọn sau khi xóa thành công
-                            SelectedTables.Clear();
+                            TableProvider.Table.DeleteTable(table.IdTable);
+                        }
+                        LoadTable();
+                        IsAllChecked = false;
+                    }
+                }
+                ,
+                p=> TableList.Any(t=> t.IsChecked));
+            AllCheckCm = new RelayCommand(
+                p =>
+                {
+                    if (IsAllChecked == true)
+                    {
+                        foreach (var table in TableList)
+                        {
+                            table.IsChecked = true;
                         }
                     }
-                else
+                    else
+                    {
+                        foreach (var table in TableList)
+                        {
+                            table.IsChecked = false;
+                        }
+                    }
+                },
+                p => true
+                );
+            AdjustTable = new RelayCommand(
+                async(p)=>
                 {
-                    MessageBox.Show("Vui lòng chọn ít nhất một bàn để xóa!", "Thông báo",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                    if (p is TableShow table)
+                    {
+                        TableReadyToAdd = table;
+                        TypeAdd = "Sửa";
+                        CurrentDialogContent = new AddTable();
+                        await ShowDialogContent();
+                    }
                 }
-        },
-        (p) => true
-    );
+                ,
+                p=>true);
+            LoadTable();
 
         }
-        private async void ShowAddFood()
+        private async Task ShowDialogContent()
         {
-            CurrentDialogContent = new AddTable(); // DialogContent1 là UserControl hoặc nội dung
             await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
         }
 
@@ -128,6 +204,40 @@ namespace QuanLyQuanAn.ViewModel
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
+        private void LoadTable()
+        {
+            TableList = new ObservableCollection<TableShow>(TableProvider.Table.GetAllTable().Select(
+                P =>
+                new TableShow
+                {
+                    IdTable = P.idTable,
+                    Name = P.tableName,
+                    IsChecked = false,
+                    Status = P.status
+                }));
+            for (int i = 0; i < TableList.Count; i++) {
+                TableList[i].No = i + 1;
+                TableList[i].CountChecked += ConfirmCheckAll;
+            }
+        }
+        private void ConfirmCheckAll()
+        {
+            IsAllChecked = !TableList.Any(p => p.IsChecked == false);
+        }
+    }
+    public class TableShow:BaseViewModel
+    {
+        private int _no;
+        private int _idTable;
+        private bool _isChecked;
+        private string _name;
+        private string _status;
+        public int No { get => _no; set { _no = value; OnPropertyChanged(); } }
+        public int IdTable { get => _idTable; set { _idTable = value; OnPropertyChanged(); } }
+        public bool IsChecked { get => _isChecked; set { _isChecked = value; OnPropertyChanged(); CountChecked?.Invoke(); } }
+        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+        public string Status { get => _status; set { _status = value; OnPropertyChanged(); } }
 
+        public event Action CountChecked;
     }
 }

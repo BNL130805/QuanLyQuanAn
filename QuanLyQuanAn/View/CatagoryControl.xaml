@@ -85,6 +85,7 @@
                             Style="{StaticResource gridRemoveButton}"
                             Width="40"
                             Height="40"
+                            Command="{Binding DeleteCatagories}"
                             HorizontalAlignment="Right">
                         <Icon:PackIconMaterial Kind="DeleteOutline"
                            Style="{StaticResource gridButtonIcon}" />
@@ -102,11 +103,14 @@
                         <DataGridCheckBoxColumn Header="C"
                                                 CanUserResize="False"
                                                 Width="auto"
+                                                Binding="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"                                               
                                                 ElementStyle="{DynamicResource CheckBoxStyle1}"
                                                 >
                             <DataGridCheckBoxColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <CheckBox Style="{DynamicResource CheckBoxStyle1}" />
+                                    <CheckBox Style="{DynamicResource CheckBoxStyle1}"
+                                              Command="{Binding DataContext.AllCheckCm, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    IsChecked="{Binding DataContext.IsAllChecked, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataTemplate>
                             </DataGridCheckBoxColumn.HeaderTemplate>
                         </DataGridCheckBoxColumn>
@@ -114,14 +118,14 @@
                                             IsReadOnly="True"
                                             CanUserResize="False"
                                             Width="auto"
-                                            Binding="{Binding idFoodCtg}" />
+                                            Binding="{Binding No}" />
                         <DataGridTemplateColumn Header="Tên thể loại"
                                                 IsReadOnly="True"
                                                 Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding name}"
+                                        <TextBlock Text="{Binding Name}"
                                                    VerticalAlignment="Center" />
                                     </StackPanel>
                                 </DataTemplate>
@@ -133,7 +137,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource gridEditButton}">
+                                        <Button Style="{StaticResource gridEditButton}"
+                                                Command="{Binding DataContext.AdjustCategory, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}">
                                             <Icon:PackIconMaterial Kind="PencilOutline"
                                                                    Style="{StaticResource gridButtonIcon}" />
                                         </Button>
