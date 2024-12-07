@@ -257,9 +257,6 @@
     <Compile Include="ViewModel\cHumanResoucesVM.cs" />
     <Compile Include="ViewModel\cMenuVM.cs" />
     <Compile Include="ViewModel\cStatisticVM.cs" />
-    <Compile Include="ViewModel\HumanResourceVM\ChefControlVM.cs" />
-    <Compile Include="ViewModel\HumanResourceVM\ManagerControlVM.cs" />
-    <Compile Include="ViewModel\HumanResourceVM\StaffControlVM.cs" />
     <Compile Include="ViewModel\MenuVM\CatagoryControlVM.cs" />
     <Compile Include="ViewModel\Converter Radiobutton.cs" />
     <Compile Include="ViewModel\MenuVM\FoodControlVM.cs" />
@@ -268,12 +265,16 @@
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\StaffVM.cs" />
+    <Compile Include="ViewModel\StatisticVM\FoodStatisticsVM.cs" />
     <Compile Include="ViewModel\StatisticVM\HistoryVM.cs" />
     <Compile Include="ViewModel\StatisticVM\RevenuaVM.cs" />
     <Compile Include="ViewModel\TableControlVM.cs" />
     <Compile Include="ViewModel\TableStaffVM.cs" />
     <Compile Include="View\CatagoryControl.xaml.cs">
       <DependentUpon>CatagoryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogHost\AddAccount.xaml.cs">
+      <DependentUpon>AddAccount.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogHost\AddCatagory.xaml.cs">
       <DependentUpon>AddCatagory.xaml</DependentUpon>
@@ -299,17 +300,11 @@
     <Compile Include="View\FoodControl.xaml.cs">
       <DependentUpon>FoodControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HumanResouce\ChefControl.xaml.cs">
-      <DependentUpon>ChefControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\HumanResouce\StaffControl.xaml.cs">
-      <DependentUpon>StaffControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\HumanResources.xaml.cs">
       <DependentUpon>HumanResources.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HumanResouce\ManagerControl.xaml.cs">
-      <DependentUpon>ManagerControl.xaml</DependentUpon>
+    <Compile Include="View\HumanResouce\LoadHuman.xaml.cs">
+      <DependentUpon>LoadHuman.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
@@ -370,6 +365,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DialogHost\AddAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DialogHost\AddCatagory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -402,19 +401,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\HumanResouce\ChefControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\HumanResouce\StaffControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\HumanResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\HumanResouce\ManagerControl.xaml">
+    <Page Include="View\HumanResouce\LoadHuman.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -510,6 +501,7 @@
   <ItemGroup>
     <Resource Include="Images\LogoutIcon.png" />
     <Resource Include="Images\BackgroundForLoggin.jpg" />
+    <Resource Include="Images\Icon.ico" />
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

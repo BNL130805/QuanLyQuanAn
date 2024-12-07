@@ -16,6 +16,7 @@
     AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"
+    Icon="Images/Icon.ico"
     mc:Ignorable="d">
     <Window.DataContext>
         <vm:AdminVM />

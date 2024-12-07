@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QuanLyQuanAn.View.HumanResouce
+namespace QuanLyQuanAn.View.DialogHost
 {
     /// <summary>
-    /// Interaction logic for ChefControl.xaml
+    /// Interaction logic for AddAccount.xaml
     /// </summary>
-    public partial class ChefControl : UserControl
+    public partial class AddAccount : UserControl
     {
-        public ChefControl()
+        public AddAccount()
         {
             InitializeComponent();
-            
         }
     }
 }

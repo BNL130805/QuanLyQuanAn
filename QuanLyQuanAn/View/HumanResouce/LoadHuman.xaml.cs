@@ -17,16 +17,14 @@ using System.Windows.Shapes;
 namespace QuanLyQuanAn.View.HumanResouce
 {
     /// <summary>
-    /// Interaction logic for StaffControl.xaml
+    /// Interaction logic for ManagerControl.xaml
     /// </summary>
-    public partial class StaffControl : UserControl
+    public partial class LoadHuman : UserControl
     {
-        public StaffControl()
+        public LoadHuman()
         {
             InitializeComponent();
-            
+           
         }
-        
-        
     }
 }

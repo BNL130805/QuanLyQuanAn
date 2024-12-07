@@ -15,6 +15,7 @@
     MinWidth="1100"
     MinHeight="555"
     AllowsTransparency="True"
+    Icon="Images/Icon.ico"
     Background="Transparent"
     WindowStyle="None"
     mc:Ignorable="d">

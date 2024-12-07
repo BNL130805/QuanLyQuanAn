@@ -5,9 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLyQuanAn.View.DialogHost"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:QuanLyQuanAn.ViewModel.MenuVM"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:ByteToImageConverter x:Key="ByteToImageConverter" />
+        <vm:IntToString x:Key="PriceToString" />
+        <vm:CategoryToId x:Key="CategoryToId" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -27,6 +34,7 @@
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  Grid.Column="1"
                  Grid.Row="0" HorizontalAlignment="Left"
+                 Text="{Binding FoodReadyToAdd.Name, UpdateSourceTrigger=PropertyChanged}"
                  VerticalAlignment="Center" Height="50" Width="250"
                  FontSize="12" Margin="10 10 10 10"/>
         <TextBlock
@@ -35,15 +43,21 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             FontSize="15" Margin="10 10 10 10">Thêm hình ảnh:</TextBlock>
-        <Image Source="/Images/EmptyImage.png"
-               Grid.Row="1"
-               Grid.Column="1"
-               Width="200"
-               Height="200"></Image>
+        <Border Width="200"
+                Height="200"
+                Grid.Column="1"
+                Grid.Row="1"
+                Margin="0 0 10 0">
+            <Border.Background>
+                <ImageBrush ImageSource="{Binding FoodReadyToAdd.FoodImage, Converter={StaticResource ByteToImageConverter}}" />
+            </Border.Background>
+        </Border>
+        
         <Button Grid.Row="1"
                 Grid.Column="1"
                 Width="25"
                 Height="25"
+                Command="{Binding OpenImageCm}"
                 HorizontalAlignment="Left"
                 >
             <materialDesign:PackIcon Kind="Plus" Foreground="White" Margin="-10 -7 -7 -10"/>
@@ -57,7 +71,9 @@
                   Grid.Column="1"
                   Width="250"
                   Margin="-15 0 0 0"
+                  SelectedItem="{Binding FoodReadyToAdd.IdCategory, Converter={StaticResource CategoryToId}, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding CatagoryList}"
+                  Text="{Binding FoodReadyToAdd.Category}"
                   DisplayMemberPath="name">
         </ComboBox>
         <TextBlock Grid.Row="3"
@@ -78,6 +94,7 @@
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                 Margin="0 -20 0 0"
                 Height="50"
+                Text="{Binding FoodReadyToAdd.Price, Converter={StaticResource PriceToString}, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}"
                 Width="200"/>
             <TextBlock VerticalAlignment="Center" Margin="10 20 0 10" Grid.Column="1">VNĐ</TextBlock>
         </Grid>
@@ -85,8 +102,9 @@
                 Width="300"
                 Grid.Row="4"
                 Margin="10"
+                Content="{Binding TypeAdd}"
                 Grid.ColumnSpan="2"
-                Command="{Binding AddFood}">Thêm</Button>
+                Command="{Binding AddFood}"></Button>
         <Button FontSize="14"
                 Width="300"
                 Grid.Row="5"
