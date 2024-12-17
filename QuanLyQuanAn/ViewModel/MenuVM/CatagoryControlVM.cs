@@ -19,6 +19,30 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         private bool _check;
         private bool _isAllChecked;
         private CatagoryShow _categoryReadyAdd;
+        //thêm
+        private string _searchKeyword;
+        public string SearchKeyword
+        {
+            get => _searchKeyword;
+            set
+            {
+                _searchKeyword = value;
+                OnPropertyChanged();
+                FilterCategoryList(); // Gọi hàm lọc danh sách mỗi khi từ khóa thay đổi
+            }
+        }
+
+        private ObservableCollection<CatagoryShow> _filteredCategoryList;
+        public ObservableCollection<CatagoryShow> FilteredCategoryList
+        {
+            get => _filteredCategoryList;
+            set
+            {
+                _filteredCategoryList = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string TypeAdd { get; set; }
         public object CurrentDialogContent
         {
@@ -241,17 +265,47 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         }
         private void LoadCategory()
         {
-            CategoryList = new ObservableCollection<CatagoryShow>(CategoryProvider.Category.GetAllCategory().Select(p => new CatagoryShow { ID = p.idFoodCtg, IsChecked = false, Name = p.name}));
+            var categories = CategoryProvider.Category.GetAllCategory();
+            CategoryList = new ObservableCollection<CatagoryShow>(categories.Select(category => new CatagoryShow
+            {
+                ID = category.idFoodCtg,
+                Name = category.name,
+                IsChecked = false
+            }));
+
+            // Khởi tạo danh sách lọc
+            FilteredCategoryList = new ObservableCollection<CatagoryShow>(CategoryList);
+
+            // Cập nhật số thứ tự và sự kiện kiểm tra
             for (int i = 0; i < CategoryList?.Count; i++)
             {
                 CategoryList[i].No = i + 1;
                 CategoryList[i].CountChecked += ConfirmCheckAll;
             }
         }
+
         private void ConfirmCheckAll()
         {
             IsAllChecked = !CategoryList.Any(p => p.IsChecked == false);
         }
+        //thêm
+        private void FilterCategoryList()
+        {
+            if (string.IsNullOrWhiteSpace(SearchKeyword))
+            {
+                // Hiển thị toàn bộ danh mục nếu không có từ khóa
+                FilteredCategoryList = new ObservableCollection<CatagoryShow>(CategoryList);
+            }
+            else
+            {
+                // Lọc danh mục dựa trên từ khóa tìm kiếm (không phân biệt chữ hoa/chữ thường)
+                var filtered = CategoryList.Where(c =>
+                    c.Name.IndexOf(SearchKeyword, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                FilteredCategoryList = new ObservableCollection<CatagoryShow>(filtered);
+            }
+        }
+
 
     }
     public class CatagoryShow:BaseViewModel

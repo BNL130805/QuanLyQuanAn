@@ -21,6 +21,29 @@ namespace QuanLyQuanAn.ViewModel
         private bool _isAllChecked;
         private string _message;
         private TableShow _tableReadyToAdd;
+        //thêm
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged();
+                FilterTableList(); // Gọi hàm lọc danh sách mỗi khi từ khóa thay đổi
+            }
+        }
+        private ObservableCollection<TableShow> _filteredTableList;
+        public ObservableCollection<TableShow> FilteredTableList
+        {
+            get => _filteredTableList;
+            set
+            {
+                _filteredTableList = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string TypeAdd { get; set; }
         public object CurrentDialogContent
         {
@@ -215,6 +238,9 @@ namespace QuanLyQuanAn.ViewModel
                     IsChecked = false,
                     Status = P.status
                 }));
+            //thêm
+            FilteredTableList = new ObservableCollection<TableShow>(TableList);
+
             for (int i = 0; i < TableList.Count; i++) {
                 TableList[i].No = i + 1;
                 TableList[i].CountChecked += ConfirmCheckAll;
@@ -224,6 +250,22 @@ namespace QuanLyQuanAn.ViewModel
         {
             IsAllChecked = !TableList.Any(p => p.IsChecked == false);
         }
+        //thêm
+        private void FilterTableList()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                // Nếu không có từ khóa, hiển thị toàn bộ danh sách
+                FilteredTableList = new ObservableCollection<TableShow>(TableList);
+            }
+            else
+            {
+                // Lọc danh sách dựa trên từ khóa tìm kiếm
+                FilteredTableList = new ObservableCollection<TableShow>(
+                    TableList.Where(t => t.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0));
+            }
+        }
+
     }
     public class TableShow:BaseViewModel
     {

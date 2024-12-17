@@ -86,6 +86,20 @@ namespace QuanLyQuanAn.ViewModel
                 OnPropertyChanged();
             }
         }
+        //them
+        private string _searchKeyword;
+        public string SearchKeyword
+        {
+            get => _searchKeyword;
+            set
+            {
+                _searchKeyword = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand SearchCommand { get; set; }
+
         public string Message { get => _message; set { _message = value; OnPropertyChanged(); } }
         public bool IsAllChecked { get => _isAllChecked; set { _isAllChecked = value; OnPropertyChanged(); } }
         public bool Check { get => _check; set { _check = value; OnPropertyChanged(); } }
@@ -291,6 +305,35 @@ namespace QuanLyQuanAn.ViewModel
                 ,
                 p => true);
             LoadHumanList();
+            //them
+            SearchCommand = new RelayCommand(
+                (p) =>
+                {
+                    if (!string.IsNullOrEmpty(SearchKeyword))
+                    {
+                        HumanList = new ObservableCollection<HumanShow>(
+                            HumanResouceDataProvider.Human.SearchHumanByNameAndType(SearchKeyword, HumanReadyToAdd.TypeAccout).Select(hm =>
+                            new HumanShow
+                            {
+                                IdAccount = hm.idAccout,
+                                Name = hm.Username,
+                                Password = hm.Password,
+                                IdRes = hm.idRes,
+                                TypeAccout = hm.TypeAccount,
+                                IsChecked = false
+                            }));
+                        for (int i = 0; i < HumanList.Count; i++)
+                        {
+                            HumanList[i].No = i + 1;
+                            HumanList[i].CountChecked += ConfirmCheckAll;
+                        }
+                    }
+                    else
+                    {
+                        LoadHumanList();
+                    }
+                },
+                (p) => true);
 
         }
         private async Task ShowDialogContent()

@@ -71,7 +71,8 @@
                     <TextBox VerticalAlignment="Center"
                              materialDesign:HintAssist.Hint="Floating Hint"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Foreground="Black" />
+                             Foreground="Black" 
+                             Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
                 <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Margin="0 10 10 0"
