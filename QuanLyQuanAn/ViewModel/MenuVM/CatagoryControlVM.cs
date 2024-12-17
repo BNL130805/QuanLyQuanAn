@@ -246,8 +246,6 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                    }
                });
             #endregion
-            //Khởi tạo CategoryList
-            CategoryList = new ObservableCollection<CatagoryShow>(CategoryProvider.Category.GetAllCategory().Select(p => new CatagoryShow { ID=p.idFoodCtg ,IsChecked = false, Name = p.name }));
             LoadCategory();
             // Khởi tạo lệnh xóa
             

@@ -70,33 +70,20 @@ namespace QuanLyQuanAn.Model
         private CategoryProvider()
         {
         }
-        //
-        public List<foodCategory> GetAllCategoryByName(string name)
-        {
-            using (var quenryCategory = new QuanLyQuanAnEntities())
-            {
-                return quenryCategory.foodCategories.Where(p => p.name == name).ToList();
-            }
-        }
-        public List<foodCategory> GetAllCategory(string searchKeyword = null)
+        //public List<foodCategory> GetAllCategoryByName(string name)
+        //{
+        //    using (var quenryCategory = new QuanLyQuanAnEntities())
+        //    {
+        //        return quenryCategory.foodCategories.Where(p => p.name == name).ToList();
+        //    }
+        //}
+        public List<foodCategory> GetAllCategory()
         {
             using (var dbContext = new QuanLyQuanAnEntities())
             {
-                if (string.IsNullOrWhiteSpace(searchKeyword))
-                {
-                    // Trả về toàn bộ danh mục nếu không có từ khóa
-                    return dbContext.foodCategories.ToList();
-                }
-
-                // Tìm kiếm danh mục theo tên (không phân biệt chữ hoa/chữ thường)
-                return dbContext.foodCategories
-                                .Where(category => category.name.ToLower().Contains(searchKeyword.ToLower()))
-                                .ToList();
+                return dbContext.foodCategories.ToList();
             }
         }
-
-
-
         public bool DeleteCategory(int idFoodCtg)
         {
             using (var dbContext = new QuanLyQuanAnEntities())
@@ -263,28 +250,6 @@ namespace QuanLyQuanAn.Model
                     }    
                     return true;
                 }
-            }
-        }
-        //
-        public List<dynamic> SearchFoodByName(string name)
-        {
-            using (var FoodQuenry = new QuanLyQuanAnEntities())
-            {
-                var Food = (from foods in FoodQuenry.foods
-                            join categories in FoodQuenry.foodCategories on foods.idFoodCtg equals categories.idFoodCtg
-                            where foods.name.Contains(name)
-                            orderby categories.idFoodCtg
-                            select new
-                            {
-                                foods.idFood,
-                                foods.name,
-                                foods.FoodImage,
-                                foods.price,
-                                foods.idFoodCtg,
-                                CategoryName = categories.name
-                            }
-                            ).ToList<dynamic>();
-                return Food;
             }
         }
 
@@ -492,17 +457,6 @@ namespace QuanLyQuanAn.Model
                     }
                     return true;
                 }
-            }
-        }
-        //
-        public List<Account> SearchHumanByNameAndType(string Username, string TypeAccount)
-        {
-            using (var hmContext = new QuanLyQuanAnEntities())
-            {
-                return hmContext.Accounts
-                                .Where(account => account.TypeAccount == TypeAccount &&
-                                                  account.Username.Contains(Username))
-                                .ToList();
             }
         }
     }
