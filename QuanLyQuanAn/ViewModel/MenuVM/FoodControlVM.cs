@@ -31,7 +31,18 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
             {
                 _searchKeyword = value;
                 OnPropertyChanged();
-                SearchFood();
+                FilterFoodList(); // Gọi hàm lọc danh sách mỗi khi từ khóa thay đổi
+            }
+        }
+
+        private ObservableCollection<FoodShow> _filteredFoodList;
+        public ObservableCollection<FoodShow> FilteredFoodList
+        {
+            get => _filteredFoodList;
+            set
+            {
+                _filteredFoodList = value;
+                OnPropertyChanged();
             }
         }
 
@@ -239,7 +250,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         }
         private void LoadFood()
         {
-            FoodList = new ObservableCollection<FoodShow>(FoodDataprovider.Food.GetAllFood().Select(p => new FoodShow
+            var foods = FoodDataprovider.Food.GetAllFood();
+            FoodList = new ObservableCollection<FoodShow>(foods.Select(p => new FoodShow
             {
                 IsChecked = false,
                 FoodImage = p.FoodImage,
@@ -249,7 +261,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 Id = p.idFood,
                 IdCategory = p.idFoodCtg
             }));
-            for(int i = 0; i < FoodList.Count; i++)
+            FilteredFoodList = new ObservableCollection<FoodShow>(FoodList);
+            for (int i = 0; i < FoodList.Count; i++)
             {
                 FoodList[i].No = i + 1;
                 FoodList[i].CountChecked += ConfirmCheckAll;
@@ -272,30 +285,20 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
             }
         }
         //
-        private void SearchFood()
+        private void FilterFoodList()
         {
             if (string.IsNullOrWhiteSpace(SearchKeyword))
             {
-                LoadFood();
+                // Hiển thị toàn bộ món ăn nếu không có từ khóa
+                FilteredFoodList = new ObservableCollection<FoodShow>(FoodList);
             }
             else
             {
-                FoodList = new ObservableCollection<FoodShow>(FoodDataprovider.Food.SearchFoodByName(SearchKeyword).Select(p => new FoodShow
-                {
-                    IsChecked = false,
-                    FoodImage = p.FoodImage,
-                    Category = p.CategoryName,
-                    Name = p.name,
-                    Price = p.price,
-                    Id = p.idFood,
-                    IdCategory = p.idFoodCtg
-                }));
+                // Lọc món ăn dựa trên từ khóa tìm kiếm (không phân biệt chữ hoa/chữ thường)
+                var filtered = FoodList.Where(c =>
+                    c.Name.IndexOf(SearchKeyword, StringComparison.OrdinalIgnoreCase) >= 0);
 
-                for (int i = 0; i < FoodList.Count; i++)
-                {
-                    FoodList[i].No = i + 1;
-                    FoodList[i].CountChecked += ConfirmCheckAll;
-                }
+                FilteredFoodList = new ObservableCollection<FoodShow>(filtered);
             }
         }
 

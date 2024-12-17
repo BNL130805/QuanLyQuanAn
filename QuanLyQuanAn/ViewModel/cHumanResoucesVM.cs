@@ -95,10 +95,22 @@ namespace QuanLyQuanAn.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged();
+                FilterHumanList(); // Gọi hàm lọc danh sách mỗi khi từ khóa thay đổi
             }
         }
 
-        public ICommand SearchCommand { get; set; }
+        private ObservableCollection<HumanShow> _filteredHumanList;
+        public ObservableCollection<HumanShow> FilteredHumanList
+        {
+            get => _filteredHumanList;
+            set
+            {
+                _filteredHumanList = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
         public string Message { get => _message; set { _message = value; OnPropertyChanged(); } }
         public bool IsAllChecked { get => _isAllChecked; set { _isAllChecked = value; OnPropertyChanged(); } }
@@ -305,37 +317,7 @@ namespace QuanLyQuanAn.ViewModel
                 ,
                 p => true);
             LoadHumanList();
-            //them
-            SearchCommand = new RelayCommand(
-                (p) =>
-                {
-                    if (!string.IsNullOrEmpty(SearchKeyword))
-                    {
-                        var result = HumanResouceDataProvider.Human.SearchHumanByNameAndType(SearchKeyword, HumanReadyToAdd.TypeAccout);
-
-                        // Chuyển đổi kết quả thành ObservableCollection
-                        HumanList = new ObservableCollection<HumanShow>(
-                            result.Select(hm => new HumanShow
-                            {
-                                IdAccount = hm.idAccout,
-                                Name = hm.Username,
-                                Password = hm.Password,
-                                IdRes = hm.idRes,
-                                TypeAccout = hm.TypeAccount,
-                                IsChecked = false
-                            }));
-                        for (int i = 0; i < HumanList.Count; i++)
-                        {
-                            HumanList[i].No = i + 1;
-                            HumanList[i].CountChecked += ConfirmCheckAll;
-                        }
-                    }
-                    else
-                    {
-                        LoadHumanList();
-                    }
-                },
-                (p) => true);
+            
 
         }
         private async Task ShowDialogContent()
@@ -351,10 +333,10 @@ namespace QuanLyQuanAn.ViewModel
         private void LoadHumanList()
         {
             if (SelectedOption == "Manager")
-            {    
-                 HumanList = new ObservableCollection<HumanShow>(HumanResouceDataProvider.Human.GetHuman("Quản lý").Select(p=>
-                     new HumanShow
-                     {
+            {
+                HumanList = new ObservableCollection<HumanShow>(HumanResouceDataProvider.Human.GetHuman("Quản lý").Select(p => 
+                new HumanShow
+                {
                          IdAccount = p.idAccout,
                          Name = p.Username,
                          IsChecked = false,
@@ -366,8 +348,8 @@ namespace QuanLyQuanAn.ViewModel
             else if (SelectedOption == "Staff")
             {
                 HumanList = new ObservableCollection<HumanShow>(HumanResouceDataProvider.Human.GetHuman("Nhân viên").Select(p =>
-                     new HumanShow
-                     {
+                new HumanShow
+                {
                          IdAccount = p.idAccout,
                          Name = p.Username,
                          Password = p.Password,
@@ -378,9 +360,9 @@ namespace QuanLyQuanAn.ViewModel
             }
             else if (SelectedOption == "Chef")
             {
-                HumanList = new ObservableCollection<HumanShow>(HumanResouceDataProvider.Human.GetHuman("Đầu bếp").Select(p=>
-                     new HumanShow
-                     {
+                HumanList = new ObservableCollection<HumanShow>(HumanResouceDataProvider.Human.GetHuman("Đầu bếp").Select(p =>
+                new HumanShow
+                {
                          IdAccount = p.idAccout,
                          Name = p.Username,
                          Password = p.Password,
@@ -389,6 +371,8 @@ namespace QuanLyQuanAn.ViewModel
                          IsChecked = false
                      }));
             }
+            FilteredHumanList = new ObservableCollection<HumanShow>(HumanList);
+
             for (int i=0; i<HumanList.Count; i++)
             {
                 HumanList[i].No = i + 1;
@@ -398,6 +382,23 @@ namespace QuanLyQuanAn.ViewModel
         private void ConfirmCheckAll()
         {
             IsAllChecked = !HumanList.Any(p => p.IsChecked == false);
+        }
+
+        private void FilterHumanList()
+        {
+            if (string.IsNullOrWhiteSpace(SearchKeyword))
+            {
+                // Hiển thị toàn bộ nhân sự nếu không có từ khóa
+                FilteredHumanList = new ObservableCollection<HumanShow>(HumanList);
+            }
+            else
+            {
+                // Lọc nhân sự dựa trên từ khóa tìm kiếm (không phân biệt chữ hoa/chữ thường)
+                var filtered = HumanList.Where(c =>
+                    c.Name.IndexOf(SearchKeyword, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                FilteredHumanList = new ObservableCollection<HumanShow>(filtered);
+            }
         }
     }
     public class HumanShow:BaseViewModel
