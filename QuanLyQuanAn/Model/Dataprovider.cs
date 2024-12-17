@@ -5,6 +5,8 @@ using System.Data.Entity;
 using QuanLyQuanAn.ViewModel.MenuVM;
 using System.Collections.ObjectModel;
 using QuanLyQuanAn.ViewModel;
+using QuanLyQuanAn.ViewModel.StatisticVM;
+using System.Xml.Linq;
 
 namespace QuanLyQuanAn.Model
 {
@@ -68,13 +70,33 @@ namespace QuanLyQuanAn.Model
         private CategoryProvider()
         {
         }
-        public List<foodCategory> GetAllCategory()
+        //
+        public List<foodCategory> GetAllCategoryByName(string name)
         {
-            using (QuanLyQuanAnEntities quenryCategory = new QuanLyQuanAnEntities())
+            using (var quenryCategory = new QuanLyQuanAnEntities())
             {
-                return quenryCategory.foodCategories.ToList();
+                return quenryCategory.foodCategories.Where(p => p.name == name).ToList();
             }
         }
+        public List<foodCategory> GetAllCategory(string searchKeyword = null)
+        {
+            using (var dbContext = new QuanLyQuanAnEntities())
+            {
+                if (string.IsNullOrWhiteSpace(searchKeyword))
+                {
+                    // Trả về toàn bộ danh mục nếu không có từ khóa
+                    return dbContext.foodCategories.ToList();
+                }
+
+                // Tìm kiếm danh mục theo tên (không phân biệt chữ hoa/chữ thường)
+                return dbContext.foodCategories
+                                .Where(category => category.name.ToLower().Contains(searchKeyword.ToLower()))
+                                .ToList();
+            }
+        }
+
+
+
         public bool DeleteCategory(int idFoodCtg)
         {
             using (var dbContext = new QuanLyQuanAnEntities())
@@ -247,6 +269,29 @@ namespace QuanLyQuanAn.Model
                 }
             }
         }
+        //
+        public List<dynamic> SearchFoodByName(string name)
+        {
+            using (var FoodQuenry = new QuanLyQuanAnEntities())
+            {
+                var Food = (from foods in FoodQuenry.foods
+                            join categories in FoodQuenry.foodCategories on foods.idFoodCtg equals categories.idFoodCtg
+                            where foods.name.Contains(name)
+                            orderby categories.idFoodCtg
+                            select new
+                            {
+                                foods.idFood,
+                                foods.name,
+                                foods.FoodImage,
+                                foods.price,
+                                foods.idFoodCtg,
+                                CategoryName = categories.name
+                            }
+                            ).ToList<dynamic>();
+                return Food;
+            }
+        }
+
     }
     public class TableProvider
     {
@@ -271,11 +316,18 @@ namespace QuanLyQuanAn.Model
                 return TableQuenry.tableFoods.Where(p=>p.tableName == name).ToList();
             }
         }
-        public List<tableFood> GetAllTable()
+        //
+        public List<tableFood> GetAllTable(string name = null)
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())
             {
-                return TableQuenry.tableFoods.ToList();
+                if (name == null)
+                {
+                    return TableQuenry.tableFoods.ToList();
+                }    
+                return TableQuenry.tableFoods
+                                  .Where(p => p.tableName.Contains(name))
+                                  .ToList();
             }
         }
         public object GetTableByStatus(string status)
@@ -348,6 +400,8 @@ namespace QuanLyQuanAn.Model
                 }
             }
         }
+
+        
     }
     public class HumanResouceDataProvider
     {
@@ -444,6 +498,18 @@ namespace QuanLyQuanAn.Model
                 }
             }
         }
+        //
+        public List<Account> SearchHumanByNameAndType(string username, string typeAccount)
+        {
+            using (var hmContext = new QuanLyQuanAnEntities())
+            {
+                return hmContext.Accounts
+                                .Where(account => account.TypeAccount == typeAccount &&
+                                                  account.Username.Contains(username))
+                                .ToList();
+            }
+        }
+
 
 
     }
@@ -724,6 +790,8 @@ namespace QuanLyQuanAn.Model
                     }).ToList<dynamic>();
             }
         }
+
+        
     }
     
 }

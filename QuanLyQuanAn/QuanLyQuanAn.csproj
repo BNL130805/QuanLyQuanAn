@@ -266,6 +266,7 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\StaffVM.cs" />
     <Compile Include="ViewModel\StatisticVM\FoodStatisticsVM.cs" />
+    <Compile Include="ViewModel\StatisticVM\HistoryVM.cs" />
     <Compile Include="ViewModel\StatisticVM\RevenuaVM.cs" />
     <Compile Include="ViewModel\TableControlVM.cs" />
     <Compile Include="ViewModel\TableStaffVM.cs" />

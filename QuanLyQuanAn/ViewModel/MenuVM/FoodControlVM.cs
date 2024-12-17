@@ -22,6 +22,19 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         private bool _isAllChecked;
         private FoodShow _foodReadyToAdd;
         private ObservableCollection<foodCategory> _catagoryList;
+        //
+        private string _searchKeyword;
+        public string SearchKeyword
+        {
+            get => _searchKeyword;
+            set
+            {
+                _searchKeyword = value;
+                OnPropertyChanged();
+                SearchFood();
+            }
+        }
+
         public string TypeAdd{ get; set; }
         public object CurrentDialogContent
         {
@@ -54,7 +67,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 if (_foodReadyToAdd == null)
                 {
                     _foodReadyToAdd = new FoodShow();
-                    _foodReadyToAdd.FoodImage = File.ReadAllBytes("C:/Users/LE NGOC BINH/Documents/Lap_Trinh_Truc_Quan/Đồ án/QuanLyQuanAn/QuanLyQuanAn/Images/EmptyImage.png");
+                    _foodReadyToAdd.FoodImage = File.ReadAllBytes("C:\\Users\\Hii\\Documents\\Do_An_Lttq\\QuanLyQuanAn\\QuanLyQuanAn\\Images\\EmptyImage.png");
                 }
                 return _foodReadyToAdd;
             } set { _foodReadyToAdd = value; OnPropertyChanged(); } }
@@ -258,6 +271,34 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 FoodReadyToAdd.FoodImage = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
+        //
+        private void SearchFood()
+        {
+            if (string.IsNullOrWhiteSpace(SearchKeyword))
+            {
+                LoadFood();
+            }
+            else
+            {
+                FoodList = new ObservableCollection<FoodShow>(FoodDataprovider.Food.SearchFoodByName(SearchKeyword).Select(p => new FoodShow
+                {
+                    IsChecked = false,
+                    FoodImage = p.FoodImage,
+                    Category = p.CategoryName,
+                    Name = p.name,
+                    Price = p.price,
+                    Id = p.idFood,
+                    IdCategory = p.idFoodCtg
+                }));
+
+                for (int i = 0; i < FoodList.Count; i++)
+                {
+                    FoodList[i].No = i + 1;
+                    FoodList[i].CountChecked += ConfirmCheckAll;
+                }
+            }
+        }
+
 
     }
     public class FoodShow:BaseViewModel
