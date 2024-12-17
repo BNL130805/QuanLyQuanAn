@@ -67,7 +67,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 if (_foodReadyToAdd == null)
                 {
                     _foodReadyToAdd = new FoodShow();
-                    _foodReadyToAdd.FoodImage = File.ReadAllBytes("C:\\Users\\Hii\\Documents\\Do_An_Lttq\\QuanLyQuanAn\\QuanLyQuanAn\\Images\\EmptyImage.png");
+                    _foodReadyToAdd.FoodImage = File.ReadAllBytes("EmptyImage.png");
                 }
                 return _foodReadyToAdd;
             } set { _foodReadyToAdd = value; OnPropertyChanged(); } }

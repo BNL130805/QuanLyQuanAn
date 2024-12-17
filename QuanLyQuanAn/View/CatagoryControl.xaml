@@ -99,7 +99,7 @@
                           Style="{DynamicResource DataGridStyle1}"
                           Grid.Row="2"
                           Margin="10 0 0 0"
-                          ItemsSource="{Binding CategoryList}">
+                          ItemsSource="{Binding FilteredCategoryList}">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Header="C"
                                                 CanUserResize="False"

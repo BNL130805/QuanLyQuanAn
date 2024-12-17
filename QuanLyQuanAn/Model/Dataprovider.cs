@@ -220,10 +220,6 @@ namespace QuanLyQuanAn.Model
                     dbContext.foods.Remove(foodToDelete);
                     dbContext.SaveChanges();
                 }
-                else
-                {
-                    Console.WriteLine("Không tìm thấy món ăn với idFood: " + idFood);
-                }
             }
         }
         public bool AddFood(FoodShow foodshow)
