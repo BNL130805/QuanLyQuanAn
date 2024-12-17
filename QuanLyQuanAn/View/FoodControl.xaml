@@ -100,7 +100,7 @@
                           CellStyle="{DynamicResource DataGridCellStyle1}"
                           x:Name="membersDataGrid"
                           Style="{DynamicResource DataGridStyle1}"
-                          ItemsSource="{Binding FoodList}"
+                          ItemsSource="{Binding FilteredFoodList}"
                           Grid.Row="2">
 
                     <DataGrid.Columns>

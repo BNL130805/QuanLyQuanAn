@@ -83,7 +83,7 @@
                                        Style="{StaticResource gridButtonIcon}" />
             </Button>
         </StackPanel>
-        <DataGrid ItemsSource="{Binding HumanList}"
+        <DataGrid ItemsSource="{Binding FilteredHumanList}"
                   RowStyle="{DynamicResource DataGridRowStyle1}"
                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
                   CellStyle="{DynamicResource DataGridCellStyle1}"
