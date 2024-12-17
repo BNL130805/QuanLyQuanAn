@@ -352,7 +352,6 @@ namespace QuanLyQuanAn.Model
     public class HumanResouceDataProvider
     {
         private static HumanResouceDataProvider _human;
-
         public static HumanResouceDataProvider Human
         {
             get
