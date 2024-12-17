@@ -499,19 +499,16 @@ namespace QuanLyQuanAn.Model
             }
         }
         //
-        public List<Account> SearchHumanByNameAndType(string username, string typeAccount)
+        public List<Account> SearchHumanByNameAndType(string Username, string TypeAccount)
         {
             using (var hmContext = new QuanLyQuanAnEntities())
             {
                 return hmContext.Accounts
-                                .Where(account => account.TypeAccount == typeAccount &&
-                                                  account.Username.Contains(username))
+                                .Where(account => account.TypeAccount == TypeAccount &&
+                                                  account.Username.Contains(Username))
                                 .ToList();
             }
         }
-
-
-
     }
     public class BillDataprovider
     {

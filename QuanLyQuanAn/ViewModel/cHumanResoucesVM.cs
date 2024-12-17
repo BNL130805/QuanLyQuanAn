@@ -311,9 +311,11 @@ namespace QuanLyQuanAn.ViewModel
                 {
                     if (!string.IsNullOrEmpty(SearchKeyword))
                     {
+                        var result = HumanResouceDataProvider.Human.SearchHumanByNameAndType(SearchKeyword, HumanReadyToAdd.TypeAccout);
+
+                        // Chuyển đổi kết quả thành ObservableCollection
                         HumanList = new ObservableCollection<HumanShow>(
-                            HumanResouceDataProvider.Human.SearchHumanByNameAndType(SearchKeyword, HumanReadyToAdd.TypeAccout).Select(hm =>
-                            new HumanShow
+                            result.Select(hm => new HumanShow
                             {
                                 IdAccount = hm.idAccout,
                                 Name = hm.Username,

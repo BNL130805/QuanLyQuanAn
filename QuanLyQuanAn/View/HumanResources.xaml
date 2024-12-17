@@ -76,6 +76,7 @@
                                  Height="40"
                                  IsChecked="{Binding SelectedOption, Converter={StaticResource Converter_Radiobutton}, ConverterParameter=Chef}">Đầu bếp</RadioButton>
                 </StackPanel>
+                
                 <ContentControl Grid.Row="1"
                                 Content="{Binding Option}">
                 </ContentControl>
