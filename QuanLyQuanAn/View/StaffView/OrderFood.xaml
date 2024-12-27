@@ -90,9 +90,11 @@
                                   materialDesign:TextFieldAssist.HasClearButton="True"
                                   ItemsSource="{Binding CategoryNames}"
                                   DisplayMemberPath="name"
+                                  SelectedItem="{Binding SelectedCategory}"
                                   Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                   HorizontalAlignment="Right"
-                                  Margin="0 0 15 0">
+                                  Margin="0 0 15 0"
+                                  >
                         </ComboBox>
                     </Grid>
                     <Separator Height="1"
@@ -106,7 +108,7 @@
                           Margin="0 10 0 0">
                         <Grid HorizontalAlignment="Center">
                             <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                                <ItemsControl ItemsSource="{Binding AllFood}">
+                                <ItemsControl ItemsSource="{Binding FilteredFood}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel SnapsToDevicePixels="True" />

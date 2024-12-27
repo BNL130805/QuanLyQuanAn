@@ -23,6 +23,27 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         private string _currentStatus;
         int _totalFood;
         private object _currentDialogContent;
+        private foodCategory _selectedCategory;
+        public foodCategory SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                OnPropertyChanged();
+                UpdateFilteredFood(); // Lọc danh sách món ăn khi danh mục thay đổi
+            }
+        }
+        private ObservableCollection<dynamic> _filteredFood;
+        public ObservableCollection<dynamic> FilteredFood
+        {
+            get => _filteredFood;
+            set
+            {
+                _filteredFood = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand AddBill { get; set; }
         public ICommand AddFoodCm { get; set; }
         public ICommand SendBillToChef { get; set; }
@@ -33,7 +54,11 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         public OrderFoodVM()
         {
             CategoryNames.Insert(0, new foodCategory() { name = "Tất cả" });
-            AllFood = FoodDataprovider.Food.GetAllFood();
+            AllFood = new ObservableCollection<dynamic>(FoodDataprovider.Food.GetAllFood());
+            FilteredFood = new ObservableCollection<dynamic>((ObservableCollection<dynamic>)AllFood);
+            SelectedCategory = CategoryNames.FirstOrDefault(); // Đặt mặc định là "Tất cả"
+
+
             SendBillToChef = new RelayCommand(
                 (p)=>
                 {
@@ -139,6 +164,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 (p) => true
                 );
         }
+        
+
         private async void ShowAddFood()
         {
             StatusTable = TableProvider.Table.GetAllStatusTable();
@@ -149,7 +176,26 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
-        public ObservableCollection<foodCategory> CategoryNames { get => _categoryNames; set{ _categoryNames = value; OnPropertyChanged(); } }
+        private void UpdateFilteredFood()
+        {
+            if (SelectedCategory != null && SelectedCategory.name != "Tất cả")
+            {
+                // Lọc món ăn theo danh mục được chọn
+                FilteredFood = new ObservableCollection<dynamic>(
+                    ((ObservableCollection<dynamic>)AllFood)
+                    .Where(Food => Food.idFoodCtg == SelectedCategory.idFoodCtg));
+            }
+            else
+            {
+                // Hiển thị toàn bộ món ăn nếu danh mục là "Tất cả"
+                FilteredFood = new ObservableCollection<dynamic>((ObservableCollection<dynamic>)AllFood);
+            }
+        }
+        public ObservableCollection<foodCategory> CategoryNames 
+        { 
+            get => _categoryNames; 
+            set{ _categoryNames = value; OnPropertyChanged(); } 
+        }
         public object AllFood { get => _allFood; set { _allFood = value; OnPropertyChanged(); } }
         public ObservableCollection<ListBillInf> BillInfList { get => _billInfList;
             set 
