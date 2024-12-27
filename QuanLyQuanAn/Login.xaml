@@ -122,7 +122,7 @@
                                              materialDesign:HintAssist.Foreground="White"
                                              CaretBrush="White"
                                              BorderBrush="White"
-                                             Text="{Binding RestaurantName}"
+                                             Text="{Binding RestaurantName, UpdateSourceTrigger=PropertyChanged}"
                                              Margin="5" />
                                 </Grid>
                                 <Grid Grid.Row="1">
@@ -145,7 +145,7 @@
                                              materialDesign:HintAssist.Foreground="White"
                                              CaretBrush="White"
                                              BorderBrush="White"
-                                             Text="{Binding Username}"
+                                             Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                                              Margin="5" />
                                 </Grid>
                                 <Grid Grid.Row="2">
@@ -167,7 +167,7 @@
                                               materialDesign:TextFieldAssist.UnderlineBrush="White"
                                               materialDesign:HintAssist.Foreground="White"
                                               BorderBrush="White"
-                                              SelectedItem="{Binding TypeAccount}">
+                                              SelectedItem="{Binding TypeAccount, UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBoxItem>
                                             <StackPanel Orientation="Horizontal" Background="White">
                                                 <materialDesign:PackIcon Kind="AccountTieWoman" Foreground="Black" />
@@ -275,7 +275,7 @@
                                              materialDesign:HintAssist.Hint="Tên nhà hàng"
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Grid.Column="1"
-                                             Text="{Binding RestaurantRegister}"
+                                             Text="{Binding RestaurantRegister, UpdateSourceTrigger=PropertyChanged}"
                                              Foreground="White"
                                              materialDesign:TextFieldAssist.UnderlineBrush="White"
                                              materialDesign:HintAssist.Foreground="White"
@@ -299,7 +299,7 @@
                                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Grid.Column="1"
                                              Foreground="White"
-                                             Text="{Binding UserRegister}"
+                                             Text="{Binding UserRegister, UpdateSourceTrigger=PropertyChanged}"
                                              materialDesign:TextFieldAssist.UnderlineBrush="White"
                                              materialDesign:HintAssist.Foreground="White"
                                              CaretBrush="White"
