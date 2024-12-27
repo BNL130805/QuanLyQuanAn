@@ -6,6 +6,7 @@ using LiveCharts;
 using System.Windows.Data;
 using System.Globalization;
 using System.Diagnostics.Eventing.Reader;
+using System.Windows;
 
 namespace QuanLyQuanAn.ViewModel.StatisticVM
 {
@@ -15,6 +16,7 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
         private object _timeLable;
         private DateTime _begin;
         private DateTime _end;
+        private Visibility _showdate;
         public Func<double, string> Formatter { get; set; }
         private ChartValues<double> _revenueData;
 
@@ -37,21 +39,26 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                     case "Hôm nay":
                         Begin = DateTime.Today;
                         End = DateTime.Today;
+                        Showdate = Visibility.Hidden;
                         break;
                     case "7 ngày gần đây":
                         Begin = DateTime.Today.AddDays(-7);
                         End = DateTime.Today;
+                        Showdate = Visibility.Hidden;
                         break;
                     case "Tháng này":
                         Begin = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
                         End = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1).AddDays(-1);
+                        Showdate = Visibility.Hidden;
                         break;
                     case "Năm nay":
                         Begin = new DateTime(DateTime.Today.Year, 1, 1);
-                        End = new DateTime(DateTime.Today.Year, 12, 31);                        
+                        End = new DateTime(DateTime.Today.Year, 12, 31);             
+                        Showdate = Visibility.Hidden;
                         break;
                     case "Chọn khoảng thời gian":
                         // Xử lý khi người dùng chọn khoảng thời gian cụ thể (nếu có)
+                        Showdate = Visibility.Visible;
                         break;
                     default:
                         break;
@@ -104,6 +111,7 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
 
         public DateTime Begin { get => _begin; set { _begin = value; OnPropertyChanged(); ShowRevenua(); } }
         public DateTime End { get => _end; set { _end = value; OnPropertyChanged(); ShowRevenua(); } }
+        public Visibility Showdate { get => _showdate; set { _showdate = value; OnPropertyChanged(); } }
     }
     public class WidthOfDatePickerAcrossGrid : IValueConverter
     {

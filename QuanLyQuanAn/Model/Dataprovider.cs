@@ -487,6 +487,7 @@ namespace QuanLyQuanAn.Model
                 tableFood currentTable = quenryBill.tableFoods.FirstOrDefault(t => t.idTable == idTable);
                 currentTable.status = "trống";
                 currentBill.status = "Đã thanh toán";
+                currentBill.TimeOut = DateTime.Now;
                 quenryBill.SaveChanges();
             }
         }
@@ -591,6 +592,23 @@ namespace QuanLyQuanAn.Model
                         .ToList();
                     return doanhthu;
                 }
+            }
+        }
+        public List<dynamic> GetHistoryByDate(DateTime Begin, DateTime End)
+        {
+            using (var QuenryHistory = new QuanLyQuanAnEntities())
+            {
+                var HistoryList = (from history in QuenryHistory.Bills
+                                   join table in QuenryHistory.tableFoods
+                                   on history.idTable equals table.idTable
+                                   where(history.TimeOut >= Begin && history.TimeOut <= End)
+                                   select new
+                                   {
+                                       table.tableName,
+                                       TimeOut = history.TimeOut.ToString(),
+                                       history.TotalPrice
+                                   }).ToList<dynamic>();
+                return HistoryList;
             }
         }
     }

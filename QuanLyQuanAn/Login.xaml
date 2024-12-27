@@ -25,299 +25,343 @@
         <Border.Background>
             <ImageBrush ImageSource="Images/BackgroundForLoggin.jpg"></ImageBrush>
         </Border.Background>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0"
-                  Visibility="{Binding RegisterVisibility}">
-                <Grid Width="55"
-                      Height="45"
-                      Margin="0"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top">
-                    <Border Width="50"
-                            Height="50"
-                            CornerRadius="25"
+        <materialDesign:DialogHost Identifier="RootDialogHost">
+            <materialDesign:DialogHost.DialogContent>
+                <ContentControl Content="{Binding CurrentDialogContent}">
+                </ContentControl>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0"
+                      Visibility="{Binding RegisterVisibility}">
+                    <Grid Width="55"
+                          Height="45"
+                          Margin="0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top">
+                        <Border Width="50"
+                                Height="50"
+                                CornerRadius="25"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                Grid.Row="0"
+                                HorizontalAlignment="Right"
+                                Margin="0 2 10 0">
+                            <Button Background="Transparent"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Margin="-14 -10 -14 0"
+                                    Command="{Binding BackCommand}">
+                                <materialDesign:PackIcon Kind="ArrowLeftCircle"
+                                                         Width="30"
+                                                         Height="25" />
+                            </Button>
+                        </Border>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border Width="40"
+                            Height="40"
+                            CornerRadius="20"
                             BorderBrush="Transparent"
                             BorderThickness="1"
                             Grid.Row="0"
                             HorizontalAlignment="Right"
-                            Margin="0 2 10 0">
+                            Margin="0 0 10 0">
                         <Button Background="Transparent"
                                 Foreground="White"
                                 BorderThickness="0"
-                                Margin="-14 -10 -14 0"
-                                Command="{Binding BackCommand}">
-                            <materialDesign:PackIcon Kind="ArrowLeftCircle"
+                                Margin="-10"
+                                Command="{Binding CloseWindow}"
+                                CommandParameter="{Binding ElementName=LoginWindow}">
+                            <materialDesign:PackIcon Kind="Power"
                                                      Width="30"
                                                      Height="25" />
                         </Button>
                     </Border>
-                </Grid>
-            </Grid>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Border Width="40"
-                        Height="40"
-                        CornerRadius="20"
-                        BorderBrush="Transparent"
-                        BorderThickness="1"
-                        Grid.Row="0"
-                        HorizontalAlignment="Right"
-                        Margin="0 0 10 0">
-                    <Button Background="Transparent"
-                            Foreground="White"
-                            BorderThickness="0"
-                            Margin="-10"
-                            Command="{Binding CloseWindow}"
-                            CommandParameter="{Binding ElementName=LoginWindow}">
-                        <materialDesign:PackIcon Kind="Power"
-                                                 Width="30"
-                                                 Height="25" />
-                    </Button>
-                </Border>
-                <materialDesign:Card Margin="15"
-                                     Grid.Row="1"
-                                     Padding="4">
-                    <materialDesign:Card.Background>
-                        <SolidColorBrush Color="Black"
-                                         Opacity="0.4" />
-                    </materialDesign:Card.Background>
-                    <Grid>
-                        <Grid Visibility="{Binding LoginVisibility}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="2*" />
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="Storefront"
-                                                         Grid.Column="0"
-                                                         Foreground="White"
-                                                         Width="25"
-                                                         Height="25"
-                                                         Margin="5 20 5 5" />
-                                <TextBox VerticalAlignment="Center"
-                                         materialDesign:HintAssist.Hint="Tên nhà hàng"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                         Grid.Column="1"
-                                         Foreground="White"
-                                         materialDesign:TextFieldAssist.UnderlineBrush="White"
-                                         materialDesign:HintAssist.Foreground="White"
-                                         CaretBrush="White"
-                                         BorderBrush="White"
-                                         Text="{Binding RestaurantName}"
-                                         Margin="5" />
-                            </Grid>
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="Account"
-                                                         Grid.Column="0"
-                                                         Width="25"
-                                                         Height="25"
-                                                         Foreground="White"
-                                                         Margin="5 20 5 5" />
-                                <TextBox VerticalAlignment="Center"
-                                         materialDesign:HintAssist.Hint="Tên người dùng"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                         Grid.Column="1"
-                                         Foreground="White"
-                                         materialDesign:TextFieldAssist.UnderlineBrush="White"
-                                         materialDesign:HintAssist.Foreground="White"
-                                         CaretBrush="White"
-                                         BorderBrush="White"
-                                         Text="{Binding Username}"
-                                         Margin="5" />
-                            </Grid>
-                            <Grid Grid.Row="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="AccountDetails"
-                                                         Grid.Column="0"
-                                                         Width="25"
-                                                         Foreground="White"
-                                                         Height="25"
-                                                         Margin="5 20 5 5" 
-                                                         />
-                                <ComboBox materialDesign:HintAssist.Hint="Loại tài khoản"
-                                          Grid.Column="1"
-                                          Margin="5 5 5 -12"
-                                          Foreground="White"
-                                          materialDesign:TextFieldAssist.UnderlineBrush="White"
-                                          materialDesign:HintAssist.Foreground="White"
-                                          BorderBrush="White"
-                                          SelectedItem="{Binding TypeAccount}">
-                                    <ComboBoxItem>
-                                        <StackPanel Orientation="Horizontal" Background="White">
-                                            <materialDesign:PackIcon Kind="AccountTieWoman" Foreground="Black" />
-                                            <TextBlock Margin="15 0 0 0" Foreground="Black">Quản lý</TextBlock>
-                                        </StackPanel>
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-                                        <StackPanel Orientation="Horizontal"
-                                                    Background="White">
-                                            <materialDesign:PackIcon Kind="FaceMan" Foreground="Black"/>
-                                            <TextBlock Margin="15 0 0 0"
-                                                       Foreground="Black">Nhân viên</TextBlock>
-                                        </StackPanel>
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-                                        <StackPanel Orientation="Horizontal"
-                                                    Background="White">
-                                            <materialDesign:PackIcon Kind="ChefHat"
-                                                                     Foreground="Black" />
-                                            <TextBlock Margin="15 0 0 0"
-                                                       Foreground="Black">Đầu bếp</TextBlock>
-                                        </StackPanel>
-                                    </ComboBoxItem>
-                                </ComboBox>
-                            </Grid>
-                            <Grid Grid.Row="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="Key"
-                                                         Grid.Column="0"
-                                                         Width="25"
-                                                         Height="25"
-                                                         Foreground="White"
-                                                         Margin="5 20 5 5" />
-                                <PasswordBox x:Name="FloatingPasswordBox"
-                                             Foreground="White"
-                                             materialDesign:HintAssist.Hint="Mật khẩu"
-                                             materialDesign:TextFieldAssist.UnderlineBrush="White"
-                                             materialDesign:HintAssist.Foreground="White"
-                                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                                             Grid.Column="1"
-                                             CaretBrush="White"
-                                             BorderBrush="White"
-                                             Margin="5 7 5 10"
-                                             />
-                            </Grid>
-                            <Grid Grid.Row="4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="3*" />
-                                </Grid.ColumnDefinitions>
+                    <materialDesign:Card Margin="15"
+                                         Grid.Row="1"
+                                         Padding="4">
+                        <materialDesign:Card.Background>
+                            <SolidColorBrush Color="Black"
+                                             Opacity="0.4" />
+                        </materialDesign:Card.Background>
+                        <Grid>
+                            <Grid Visibility="{Binding LoginVisibility}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
-                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="2*" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Storefront"
+                                                             Grid.Column="0"
+                                                             Foreground="White"
+                                                             Width="25"
+                                                             Height="25"
+                                                             Margin="5 20 5 5" />
+                                    <TextBox VerticalAlignment="Center"
+                                             materialDesign:HintAssist.Hint="Tên nhà hàng"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Grid.Column="1"
+                                             Foreground="White"
+                                             materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                             materialDesign:HintAssist.Foreground="White"
+                                             CaretBrush="White"
+                                             BorderBrush="White"
+                                             Text="{Binding RestaurantName}"
+                                             Margin="5" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Account"
+                                                             Grid.Column="0"
+                                                             Width="25"
+                                                             Height="25"
+                                                             Foreground="White"
+                                                             Margin="5 20 5 5" />
+                                    <TextBox VerticalAlignment="Center"
+                                             materialDesign:HintAssist.Hint="Tên người dùng"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Grid.Column="1"
+                                             Foreground="White"
+                                             materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                             materialDesign:HintAssist.Foreground="White"
+                                             CaretBrush="White"
+                                             BorderBrush="White"
+                                             Text="{Binding Username}"
+                                             Margin="5" />
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="AccountDetails"
+                                                             Grid.Column="0"
+                                                             Width="25"
+                                                             Foreground="White"
+                                                             Height="25"
+                                                             Margin="5 20 5 5" 
+                                                             />
+                                    <ComboBox materialDesign:HintAssist.Hint="Loại tài khoản"
+                                              Grid.Column="1"
+                                              Margin="5 5 5 -12"
+                                              Foreground="White"
+                                              materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                              materialDesign:HintAssist.Foreground="White"
+                                              BorderBrush="White"
+                                              SelectedItem="{Binding TypeAccount}">
+                                        <ComboBoxItem>
+                                            <StackPanel Orientation="Horizontal" Background="White">
+                                                <materialDesign:PackIcon Kind="AccountTieWoman" Foreground="Black" />
+                                                <TextBlock Margin="15 0 0 0" Foreground="Black">Quản lý</TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <StackPanel Orientation="Horizontal"
+                                                        Background="White">
+                                                <materialDesign:PackIcon Kind="FaceMan" Foreground="Black"/>
+                                                <TextBlock Margin="15 0 0 0"
+                                                           Foreground="Black">Nhân viên</TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <StackPanel Orientation="Horizontal"
+                                                        Background="White">
+                                                <materialDesign:PackIcon Kind="ChefHat"
+                                                                         Foreground="Black" />
+                                                <TextBlock Margin="15 0 0 0"
+                                                           Foreground="Black">Đầu bếp</TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                    </ComboBox>
+                                </Grid>
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Key"
+                                                             Grid.Column="0"
+                                                             Width="25"
+                                                             Height="25"
+                                                             Foreground="White"
+                                                             Margin="5 20 5 5" />
+                                    <PasswordBox x:Name="FloatingPasswordBox"
+                                                 Foreground="White"
+                                                 materialDesign:HintAssist.Hint="Mật khẩu"
+                                                 materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                                 materialDesign:HintAssist.Foreground="White"
+                                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                                                 Grid.Column="1"
+                                                 CaretBrush="White"
+                                                 BorderBrush="White"
+                                                 Margin="5 7 5 10"
+                                                 />
+                                </Grid>
+                                <Grid Grid.Row="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="3*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Button Content="Đăng nhâp"
+                                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                            Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                            ToolTip="MaterialDesignFlatDarkButton"
+                                            Width="105"
+                                            Grid.Row="0"
+                                            Command="{Binding LoginAccountCommand}"
+                                            CommandParameter="{Binding ElementName = FloatingPasswordBox}"
+                                            Grid.Column="1"
+                                            Margin="28,5,108,5" />
+                                    <TextBlock HorizontalAlignment="Left"
+                                               Grid.Column="1"
+                                               Margin="20,42,0,42"
+                                               Grid.RowSpan="3">Nếu chưa có tài khoản</TextBlock>
+                                    <Button Content="Đăng ký"
+                                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                            Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                            ToolTip="MaterialDesignFlatDarkButton"
+                                            Width="105"
+                                            Grid.Row="2"
+                                            Command="{Binding RegisterCommand}"
+                                            Grid.Column="1"
+                                            Margin="28,5,108,5" />
+                                </Grid>
+                            </Grid>
+                            <Grid Visibility="{Binding RegisterVisibility}"
+                                  x:Name="GridRegister">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Button Content="Đăng nhâp"
-                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                                        Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-                                        ToolTip="MaterialDesignFlatDarkButton"
-                                        Width="105"
-                                        Grid.Row="0"
-                                        Command="{Binding LoginAccountCommand}"
-                                        CommandParameter="{Binding ElementName = FloatingPasswordBox}"
-                                        Grid.Column="1"
-                                        Margin="28,5,108,5" />
-                                <TextBlock HorizontalAlignment="Left"
-                                           Grid.Column="1"
-                                           Margin="20,42,0,42"
-                                           Grid.RowSpan="3">Nếu chưa có tài khoản</TextBlock>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Storefront"
+                                                             Grid.Column="0"
+                                                             Width="25"
+                                                             Foreground="White"
+                                                             Height="25"
+                                                             Margin="5 20 5 5" />
+                                    <TextBox VerticalAlignment="Center"
+                                             materialDesign:HintAssist.Hint="Tên nhà hàng"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Grid.Column="1"
+                                             Text="{Binding RestaurantRegister}"
+                                             Foreground="White"
+                                             materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                             materialDesign:HintAssist.Foreground="White"
+                                             CaretBrush="White"
+                                             BorderBrush="White"
+                                             Margin="5" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Account"
+                                                             Grid.Column="0"
+                                                             Width="25"
+                                                             Foreground="White"
+                                                             Height="25"
+                                                             Margin="5 20 5 5" />
+                                    <TextBox VerticalAlignment="Center"
+                                             materialDesign:HintAssist.Hint="Tên người dùng"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Grid.Column="1"
+                                             Foreground="White"
+                                             Text="{Binding UserRegister}"
+                                             materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                             materialDesign:HintAssist.Foreground="White"
+                                             CaretBrush="White"
+                                             BorderBrush="White"
+                                             Margin="5" />
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Key"
+                                                             Grid.Column="0"
+                                                             Width="25"
+                                                             Height="25"
+                                                             Foreground="White"
+                                                             Margin="5 20 5 5" />
+                                    <PasswordBox materialDesign:HintAssist.Hint="Mật khẩu"
+                                                 materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                                                 Grid.Column="1"
+                                                 Foreground="White"
+                                                 CaretBrush="White"
+                                                 materialDesign:HintAssist.Foreground="White"
+                                                 BorderBrush="White"
+                                                 Margin="5 10 10 10" />
+                                </Grid>
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Key"
+                                                             Grid.Column="0"
+                                                             Width="25"
+                                                             Height="25"
+                                                             Foreground="White"
+                                                             Margin="5 20 5 5" />
+                                    <PasswordBox materialDesign:HintAssist.Hint="Nhập lại mật khẩu"
+                                                 materialDesign:TextFieldAssist.UnderlineBrush="White"
+                                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                                                 Grid.Column="1"
+                                                 x:Name="PasswordRegister1"
+                                                 Foreground="White"
+                                                 CaretBrush="White"
+                                                 materialDesign:HintAssist.Foreground="White"
+                                                 BorderBrush="White"
+                                                 Margin="5 10 10 10" />
+                                </Grid>
                                 <Button Content="Đăng ký"
                                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                                         Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                         ToolTip="MaterialDesignFlatDarkButton"
+                                        Command="{Binding RegisterAccountCm}"
+                                        CommandParameter="{Binding ElementName=GridRegister}"
                                         Width="105"
-                                        Grid.Row="2"
-                                        Command="{Binding RegisterCommand}"
-                                        Grid.Column="1"
-                                        Margin="28,5,108,5" />
+                                        Grid.Row="4" />
                             </Grid>
                         </Grid>
-                        <Grid Visibility="{Binding RegisterVisibility}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="Storefront"
-                                                         Grid.Column="0"
-                                                         Width="25"
-                                                         Foreground="White"
-                                                         Height="25"
-                                                         Margin="5 20 5 5" />
-                                <TextBox VerticalAlignment="Center"
-                                         materialDesign:HintAssist.Hint="Tên nhà hàng"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                         Grid.Column="1"
-                                         Foreground="White"
-                                         Margin="5" />
-                            </Grid>
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="Account"
-                                                         Grid.Column="0"
-                                                         Width="25"
-                                                         Foreground="White"
-                                                         Height="25"
-                                                         Margin="5 20 5 5" />
-                                <TextBox VerticalAlignment="Center"
-                                         materialDesign:HintAssist.Hint="Tên người dùng"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                         Grid.Column="1"
-                                         Foreground="White"
-                                         Margin="5" />
-                            </Grid>
-                            <Grid Grid.Row="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="Key"
-                                                         Grid.Column="0"
-                                                         Width="25"
-                                                         Height="25"
-                                                         Foreground="White"
-                                                         Margin="5 20 5 5" />
-                                <PasswordBox materialDesign:HintAssist.Foreground="Green"
-                                             materialDesign:HintAssist.Hint="Mật khẩu"
-                                             materialDesign:TextFieldAssist.UnderlineBrush="Green"
-                                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                                             Grid.Column="1"
-                                             Foreground="White"
-                                             Margin="5 10 5 25" />
-                            </Grid>
-                            <Button Content="Đăng ký"
-                                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-                                    ToolTip="MaterialDesignFlatDarkButton"
-                                    Width="105"
-                                    Grid.Row="3" />
-                        </Grid>
-                    </Grid>
-                </materialDesign:Card>
+                    </materialDesign:Card>
+                </Grid>
             </Grid>
-        </Grid>
+        </materialDesign:DialogHost>
     </Border>
 </Window>

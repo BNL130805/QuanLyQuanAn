@@ -199,14 +199,14 @@ namespace QuanLyQuanAn.ViewModel
                 {
                     if (IsAllChecked == true)
                     {
-                        foreach (HumanShow human in HumanList)
+                        foreach (HumanShow human in FilteredHumanList)
                         {
                             human.IsChecked = true;
                         }
                     }
                     else
                     {
-                        foreach (HumanShow human in HumanList)
+                        foreach (HumanShow human in FilteredHumanList)
                         {
                             human.IsChecked = false;
                         }
@@ -381,11 +381,13 @@ namespace QuanLyQuanAn.ViewModel
         }
         private void ConfirmCheckAll()
         {
-            IsAllChecked = !HumanList.Any(p => p.IsChecked == false);
+            IsAllChecked = !FilteredHumanList.Any(p => p.IsChecked == false);
         }
 
         private void FilterHumanList()
         {
+            LoadHumanList();
+            IsAllChecked = false;
             if (string.IsNullOrWhiteSpace(SearchKeyword))
             {
                 // Hiển thị toàn bộ nhân sự nếu không có từ khóa

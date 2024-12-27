@@ -25,21 +25,6 @@ namespace QuanLyQuanAn.View.Statistics
         {
             InitializeComponent();
 
-            var converter = new BrushConverter();
-            ObservableCollection<Member> members = new ObservableCollection<Member>();
-
-            members.Add(new Member { Number = "1", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "2", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "3", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "4", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "5", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "6", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "7", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "8", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-            members.Add(new Member { Number = "9", Character = "J", BgColor = (Brush)converter.ConvertFromString("#1098AD"), Name = "Bàn 1", Position = "13:36:00 03/11/2024", Email = "150.000đ", Phone = "415-954-1475" });
-
-
-            membersDataGrid.ItemsSource = members;
         }
     }
 }

@@ -8,6 +8,7 @@ using LiveCharts;
 using QuanLyQuanAn.Model;
 using System.Collections.ObjectModel;
 using LiveCharts.Defaults;
+using System.Windows;
 
 namespace QuanLyQuanAn.ViewModel.StatisticVM
 {
@@ -17,6 +18,7 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
         private DateTime _begin;
         private DateTime _end;
         private SeriesCollection _seriesStatistic;
+        private Visibility _showdate;
         public string TypeRevenua
         {
             get => _typeRevenua;
@@ -29,21 +31,26 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                     case "Hôm nay":
                         Begin = DateTime.Today;
                         End = DateTime.Today;
+                        Showdate = Visibility.Hidden;
                         break;
                     case "7 ngày gần đây":
                         Begin = DateTime.Today.AddDays(-7);
                         End = DateTime.Today;
+                        Showdate = Visibility.Hidden;
                         break;
                     case "Tháng này":
                         Begin = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
                         End = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1).AddDays(-1);
+                        Showdate = Visibility.Hidden;
                         break;
                     case "Năm nay":
                         Begin = new DateTime(DateTime.Today.Year, 1, 1);
                         End = new DateTime(DateTime.Today.Year, 12, 31);
+                        Showdate = Visibility.Hidden;
                         break;
                     case "Chọn khoảng thời gian":
                         // Xử lý khi người dùng chọn khoảng thời gian cụ thể (nếu có)
+                        Showdate = Visibility.Visible;
                         break;
                     default:
                         break;
@@ -77,5 +84,6 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
         public SeriesCollection SeriesStatistic { get => _seriesStatistic; set { _seriesStatistic = value; OnPropertyChanged();} }
         public DateTime Begin { get => _begin; set { _begin = value; OnPropertyChanged(); ShowStatistic(); } }
         public DateTime End { get => _end; set { _end = value; OnPropertyChanged(); ShowStatistic(); } }
+        public Visibility Showdate { get => _showdate; set { _showdate = value; OnPropertyChanged(); } }
     }
 }

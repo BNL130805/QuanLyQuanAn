@@ -58,7 +58,7 @@
                            Grid.RowSpan="2"
                            Margin="0 40 0 0"
                            Opacity="0.3"/>
-                <TextBlock Text="Filter by"
+                <TextBlock Text="Tìm bàn ăn: "
                            Grid.Row="2"
                            FontSize="13"
                            FontWeight="SemiBold"
@@ -72,7 +72,7 @@
                       HorizontalAlignment="Right"
                       Grid.Row="2">
                     <TextBox VerticalAlignment="Center"
-                             materialDesign:HintAssist.Hint="Floating Hint"
+                             materialDesign:HintAssist.Hint="Nhập tên bàn ăn"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Foreground="Black" 
                              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>

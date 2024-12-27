@@ -55,7 +55,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="Filter by"
+                <TextBlock Text="Tìm món ăn:"
                            Grid.Row="0"
                            FontSize="13"
                            FontWeight="SemiBold"
@@ -69,7 +69,7 @@
                       HorizontalAlignment="Right"
                       Grid.Row="0">
                     <TextBox VerticalAlignment="Center"
-                             materialDesign:HintAssist.Hint="Floating Hint"
+                             materialDesign:HintAssist.Hint="Nhập tên món ăn"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Foreground="Black" 
                              Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"/>

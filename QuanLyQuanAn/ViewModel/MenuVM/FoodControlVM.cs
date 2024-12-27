@@ -180,14 +180,14 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 {
                     if (IsAllChecked == true)
                     {
-                        foreach (FoodShow food in FoodList)
+                        foreach (FoodShow food in FilteredFoodList)
                         {
                             food.IsChecked = true;
                         }
                     }
                     else
                     {
-                        foreach (FoodShow food in FoodList)
+                        foreach (FoodShow food in FilteredFoodList)
                         {
                             food.IsChecked = false;
                         }
@@ -270,7 +270,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         }
         private void ConfirmCheckAll()
         {
-            IsAllChecked = !FoodList.Any(p => p.IsChecked == false);
+            IsAllChecked = !FilteredFoodList.Any(p => p.IsChecked == false);
         }
         private void OpenFile()
         {
@@ -287,6 +287,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         //
         private void FilterFoodList()
         {
+            LoadFood();
+            IsAllChecked = false;
             if (string.IsNullOrWhiteSpace(SearchKeyword))
             {
                 // Hiển thị toàn bộ món ăn nếu không có từ khóa

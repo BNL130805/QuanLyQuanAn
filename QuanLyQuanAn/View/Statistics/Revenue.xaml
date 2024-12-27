@@ -45,14 +45,17 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="1"
+              Visibility="{Binding Showdate}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" x:Name="GridDatePicker">
+            <Grid Grid.Column="0"
+                  x:Name="GridDatePicker">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -93,52 +96,47 @@
                             FontWeight="SemiBold" />
             </Grid>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Margin="0 0 20 0">
-                <TextBlock FontSize="15"
-                           HorizontalAlignment="Center"
-                           Margin="0 5 5 0">Thống kê theo:</TextBlock>
-                <ComboBox Name="TimePeriodComboBox"
-                          VerticalAlignment="Top"
-                          HorizontalAlignment="Right"
-                          Width="150"
-                          Margin="5 0 0 0"
-                          FontSize="15"
-                          Text="{Binding TypeRevenua}"
-                          SelectedIndex="0"
-                          Style="{StaticResource MaterialDesignComboBox}">
-                    <ComboBoxItem Content="Hôm nay" />
-                    <ComboBoxItem Content="7 ngày gần đây" />
-                    <ComboBoxItem Content="Tháng này" />
-                    <ComboBoxItem Content="Năm nay" />
-                    <ComboBoxItem Content="Chọn khoảng thời gian" />
-                </ComboBox>
-            </StackPanel>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 20 0">
+            <TextBlock FontSize="15"
+                       HorizontalAlignment="Center"
+                       Margin="0 5 5 0">Thống kê theo:</TextBlock>
+            <ComboBox Name="TimePeriodComboBox"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Right"
+                      Width="150"
+                      Margin="5 0 0 0"
+                      FontSize="15"
+                      Text="{Binding TypeRevenua}"
+                      SelectedIndex="0"
+                      Style="{StaticResource MaterialDesignComboBox}">
+                <ComboBoxItem Content="Hôm nay" />
+                <ComboBoxItem Content="7 ngày gần đây" />
+                <ComboBoxItem Content="Tháng này" />
+                <ComboBoxItem Content="Năm nay" />
+                <ComboBoxItem Content="Chọn khoảng thời gian" />
+            </ComboBox>
+        </StackPanel>
 
-            <!-- Biểu đồ cột -->
-            <lvc:CartesianChart Name="revenueChart"
-                                Margin="10,50,10,10"
-                                Grid.Row="1">
-                <lvc:CartesianChart.Series>
-                    <lvc:ColumnSeries Title="Doanh thu"
-                                      Values="{Binding RevenueData}" />
-                </lvc:CartesianChart.Series>
-                <lvc:CartesianChart.AxisX>
-                    <lvc:Axis Title="Khoảng thời gian"
-                              Labels="{Binding TimeLable}" />
-                </lvc:CartesianChart.AxisX>
-                <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Doanh thu"
-                              LabelFormatter="{Binding Formatter}" />
-                </lvc:CartesianChart.AxisY>
-            </lvc:CartesianChart>
-        </Grid>
+        <!-- Biểu đồ cột -->
+        <lvc:CartesianChart Name="revenueChart"
+                            Margin="10,50,10,10"
+                            Grid.Row="2">
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Title="Doanh thu"
+                                  Values="{Binding RevenueData}" />
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Khoảng thời gian"
+                          Labels="{Binding TimeLable}" />
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Doanh thu"
+                          MinValue="0"
+                          LabelFormatter="{Binding Formatter}" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
     </Grid>
 </UserControl>

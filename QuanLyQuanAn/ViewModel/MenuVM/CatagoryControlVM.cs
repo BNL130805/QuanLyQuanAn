@@ -87,6 +87,7 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
             ShowAddCatagoryCommand = new RelayCommand(
                 async (p)=>
                 {
+                    CategoryReadyAdd = null;
                     TypeAdd = "Thêm";
                     CurrentDialogContent = new AddCatagory();
                     await ShowDialogContent(); 
@@ -219,14 +220,14 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 {
                     if (IsAllChecked==true)
                     {
-                        foreach(CatagoryShow catagory in CategoryList)
+                        foreach(CatagoryShow catagory in FilteredCategoryList)
                         {
                             catagory.IsChecked = true;
                         }
                     }
                     else
                     {
-                        foreach (CatagoryShow catagory in CategoryList)
+                        foreach (CatagoryShow catagory in FilteredCategoryList)
                         {
                             catagory.IsChecked = false;
                         }
@@ -284,11 +285,13 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
 
         private void ConfirmCheckAll()
         {
-            IsAllChecked = !CategoryList.Any(p => p.IsChecked == false);
+            IsAllChecked = !FilteredCategoryList.Any(p => p.IsChecked == false);
         }
         //thêm
         private void FilterCategoryList()
         {
+            LoadCategory();
+            IsAllChecked = false;
             if (string.IsNullOrWhiteSpace(SearchKeyword))
             {
                 // Hiển thị toàn bộ danh mục nếu không có từ khóa

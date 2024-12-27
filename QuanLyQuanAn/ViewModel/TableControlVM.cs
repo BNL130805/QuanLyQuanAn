@@ -187,14 +187,14 @@ namespace QuanLyQuanAn.ViewModel
                 {
                     if (IsAllChecked == true)
                     {
-                        foreach (var table in TableList)
+                        foreach (var table in FilteredTableList)
                         {
                             table.IsChecked = true;
                         }
                     }
                     else
                     {
-                        foreach (var table in TableList)
+                        foreach (var table in FilteredTableList)
                         {
                             table.IsChecked = false;
                         }
@@ -248,11 +248,13 @@ namespace QuanLyQuanAn.ViewModel
         }
         private void ConfirmCheckAll()
         {
-            IsAllChecked = !TableList.Any(p => p.IsChecked == false);
+            IsAllChecked = !FilteredTableList.Any(p => p.IsChecked == false);
         }
         //thêm
         private void FilterTableList()
         {
+            LoadTable();
+            IsAllChecked = false;
             if (string.IsNullOrWhiteSpace(SearchText))
             {
                 // Nếu không có từ khóa, hiển thị toàn bộ danh sách

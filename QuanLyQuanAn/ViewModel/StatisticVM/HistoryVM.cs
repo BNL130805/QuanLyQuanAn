@@ -9,8 +9,9 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
 {
     internal class HistoryVM : BaseViewModel
     {
-        // Thuộc tính chứa danh sách các mục lịch sử
         private ObservableCollection<HistoryItem> _historyList;
+        private DateTime _begin;
+        private DateTime _end;
         public ObservableCollection<HistoryItem> HistoryList
         {
             get => _historyList;
@@ -20,40 +21,39 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                 OnPropertyChanged();
             }
         }
-
-        
-        public ICommand LoadHistoryCommand { get; set; }
+        public DateTime Begin { get => _begin; set { _begin = value; LoadHistory(); OnPropertyChanged(); } }
+        public DateTime End { get => _end; set { _end = value;LoadHistory(); OnPropertyChanged(); } }
 
         public HistoryVM()
         {
-      
-            LoadHistoryCommand = new RelayCommand(
-                (p) => LoadHistory(),  
-                (p) => true  
-            );
-
-            
+            Begin = DateTime.Now;
+            End = DateTime.Now;
             LoadHistory();
         }
 
         // Phương thức để tải dữ liệu lịch sử
         private void LoadHistory()
         {
-            // Giả sử bạn có một phương thức lấy dữ liệu lịch sử từ database hoặc service
-            
-
-            // Chuyển dữ liệu từ model vào ObservableCollection
-            
+            HistoryList = new ObservableCollection<HistoryItem>(BillDataprovider.Bill.GetHistoryByDate(Begin, End.AddDays(1)).Select(p=>
+                new HistoryItem
+                {
+                    TableName = p.tableName,
+                    Time = p.TimeOut,
+                    Price = p.TotalPrice
+                }).ToList());
+            for (int i = 0; i < HistoryList.Count; i++)
+            {
+                HistoryList[i].Order = i + 1;
+            }
         }
-
-        
-
     }    
-    public class HistoryItem
+    public class HistoryItem:BaseViewModel
     {
-        public int idTable { get; set; }
-        public string tableName { get; set; }
-        public DateTime TimeIn { get; set; }
-        public double TotalPrice { get; set; }
+        private int _order;
+        public string TableName { get; set; }
+        public string Time {  get; set; }
+        public int Price { get; set; }
+
+        public int Order { get => _order; set { _order = value; OnPropertyChanged(); } }
     }
 }
