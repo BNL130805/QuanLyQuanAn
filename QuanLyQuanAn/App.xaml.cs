@@ -32,37 +32,18 @@ namespace QuanLyQuanAn
                 if (typeAccount == "Quản lý")
                 {
                     Admin adminWindow = new Admin();
-                    adminWindow.ShowDialog();
-                    try
-                    {
-
-                        Login loginWindow = new Login();
-                        loginWindow.Show();
-                    }
-                    catch { }
+                    adminWindow.Show();
                 }
                 else if (typeAccount == "Nhân viên")
                 {
                     Staff staffWindow = new Staff();
-                    staffWindow.ShowDialog();
-                    try
-                    {
-                        Login loginWindow = new Login();
-                        loginWindow.Show();
-                    }
-                    catch { }
+                    staffWindow.Show();
                     
                 }
                 else if (typeAccount == "Đầu bếp")
                 {
                     Cheff cheffWindow = new Cheff();
-                    cheffWindow.ShowDialog();
-                    try
-                    {
-                        Login loginWindow = new Login();
-                        loginWindow.Show();
-                    }
-                    catch { }
+                    cheffWindow.Show();
                 }
             }
             else
