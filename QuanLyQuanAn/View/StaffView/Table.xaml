@@ -112,7 +112,7 @@
                                             IsReadOnly="True"
                                             CanUserResize="False"
                                             Width="auto"
-                                            Binding="{Binding idTable}" />
+                                            Binding="{Binding }" />
                         <DataGridTemplateColumn Header="Tên bàn"
                                                 IsReadOnly="True"
                                                 Width="*">
