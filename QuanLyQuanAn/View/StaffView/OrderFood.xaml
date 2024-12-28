@@ -62,7 +62,8 @@
                                      materialDesign:HintAssist.Hint="Tìm kiếm"
                                      materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                      BorderThickness="0"
-                                     FontSize="15" />
+                                     FontSize="15" 
+                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
                             <Button Grid.Column="1"
                                     Style="{StaticResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Margin="0,0,10,0"
