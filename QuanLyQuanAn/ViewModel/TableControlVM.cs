@@ -58,7 +58,7 @@ namespace QuanLyQuanAn.ViewModel
         public ICommand ShowAddTableCommand { get; }
         public ICommand CloseAddTable { get; }
         public ICommand AddTable { get; }
-        public ICommand DeleteCommand { get; }
+        public virtual ICommand DeleteCommand { get; }
         public ICommand AllCheckCm { get; set; }
         public ICommand DeleteTables { get; }
         public ICommand FalseCm { get; set; }
@@ -227,7 +227,7 @@ namespace QuanLyQuanAn.ViewModel
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
-        private void LoadTable()
+        protected void LoadTable()
         {
             TableList = new ObservableCollection<TableShow>(TableProvider.Table.GetAllTable().Select(
                 P =>
@@ -246,7 +246,7 @@ namespace QuanLyQuanAn.ViewModel
                 TableList[i].CountChecked += ConfirmCheckAll;
             }
         }
-        private void ConfirmCheckAll()
+        protected void ConfirmCheckAll()
         {
             IsAllChecked = !FilteredTableList.Any(p => p.IsChecked == false);
         }

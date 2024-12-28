@@ -573,11 +573,11 @@ namespace QuanLyQuanAn.Model
                 }    
             }
         }
-        public Bill GetBillUnpaidByTable(tableFood table)
+        public Bill GetBillUnpaidByTable(TableShow table)
         {
             using(var QuenryBill = new QuanLyQuanAnEntities())
             {
-                var bill = QuenryBill.Bills.Where(p => p.idTable == table.idTable && p.status == "Chưa thanh toán").ToList()[0];
+                var bill = QuenryBill.Bills.Where(p => p.idTable == table.IdTable && p.status == "Chưa thanh toán").ToList()[0];
                 return bill;
             }
         }

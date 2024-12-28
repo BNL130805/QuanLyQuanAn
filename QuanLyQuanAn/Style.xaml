@@ -163,97 +163,99 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="LogoutButtonStyle"
-           TargetType="Button">
-        <Setter Property="Background"
-                Value="#104E8B" />
-        <Setter Property="Foreground"
-                Value="White" />
+    <Style x:Key="LogoutButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#104E8B" />
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Margin="5,1,0,1"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="3">
+                    <Border
+                        Margin="5,1,0,1"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="3">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3" />
                                 <ColumnDefinition Width="7*" />
                                 <ColumnDefinition Width="5*" />
                             </Grid.ColumnDefinitions>
-                            <Border x:Name="hightligh"
-                                    Grid.Column="0"
-                                    Margin="0,4,0,4"
-                                    Background="#00AADA"
-                                    CornerRadius="3"
-                                    Visibility="Hidden" />
-                            <Grid x:Name="mainpage"
-                                  Grid.Column="1"
-                                  Grid.ColumnSpan="2"
-                                  Background="Transparent">
+                            <Border
+                                x:Name="hightligh"
+                                Grid.Column="0"
+                                Margin="0,4,0,4"
+                                Background="#00AADA"
+                                CornerRadius="3"
+                                Visibility="Hidden" />
+                            <Grid
+                                x:Name="mainpage"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Background="Transparent">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width="{Binding ElementName=TextButton, Path=Width}" />
                                 </Grid.ColumnDefinitions>
-                                <Image x:Name="ImageButton"
-                                       Grid.Column="0"
-                                       Width="25"
-                                       Height="25"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center"
-                                       Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Image
+                                    x:Name="ImageButton"
+                                    Grid.Column="0"
+                                    Width="25"
+                                    Height="25"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}">
                                     <Image.RenderTransform>
-                                        <TranslateTransform X="30"
-                                                            Y="0" />
+                                        <TranslateTransform X="30" Y="0" />
                                     </Image.RenderTransform>
                                 </Image>
-                                <TextBlock x:Name="TextButton"
-                                           Grid.Column="1"
-                                           Width="120"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           FontSize="18"
-                                           Text="{TemplateBinding Property=Content}" />
+                                <TextBlock
+                                    x:Name="TextButton"
+                                    Grid.Column="1"
+                                    Width="120"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="18"
+                                    Text="{TemplateBinding Property=Content}" />
                             </Grid>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-                            <Setter Property="Background"
-                                    Value="Black" />
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Black" />
                         </Trigger>
-                        <DataTrigger Binding="{Binding ElementName=ButtonControl, Path=IsChecked}"
-                                     Value="False">
+                        <DataTrigger Binding="{Binding ElementName=ButtonControl, Path=IsChecked}" Value="False">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ImageButton"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                                         From="30"
-                                                         To="0"
-                                                         Duration="0:0:0.3" />
-                                        <DoubleAnimation Storyboard.TargetName="TextButton"
-                                                         Storyboard.TargetProperty="Width"
-                                                         From="120"
-                                                         To="0"
-                                                         Duration="0:0:0.3" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ImageButton"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                            From="30"
+                                            To="0"
+                                            Duration="0:0:0.3" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TextButton"
+                                            Storyboard.TargetProperty="Width"
+                                            From="120"
+                                            To="0"
+                                            Duration="0:0:0.3" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
                             <DataTrigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ImageButton"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                                                         From="0"
-                                                         To="30"
-                                                         Duration="0:0:0.3" />
-                                        <DoubleAnimation Storyboard.TargetName="TextButton"
-                                                         Storyboard.TargetProperty="Width"
-                                                         From="0"
-                                                         To="120"
-                                                         Duration="0:0:0.3" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ImageButton"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                            From="0"
+                                            To="30"
+                                            Duration="0:0:0.3" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TextButton"
+                                            Storyboard.TargetProperty="Width"
+                                            From="0"
+                                            To="120"
+                                            Duration="0:0:0.3" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.ExitActions>
@@ -341,13 +343,10 @@
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="IsSelected"
-                               Value="true" />
-                    <Condition Property="Selector.IsSelectionActive"
-                               Value="false" />
+                    <Condition Property="IsSelected" Value="true" />
+                    <Condition Property="Selector.IsSelectionActive" Value="false" />
                 </MultiTrigger.Conditions>
-                <Setter Property="Background"
-                        Value="#ffffff" />
+                <Setter Property="Background" Value="#ffffff" />
             </MultiTrigger>
         </Style.Triggers>
     </Style>
@@ -360,28 +359,32 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                     <Grid>
-                        <theme:DataGridHeaderBorder Padding="{TemplateBinding Padding}"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                    IsClickable="{TemplateBinding CanUserSort}"
-                                                    IsHovered="{TemplateBinding IsMouseOver}"
-                                                    IsPressed="{TemplateBinding IsPressed}"
-                                                    SeparatorBrush="{TemplateBinding SeparatorBrush}"
-                                                    SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
-                                                    SortDirection="{TemplateBinding SortDirection}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              RecognizesAccessKey="True"
-                                              TextBlock.TextAlignment="Center"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <theme:DataGridHeaderBorder
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            IsClickable="{TemplateBinding CanUserSort}"
+                            IsHovered="{TemplateBinding IsMouseOver}"
+                            IsPressed="{TemplateBinding IsPressed}"
+                            SeparatorBrush="{TemplateBinding SeparatorBrush}"
+                            SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
+                            SortDirection="{TemplateBinding SortDirection}">
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                TextBlock.TextAlignment="Center" />
                         </theme:DataGridHeaderBorder>
-                        <Thumb x:Name="PART_LeftHeaderGripper"
-                               HorizontalAlignment="Left"
-                               Style="{StaticResource ColumnHeaderGripperStyle}" />
-                        <Thumb x:Name="PART_RightHeaderGripper"
-                               HorizontalAlignment="Right"
-                               Style="{StaticResource ColumnHeaderGripperStyle}" />
+                        <Thumb
+                            x:Name="PART_LeftHeaderGripper"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource ColumnHeaderGripperStyle}" />
+                        <Thumb
+                            x:Name="PART_RightHeaderGripper"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource ColumnHeaderGripperStyle}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
