@@ -251,7 +251,7 @@ namespace QuanLyQuanAn.ViewModel
             IsAllChecked = !FilteredTableList.Any(p => p.IsChecked == false);
         }
         //thêm
-        private void FilterTableList()
+        protected void FilterTableList()
         {
             LoadTable();
             IsAllChecked = false;
