@@ -101,10 +101,13 @@
                         <DataGridCheckBoxColumn Header="C"
                                                 CanUserResize="False"
                                                 Width="auto"
+                                                Binding="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
                                                 ElementStyle="{StaticResource CheckBoxStyle1}">
                             <DataGridCheckBoxColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <CheckBox Style="{StaticResource CheckBoxStyle1}" />
+                                    <CheckBox Style="{StaticResource CheckBoxStyle1}"
+                                              IsChecked="{Binding DataContext.IsAllChecked, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.AllCheckCm, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                                 </DataTemplate>
                             </DataGridCheckBoxColumn.HeaderTemplate>
                         </DataGridCheckBoxColumn>
@@ -112,21 +115,21 @@
                                             IsReadOnly="True"
                                             CanUserResize="False"
                                             Width="auto"
-                                            Binding="{Binding }" />
+                                            Binding="{Binding No}" />
                         <DataGridTemplateColumn Header="Tên bàn"
                                                 IsReadOnly="True"
                                                 Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding tableName}"
+                                        <TextBlock Text="{Binding Name}"
                                                    VerticalAlignment="Center" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Trạng thái"
-                                            Binding="{Binding status}"
+                                            Binding="{Binding Status}"
                                             IsReadOnly="True"
                                             Width="*" />
                         <DataGridTemplateColumn Header="Operations"

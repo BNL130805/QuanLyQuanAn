@@ -9,6 +9,7 @@
 
 namespace QuanLyQuanAn.Model
 {
+    using System;
     using System.Collections.Generic;
     
     public partial class tableFood

@@ -6,7 +6,7 @@ go
 create table Restaurant
 (
 	idRes int identity not null primary key,
-	RestaurantName nvarchar(50) not null
+	RestaurantName nvarchar(50) COLLATE SQL_Latin1_General_CP1_CS_AS not null 
 )
 go
 
@@ -14,8 +14,8 @@ create table Account
 (
 	RestaurantName nvarchar(50) not null,
 	idRes int not null,
-	Username nvarchar(50) not null,
-	Password nvarchar(20) not null,
+	Username nvarchar(50) COLLATE SQL_Latin1_General_CP1_CS_AS not null,
+	Password nvarchar(20) COLLATE SQL_Latin1_General_CP1_CS_AS not null,
 	TypeAccount nvarchar(20) not null default N'Nhân viên',
 
 	constraint PK__Account__7F906AD957D88891 primary key (RestaurantName, idRes, Username),
@@ -95,12 +95,15 @@ alter table Account drop column RestaurantName
 
 ALTER TABLE Account
 ADD CONSTRAINT PK__Account__7F906AD957D88891 PRIMARY KEY (idRes, Username);
+go
+
+alter table Acc
 
 CREATE TABLE CurrentSession
 (
     SessionId INT IDENTITY constraint PK__CurrentS__C9F49290BABCA842 PRIMARY KEY,
     idRes INT NOT NULL,
-    Username NVARCHAR(50) NOT NULL,
+    Username NVARCHAR(50) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
     LoginTime DATETIME DEFAULT GETDATE(),
     LogoutTime DATETIME NULL,
     constraint FK__CurrentSession__73BA3083 FOREIGN KEY (idRes, Username) REFERENCES Account(idRes, Username)
@@ -120,6 +123,14 @@ alter table CurrentSession drop column idRes
 alter table CurrentSession drop column Username
 go
 alter table CurrentSession add idAccount int
+go
+
+ALTER TABLE Account
+DROP CONSTRAINT PK__Account__7F906AD957D88891;
+go
+
+ALTER TABLE Account
+ADD CONSTRAINT PK__Account__7F906AD957D88891 PRIMARY KEY (idRes, idAccout);
 go
 
 create trigger UTG_UpdateBillInF
@@ -150,4 +161,3 @@ begin
 		update dbo.TableFood set status = N'trống' where idTable = @idTable
 end
 go
-

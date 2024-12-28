@@ -48,7 +48,6 @@ namespace QuanLyQuanAn
             }
             else
             {
-                // Hiển thị cửa sổ đăng nhập nếu chưa đăng nhập
                 Login loginWindow = new Login();
                 loginWindow.Show();
             }
