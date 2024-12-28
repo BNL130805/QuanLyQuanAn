@@ -44,6 +44,20 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
                 OnPropertyChanged();
             }
         }
+        //them
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged();
+                UpdateFilteredFood(); // Cập nhật danh sách món ăn khi thay đổi từ khóa tìm kiếm
+            }
+        }
+
+
         public ICommand AddBill { get; set; }
         public ICommand AddFoodCm { get; set; }
         public ICommand SendBillToChef { get; set; }
@@ -178,19 +192,27 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         }
         private void UpdateFilteredFood()
         {
+            if (AllFood == null) return; // Kiểm tra danh sách món ăn đã được tải chưa
+
+            var foodList = (ObservableCollection<dynamic>)AllFood;
+
+            // Lọc theo danh mục
             if (SelectedCategory != null && SelectedCategory.name != "Tất cả")
             {
-                // Lọc món ăn theo danh mục được chọn
-                FilteredFood = new ObservableCollection<dynamic>(
-                    ((ObservableCollection<dynamic>)AllFood)
-                    .Where(Food => Food.idFoodCtg == SelectedCategory.idFoodCtg));
+                foodList = new ObservableCollection<dynamic>(
+                    foodList.Where(Food => Food.idFoodCtg == SelectedCategory.idFoodCtg));
             }
-            else
+
+            // Lọc theo từ khóa tìm kiếm
+            if (!string.IsNullOrWhiteSpace(SearchText))
             {
-                // Hiển thị toàn bộ món ăn nếu danh mục là "Tất cả"
-                FilteredFood = new ObservableCollection<dynamic>((ObservableCollection<dynamic>)AllFood);
+                foodList = new ObservableCollection<dynamic>(
+                    foodList.Where(Food => Food.name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0));
             }
+
+            FilteredFood = new ObservableCollection<dynamic>(foodList); // Cập nhật danh sách hiển thị
         }
+
         public ObservableCollection<foodCategory> CategoryNames 
         { 
             get => _categoryNames; 

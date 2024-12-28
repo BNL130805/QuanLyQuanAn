@@ -75,7 +75,8 @@
                     <TextBox VerticalAlignment="Center"
                              materialDesign:HintAssist.Hint="Floating Hint"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Foreground="Black" />
+                             Foreground="Black" 
+                             />
                 </Grid>
                 <StackPanel Grid.Row="3"
                             HorizontalAlignment="Right"
