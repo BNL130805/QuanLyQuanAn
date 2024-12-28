@@ -53,6 +53,24 @@ namespace QuanLyQuanAn.Model
                 return QuenryAccout.Accounts.Where(p => p.idAccout == Id).ToList();
             }
         }
+        public bool RegisterAccout(string RestaurantName, string UserName, string Password)
+        {
+            using (var QuenryAccout = new QuanLyQuanAnEntities())
+            {
+                if (QuenryAccout.Restaurants.Any(p => p.RestaurantName == RestaurantName))
+                {
+                    return false;
+                }
+                Restaurant newR = new Restaurant { RestaurantName = RestaurantName };
+                QuenryAccout.Restaurants.Add(newR);
+                QuenryAccout.SaveChanges();
+                var idRes = QuenryAccout.Restaurants.FirstOrDefault(p => p.RestaurantName == RestaurantName);
+                Account newA = new Account { idRes = idRes.idRes, Username = UserName, Password = Password, TypeAccount = "Quản lý" };
+                QuenryAccout.Accounts.Add(newA);
+                QuenryAccout.SaveChanges();
+                return true;
+            }
+        }
     }
     public class CategoryProvider
     {
@@ -81,7 +99,9 @@ namespace QuanLyQuanAn.Model
         {
             using (var dbContext = new QuanLyQuanAnEntities())
             {
-                return dbContext.foodCategories.ToList();
+                var CurrentA = dbContext.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = dbContext.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+                return dbContext.foodCategories.Where(p=>p.idRes==CurrentR.idRes).ToList();
             }
         }
         public bool DeleteCategory(int idFoodCtg)
@@ -117,7 +137,10 @@ namespace QuanLyQuanAn.Model
         {
             using(var QuenryCategory = new QuanLyQuanAnEntities())
             {
-                if(QuenryCategory.foodCategories.Any(p=> p.name == categoryAdd.Name && p.idFoodCtg != categoryAdd.ID))
+                var CurrentA = QuenryCategory.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = QuenryCategory.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
+                if (QuenryCategory.foodCategories.Any(p=> p.name == categoryAdd.Name && p.idFoodCtg != categoryAdd.ID && p.idRes == CurrentR.idRes))
                 {
                     return false;
                 }
@@ -173,8 +196,13 @@ namespace QuanLyQuanAn.Model
         {
             using (var FoodQuenry = new QuanLyQuanAnEntities())
             {
+                var CurrentA = FoodQuenry.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = FoodQuenry.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
                 var Food = (from foods in FoodQuenry.foods
-                            join categories in FoodQuenry.foodCategories on foods.idFoodCtg equals categories.idFoodCtg
+                            join categories in FoodQuenry.foodCategories 
+                            on foods.idFoodCtg equals categories.idFoodCtg
+                            where(categories.idRes == CurrentR.idRes)
                             orderby categories.idFoodCtg
                             select new
                             {
@@ -213,7 +241,10 @@ namespace QuanLyQuanAn.Model
         {
             using (var QuenryFood = new QuanLyQuanAnEntities())
             {
-                if (QuenryFood.foods.Any(p => p.name == foodshow.Name && p.idFood != foodshow.Id))
+                var CurrentA = QuenryFood.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = QuenryFood.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
+                if (QuenryFood.foods.Any(p => p.name == foodshow.Name && p.idFood != foodshow.Id && p.idRes==CurrentR.idRes))
                 {
                     return false;
                 }
@@ -274,28 +305,31 @@ namespace QuanLyQuanAn.Model
         {
             using(var TableQuenry = new QuanLyQuanAnEntities())
             {
-                return TableQuenry.tableFoods.Where(p=>p.tableName == name).ToList();
+                var CurrentA = TableQuenry.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = TableQuenry.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
+                return TableQuenry.tableFoods.Where(p=>p.tableName == name && p.idRes == CurrentR.idRes).ToList();
             }
         }
         //
-        public List<tableFood> GetAllTable(string name = null)
+        public List<tableFood> GetAllTable()
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())
             {
-                if (name == null)
-                {
-                    return TableQuenry.tableFoods.ToList();
-                }    
-                return TableQuenry.tableFoods
-                                  .Where(p => p.tableName.Contains(name))
-                                  .ToList();
+                var CurrentA = TableQuenry.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = TableQuenry.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+                return TableQuenry.tableFoods.Where(p=>p.idRes==CurrentR.idRes).ToList();
+                
             }
         }
-        public object GetTableByStatus(string status)
+        public List<tableFood> GetTableByStatus(string status)
         {
             using(var TableQuenry = new QuanLyQuanAnEntities())
             {
-                var table = TableQuenry.tableFoods.Where(p => p.status == status).ToList();
+                var CurrentA = TableQuenry.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = TableQuenry.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
+                var table = TableQuenry.tableFoods.Where(p => p.status == status&&p.idRes==CurrentR.idRes).ToList();
                 return table;
             }
         }
@@ -307,8 +341,13 @@ namespace QuanLyQuanAn.Model
                                                .FirstOrDefault(table => table.idTable == idTable);
                 if (tableToDelete != null)
                 {
-                    TableQuenry.Bills.RemoveRange(TableQuenry.Bills.Where(p => p.idTable == idTable));
+                    foreach (var bill in TableQuenry.Bills.Where(p=>p.idTable == idTable))
+                    {
+                        TableQuenry.BillInfs.RemoveRange(TableQuenry.BillInfs.Where(p=> p.idBill == bill.idBill));
+                    }
                     TableQuenry.SaveChanges();
+                    TableQuenry.Bills.RemoveRange(TableQuenry.Bills.Where(p => p.idTable == idTable));
+                    TableQuenry.SaveChanges() ;
                     TableQuenry.tableFoods.Remove(tableToDelete);
                     TableQuenry.SaveChanges();
                 }
@@ -318,7 +357,11 @@ namespace QuanLyQuanAn.Model
         {
             using (var TableQuenry = new QuanLyQuanAnEntities())
             {
+                var CurrentA = TableQuenry.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = TableQuenry.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
                 var Status = (from status in TableQuenry.tableFoods
+                              where(status.idRes == CurrentR.idRes)
                              select new { status.status }).Distinct().ToList();
                 return Status;
             }
@@ -327,7 +370,10 @@ namespace QuanLyQuanAn.Model
         {
             using (var QuenryTable = new QuanLyQuanAnEntities())
             {
-                if (QuenryTable.tableFoods.Any(p => p.tableName == tableshow.Name && p.idTable != tableshow.IdTable))
+                var CurrentA = QuenryTable.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = QuenryTable.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
+                if (QuenryTable.tableFoods.Any(p => p.tableName == tableshow.Name && p.idTable != tableshow.IdTable&&p.idRes==CurrentR.idRes))
                 {
                     return false;
                 }
@@ -386,9 +432,11 @@ namespace QuanLyQuanAn.Model
         {
             using (var hmContext = new QuanLyQuanAnEntities())
             {
-       
+                var CurrentA = hmContext.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = hmContext.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
                 return hmContext.Accounts
-                                .Where(account => account.TypeAccount == typeAccount)
+                                .Where(account => account.TypeAccount == typeAccount && account.idRes == CurrentR.idRes)
                                 .ToList();
             }
         }
@@ -491,18 +539,17 @@ namespace QuanLyQuanAn.Model
                 quenryBill.SaveChanges();
             }
         }
-        public void InsertBillByTable(ObservableCollection<ListBillInf> listBillInf, string table, int totalPrice)
+        public void InsertBillByTable(ObservableCollection<ListBillInf> listBillInf, tableFood table, int totalPrice)
         {
             using (var QuenryBill =  new QuanLyQuanAnEntities())
             {
-                tableFood currentTable = TableProvider.Table.GetAllTableByName(table)[0];
-                if (currentTable.status == "trống")
+                if (table.status == "trống")
                 {     
                     Bill newBill = new Bill();
                     int idCurrentAccout = (int)CurrentAccoutDataprovider.CurrentAccout.GetCurrentAccoutByIdMachine()[0].idAccount;
                     Account currentAccout = AccountDataprovider.Account.GetAccountById(idCurrentAccout)[0];
                     newBill.idRes = currentAccout.idRes;
-                    newBill.idTable = currentTable.idTable;
+                    newBill.idTable = table.idTable;
                     newBill.TotalPrice = totalPrice;
                     newBill.TimeIn = DateTime.Now;
                     newBill.status = "Chưa thanh toán";
@@ -512,7 +559,7 @@ namespace QuanLyQuanAn.Model
                 }
                 else
                 {
-                    var currentBill = QuenryBill.Bills.FirstOrDefault(b => b.idTable == currentTable.idTable && b.status == "Chưa thanh toán");
+                    var currentBill = QuenryBill.Bills.FirstOrDefault(b => b.idTable == table.idTable && b.status == "Chưa thanh toán");
 
                     if (currentBill != null)
                     {
@@ -526,12 +573,11 @@ namespace QuanLyQuanAn.Model
                 }    
             }
         }
-        public Bill GetBillUnpaidByTable(string table)
+        public Bill GetBillUnpaidByTable(tableFood table)
         {
             using(var QuenryBill = new QuanLyQuanAnEntities())
             {
-                tableFood currentTable = TableProvider.Table.GetAllTableByName(table)[0];
-                var bill = QuenryBill.Bills.Where(p => p.idTable == currentTable.idTable && p.status == "Chưa thanh toán").ToList()[0];
+                var bill = QuenryBill.Bills.Where(p => p.idTable == table.idTable && p.status == "Chưa thanh toán").ToList()[0];
                 return bill;
             }
         }
@@ -539,11 +585,14 @@ namespace QuanLyQuanAn.Model
         {
             using(var QuenryBill = new QuanLyQuanAnEntities())
             {
+                var CurrentA = QuenryBill.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = QuenryBill.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
                 int PeriodOfTime = (End - Begin).Days;
                 if (PeriodOfTime <= 2)
                 {
                     var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán" && bill.idRes==CurrentR.idRes)
                         .GroupBy(bill => bill.TimeIn.Hour)
                         .Select(listBill => new
                         {
@@ -556,7 +605,7 @@ namespace QuanLyQuanAn.Model
                 else if (PeriodOfTime > 2 && PeriodOfTime<=60) 
                 {
                     var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán"&&bill.idRes==CurrentR.idRes)
                         .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn))
                         .Select(listBill => new
                         {
@@ -569,7 +618,7 @@ namespace QuanLyQuanAn.Model
                 else if(PeriodOfTime > 60 && PeriodOfTime <= 730)
                 {
                     var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán" && bill.idRes == CurrentR.idRes)
                         .GroupBy(bill => bill.TimeIn.Month)
                         .Select(listBill => new
                         {
@@ -582,7 +631,7 @@ namespace QuanLyQuanAn.Model
                 else
                 {
                     var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán")
+                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán" && bill.idRes == CurrentR.idRes)
                         .GroupBy(bill => bill.TimeIn.Year)
                         .Select(listBill => new
                         {
@@ -598,10 +647,13 @@ namespace QuanLyQuanAn.Model
         {
             using (var QuenryHistory = new QuanLyQuanAnEntities())
             {
+                var CurrentA = QuenryHistory.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = QuenryHistory.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
                 var HistoryList = (from history in QuenryHistory.Bills
                                    join table in QuenryHistory.tableFoods
                                    on history.idTable equals table.idTable
-                                   where(history.TimeOut >= Begin && history.TimeOut <= End)
+                                   where(history.TimeOut >= Begin && history.TimeOut <= End && history.idRes==CurrentR.idRes)
                                    select new
                                    {
                                        table.tableName,
@@ -730,10 +782,13 @@ namespace QuanLyQuanAn.Model
         {
             using (var QuenryBillInf = new QuanLyQuanAnEntities())
             {
+                var CurrentA = QuenryBillInf.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentR = QuenryBillInf.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
+
                 var listBillWithIdFood = (from b in QuenryBillInf.Bills
                                 join bi in QuenryBillInf.BillInfs
                                 on b.idBill equals bi.idBill
-                                where (b.TimeIn >= Begin && b.TimeIn <= End)
+                                where (b.TimeIn >= Begin && b.TimeIn <= End && b.idRes==CurrentR.idRes)
                                 select new
                                 {
                                     bi.idFood,

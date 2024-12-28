@@ -47,7 +47,7 @@ namespace QuanLyQuanAn.ViewModel
                     if (p is tableFood table)
                     {
                         _currentIdTable = table.idTable;
-                        TotalPrice = BillDataprovider.Bill.GetBillUnpaidByTable(table.tableName).TotalPrice;
+                        TotalPrice = BillDataprovider.Bill.GetBillUnpaidByTable(table).TotalPrice;
                         BillInfList = new ObservableCollection<ListBillInf>(BillInfDataprovider.BillInf.GetBillInfByTable(table.idTable));
                         ShowAddFood();
                     }

@@ -57,7 +57,9 @@ namespace QuanLyQuanAn.ViewModel
                     if (p is Window window)
                     {
                         CurrentAccoutDataprovider.CurrentAccout.LogoutCurrentAccout();
+                        var w = new Login();
                         window.Close();
+                        w.Show();
                     }
                 },
                 p => true

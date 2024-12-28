@@ -18,8 +18,8 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
         private object _allFood;
         private ObservableCollection<ListBillInf> _billInfList;
         private object _statusTable;
-        private object _table;
-        private string _currentTable;
+        private ObservableCollection<tableFood> _table;
+        private tableFood _currentTable;
         private string _currentStatus;
         int _totalFood;
         private object _currentDialogContent;
@@ -211,17 +211,17 @@ namespace QuanLyQuanAn.ViewModel.MenuVM
 
         public object StatusTable { get => _statusTable; set { _statusTable = value; OnPropertyChanged(); } }
 
-        public object Table { get => _table; set { _table = value; OnPropertyChanged(); } }
+        public ObservableCollection<tableFood> Table { get => _table; set { _table = value; OnPropertyChanged(); } }
 
         public string CurrentStatus { get => _currentStatus;
             set 
             {
                 _currentStatus = value; 
                 OnPropertyChanged();
-                Table = TableProvider.Table.GetTableByStatus(_currentStatus);
+                Table = new ObservableCollection<tableFood>( TableProvider.Table.GetTableByStatus(_currentStatus));
             } }
 
-        public string CurrentTable { get => _currentTable; set { _currentTable = value; OnPropertyChanged(); } }
+        public tableFood CurrentTable { get => _currentTable; set { _currentTable = value; OnPropertyChanged(); } }
     }
     public class ByteToImageConverter : IValueConverter
     {

@@ -109,19 +109,19 @@ namespace QuanLyQuanAn.ViewModel
                                 if (tb.Text == "Quản lý")
                                 {
                                     Admin w = new Admin();
-                                    w.ShowDialog();
+                                    w.Show();
                                 }
                                 else if(tb.Text == "Nhân viên")
                                 {
-                                    Staff w = new Staff(); w.ShowDialog();
+                                    Staff w = new Staff(); w.Show();
                                 }   
                                 else if(tb.Text == "Đầu bếp")
                                 {
-                                    Cheff w = new Cheff(); w.ShowDialog();
+                                    Cheff w = new Cheff(); w.Show();
                                 }
                                 try
                                 {
-                                    window.Show();
+                                    window.Close();
                                 }
                                 catch { }
                             }
@@ -163,9 +163,40 @@ namespace QuanLyQuanAn.ViewModel
                 p => true
                 );
             RegisterAccountCm = new RelayCommand(
-                (p) =>
+                async (p) =>
                 {
-                    
+                    if (p is Grid grid1)
+                    {
+                        if (PasswordReEnter != PasswordRegister)
+                        {
+                            Message = "Mật khẩu nhập lại không đúng!";
+                            CurrentDialogContent = new Message();
+                            await ShowDialogContent();
+                            return;
+                        }
+                        if (AccountDataprovider.Account.RegisterAccout(RestaurantRegister, UserRegister, PasswordRegister))
+                        {
+                            Message = "Đăng ký thành công!";
+                            CurrentDialogContent = new Message();
+                            await ShowDialogContent();
+                            var window = Window.GetWindow(grid1);
+                            CurrentAccoutDataprovider.CurrentAccout.UpdateCurrentAccout(RestaurantRegister, UserRegister);
+                            window.Hide();
+                            Admin w = new Admin();
+                            w.Show();
+                            try
+                            {
+                                window.Close();
+                            }
+                            catch { }
+                        }
+                        else
+                        {
+                            Message = "Tên nhà hàng đã tồn tại!";
+                            CurrentDialogContent = new Message();
+                            await ShowDialogContent();
+                        }
+                    }
                 },
                 (p) =>
                 {

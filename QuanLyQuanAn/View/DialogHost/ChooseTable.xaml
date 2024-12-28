@@ -32,7 +32,7 @@
                  Height="50"
                  FontSize="18"
                   ItemsSource="{Binding Table}"
-                  Text="{Binding CurrentTable}"
+                  SelectedItem="{Binding CurrentTable}"
                   DisplayMemberPath="tableName"
                  Margin="10 0 10 0" />
         
