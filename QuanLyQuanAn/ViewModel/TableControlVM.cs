@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 
 namespace QuanLyQuanAn.ViewModel
 {
-    public abstract class TableControlVM : BaseViewModel
+    public class TableControlVM : BaseViewModel
     {
         private object _currentDialogContent;
         private ObservableCollection<TableShow> _tableList;
