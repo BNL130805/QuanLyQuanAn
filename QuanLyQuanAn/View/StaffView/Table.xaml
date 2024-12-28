@@ -75,7 +75,8 @@
                     <TextBox VerticalAlignment="Center"
                              materialDesign:HintAssist.Hint="Floating Hint"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Foreground="Black" 
+                             Foreground="Black"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                              />
                 </Grid>
                 <StackPanel Grid.Row="3"
@@ -96,7 +97,7 @@
                           CellStyle="{DynamicResource DataGridCellStyle1}"
                           x:Name="membersDataGrid"
                           Style="{DynamicResource DataGridStyle1}"
-                          ItemsSource="{Binding TableList}">
+                          ItemsSource="{Binding FilteredTableList}">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Header="C"
                                                 CanUserResize="False"

@@ -13,7 +13,7 @@ using QuanLyQuanAn.ViewModel.MenuVM;
 
 namespace QuanLyQuanAn.ViewModel
 {
-    internal class TableStaffVM:TableControlVM
+    public class TableStaffVM:TableControlVM
     {
         private ObservableCollection<ListBillInf> _billInfList;
         private int _totalPrice;

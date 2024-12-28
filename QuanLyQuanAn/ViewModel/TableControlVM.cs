@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 
 namespace QuanLyQuanAn.ViewModel
 {
-    internal class TableControlVM : BaseViewModel
+    public class TableControlVM : BaseViewModel
     {
         private object _currentDialogContent;
         private ObservableCollection<TableShow> _tableList;
@@ -251,7 +251,7 @@ namespace QuanLyQuanAn.ViewModel
             IsAllChecked = !FilteredTableList.Any(p => p.IsChecked == false);
         }
         //thêm
-        private void FilterTableList()
+        protected void FilterTableList()
         {
             LoadTable();
             IsAllChecked = false;
