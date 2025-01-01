@@ -161,3 +161,6 @@ begin
 		update dbo.TableFood set status = N'trống' where idTable = @idTable
 end
 go
+
+alter table dbo.Bill
+add completion nvarchar(20)

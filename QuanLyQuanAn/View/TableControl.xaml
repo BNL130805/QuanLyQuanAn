@@ -108,7 +108,7 @@
                           CellStyle="{DynamicResource DataGridCellStyle1}"
                           x:Name="membersDataGrid"
                           Style="{DynamicResource DataGridStyle1}"
-                          ItemsSource="{Binding FilteredTableList}">
+                          ItemsSource="{Binding FilteredList}">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Header="C"
                                                 CanUserResize="False"

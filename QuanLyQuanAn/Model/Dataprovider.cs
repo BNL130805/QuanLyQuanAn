@@ -527,15 +527,29 @@ namespace QuanLyQuanAn.Model
         private BillDataprovider()
         {
         }
-        public void PayBillByIdTable(int idTable)
+        public bool PayBillByIdTable(int idTable)
         {
             using (var quenryBill = new QuanLyQuanAnEntities())
             {
                 Bill currentBill = quenryBill.Bills.FirstOrDefault(b => b.idTable == idTable && b.status == "Chưa thanh toán");
+                if (currentBill.completion == "Chưa hoàn thành")
+                {
+                    return false;
+                }
                 tableFood currentTable = quenryBill.tableFoods.FirstOrDefault(t => t.idTable == idTable);
                 currentTable.status = "trống";
                 currentBill.status = "Đã thanh toán";
                 currentBill.TimeOut = DateTime.Now;
+                quenryBill.SaveChanges();
+                return true;
+            }
+        }
+        public void CompleteBill(int idTable)
+        {
+            using (var quenryBill = new QuanLyQuanAnEntities())
+            {
+                Bill currentBill = quenryBill.Bills.FirstOrDefault(b => b.idTable == idTable && b.status == "Chưa thanh toán");
+                currentBill.completion = "Đã hoàn thành";
                 quenryBill.SaveChanges();
             }
         }
@@ -553,6 +567,7 @@ namespace QuanLyQuanAn.Model
                     newBill.TotalPrice = totalPrice;
                     newBill.TimeIn = DateTime.Now;
                     newBill.status = "Chưa thanh toán";
+                    newBill.completion = "Chưa hoàn thành";
                     QuenryBill.Bills.Add(newBill);
                     QuenryBill.SaveChanges();
                     BillInfDataprovider.BillInf.InsertBillInfByIdBill(newBill.idBill, listBillInf);
@@ -560,24 +575,40 @@ namespace QuanLyQuanAn.Model
                 else
                 {
                     var currentBill = QuenryBill.Bills.FirstOrDefault(b => b.idTable == table.idTable && b.status == "Chưa thanh toán");
-
+                    currentBill.completion = "Chưa hoàn thành";
                     if (currentBill != null)
                     {
-                        // Cập nhật TotalPrice
                         currentBill.TotalPrice += totalPrice;
-
-                        // Lưu thay đổi
                         QuenryBill.SaveChanges();
                     }
                     BillInfDataprovider.BillInf.InsertBillInfByIdBill(currentBill.idBill, listBillInf);
                 }    
             }
         }
-        public Bill GetBillUnpaidByTable(TableShow table)
+        public Bill GetBillUnpaidByTable(int IdTable)
         {
             using(var QuenryBill = new QuanLyQuanAnEntities())
             {
-                var bill = QuenryBill.Bills.Where(p => p.idTable == table.IdTable && p.status == "Chưa thanh toán").ToList()[0];
+                var bill = QuenryBill.Bills.Where(p => p.idTable == IdTable && p.status == "Chưa thanh toán").ToList().FirstOrDefault();
+                return bill;
+            }
+        }
+        public List<dynamic> GetListBillUnpaid()
+        {
+            using(var QuenryBill = new QuanLyQuanAnEntities())
+            {
+                var bill = (from billT in QuenryBill.Bills
+                            join table in QuenryBill.tableFoods
+                            on billT.idTable equals table.idTable
+                            where (billT.completion == "Chưa hoàn thành")
+                            orderby billT.TimeIn
+                            select new
+                            {
+                                billT.idBill,
+                                table.tableName,
+                                billT.TimeIn,
+                                billT.idTable
+                            }).ToList<dynamic>();
                 return bill;
             }
         }

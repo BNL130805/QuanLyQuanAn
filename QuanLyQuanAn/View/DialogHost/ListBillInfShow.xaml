@@ -107,7 +107,8 @@
                         Command="{Binding CloseShowBillTable}">Thoát
                 </Button>
                 <Button Margin="5 10 5 0"
-                        Command="{Binding PayBill}">Thanh toán
+                        Command="{Binding PayBill}"
+                        Content="{Binding TypeShow}">
                 </Button>
             </StackPanel>
         </Grid>

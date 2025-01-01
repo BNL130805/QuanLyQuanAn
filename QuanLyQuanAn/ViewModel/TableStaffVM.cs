@@ -17,15 +17,14 @@ namespace QuanLyQuanAn.ViewModel
     {
         private ObservableCollection<ListBillInf> _billInfList;
         private int _totalPrice;
-        private int _currentIdTable;
+        protected int _currentIdTable;
+        private string _typeShow;
 
-        private object _title = "xinchao";
+        public string TypeShow { get => _typeShow; set { _typeShow = value; OnPropertyChanged(); } }
 
-        public ICommand ShowBillTableCm { get; }
-        public ICommand CloseShowBillTable { get; }
-        public ICommand PayBill { get; }
-        public override ICommand DeleteCommand { get; }
-        public object Title { get => _title; set => _title = value; }
+        public ICommand ShowBillTableCm { get; set; }
+        public ICommand CloseShowBillTable { get; set; }
+        public ICommand PayBill { get; set; }
 
         public TableStaffVM()
         {
@@ -34,8 +33,9 @@ namespace QuanLyQuanAn.ViewModel
                 {
                     if (p is TableShow table)
                     {
+                        TypeShow = "Thanh toán";
                         _currentIdTable = table.IdTable;
-                        TotalPrice = BillDataprovider.Bill.GetBillUnpaidByTable(table).TotalPrice;
+                        TotalPrice = BillDataprovider.Bill.GetBillUnpaidByTable(table.IdTable).TotalPrice;
                         BillInfList = new ObservableCollection<ListBillInf>(BillInfDataprovider.BillInf.GetBillInfByTable(table.IdTable));
                         ShowAddFood();
                     }
@@ -55,25 +55,36 @@ namespace QuanLyQuanAn.ViewModel
                 (p) => true
                 );
             PayBill = new RelayCommand(
-                (p) =>
+                async (p) =>
                 {
-                    BillDataprovider.Bill.PayBillByIdTable(_currentIdTable);
-                    LoadTable();
-                    CloseDialogHost();
+                    if (BillDataprovider.Bill.PayBillByIdTable(_currentIdTable))
+                    {
+                        Message = "Đã thanh toán thành công!";
+                        CurrentDialogContent = new Message();
+                        CloseDialogHost();
+                        await ShowDialogContent();
+                        LoadTable();
+                        CloseDialogHost();
+                    }
+                    else
+                    {
+                        var addCatagory = CurrentDialogContent;
+                        Message = "Không thể thanh toán khi chưa hoàn thành!";
+                        CurrentDialogContent = new Message();
+                        CloseDialogHost();
+                        await ShowDialogContent();
+                        CurrentDialogContent = addCatagory;
+                        await ShowDialogContent();
+                    }
                 },
                 (p) => true
                 );
             LoadTable();
         }
-        private async void ShowAddFood()
+        protected async void ShowAddFood()
         {
             CurrentDialogContent = new ListBillInfShow(); // DialogContent1 là UserControl hoặc nội dung
             await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
-        }
-
-        private void CloseDialogHost()
-        {
-            DialogHost.CloseDialogCommand.Execute(null, null);
         }
         public ObservableCollection<ListBillInf> BillInfList
         {

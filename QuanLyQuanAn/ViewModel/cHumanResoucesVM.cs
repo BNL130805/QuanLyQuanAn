@@ -15,26 +15,16 @@ using QuanLyQuanAn.ViewModel.MenuVM;
 
 namespace QuanLyQuanAn.ViewModel
 {
-    public class cHumanResoucesVM : BaseViewModel
+    public class cHumanResoucesVM : TableControlVM
     {
         private readonly int? idThisAccout = CurrentAccoutDataprovider.CurrentAccout.GetCurrentAccoutByIdMachine()[0].idAccount;
-        private object _currentDiaLogContent;
-        private string _message;
         private ObservableCollection<HumanShow> _humanList;
         private object _option;
         private string _selectedOption;
-        private bool _check;
-        private bool _isAllChecked;
         private HumanShow _humanReadyToAdd;
-        public string TypeAdd { get; set; }
         public string TypeAddPassword { get; set; }
         public ObservableCollection<HumanShow> HumanList { get => _humanList; set { _humanList = value; OnPropertyChanged(); } }
-        public ICommand DeleteCommand { get; set; }
-        public ICommand FalseCm { get; set; }
-        public ICommand TrueCm { get; set; }
-        public ICommand AllCheckCm { get; set; }
         public ICommand DeleteHumans { get; set; }
-        public ICommand CloseAddHuman { get; }
         public ICommand AddHuman { get; }
         public ICommand ShowAddHumanCommand { get; }
         public ICommand AdjustHuman { get; set; }
@@ -77,15 +67,6 @@ namespace QuanLyQuanAn.ViewModel
                 }
             }
         }
-        public object CurrentDialogContent
-        {
-            get => _currentDiaLogContent;
-            set
-            {
-                _currentDiaLogContent = value;
-                OnPropertyChanged();
-            }
-        }
         //them
         private string _searchKeyword;
         public string SearchKeyword
@@ -98,23 +79,6 @@ namespace QuanLyQuanAn.ViewModel
                 FilterHumanList(); // Gọi hàm lọc danh sách mỗi khi từ khóa thay đổi
             }
         }
-
-        private ObservableCollection<HumanShow> _filteredHumanList;
-        public ObservableCollection<HumanShow> FilteredHumanList
-        {
-            get => _filteredHumanList;
-            set
-            {
-                _filteredHumanList = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-
-        public string Message { get => _message; set { _message = value; OnPropertyChanged(); } }
-        public bool IsAllChecked { get => _isAllChecked; set { _isAllChecked = value; OnPropertyChanged(); } }
-        public bool Check { get => _check; set { _check = value; OnPropertyChanged(); } }
 
         public HumanShow HumanReadyToAdd {
             get
@@ -178,42 +142,6 @@ namespace QuanLyQuanAn.ViewModel
                     }
                 },
                 (selectedManager) => true);
-            FalseCm = new RelayCommand(
-                p =>
-                {
-                    Check = false;
-                    CloseDialogHost();
-                },
-                p => true
-                );
-            TrueCm = new RelayCommand(
-                p =>
-                {
-                    Check = true;
-                    CloseDialogHost();
-                },
-                p => true
-                );
-            AllCheckCm = new RelayCommand(
-                p =>
-                {
-                    if (IsAllChecked == true)
-                    {
-                        foreach (HumanShow human in FilteredHumanList)
-                        {
-                            human.IsChecked = true;
-                        }
-                    }
-                    else
-                    {
-                        foreach (HumanShow human in FilteredHumanList)
-                        {
-                            human.IsChecked = false;
-                        }
-                    }
-                },
-                p => true
-                );
             DeleteHumans = new RelayCommand(
                 async (p) =>
                 {
@@ -242,14 +170,6 @@ namespace QuanLyQuanAn.ViewModel
                     }
                 },
                 p => HumanList.Any(h => h.IsChecked));
-            CloseAddHuman = new RelayCommand(
-                (p) =>
-                {
-                    HumanReadyToAdd = null;
-                    CloseDialogHost();
-                },
-                (p) => true
-                );
             AddHuman = new RelayCommand(
                 async (p) =>
                 {
@@ -317,19 +237,11 @@ namespace QuanLyQuanAn.ViewModel
                 ,
                 p => true);
             LoadHumanList();
+            InitializeCommands();
             
 
         }
-        private async Task ShowDialogContent()
-        {
-            // DialogContent1 là UserControl hoặc nội dung
-            await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
-        }
 
-        private void CloseDialogHost()
-        {
-            DialogHost.CloseDialogCommand.Execute(null, null);
-        }
         private void LoadHumanList()
         {
             if (SelectedOption == "Manager")
@@ -371,7 +283,7 @@ namespace QuanLyQuanAn.ViewModel
                          IsChecked = false
                      }));
             }
-            FilteredHumanList = new ObservableCollection<HumanShow>(HumanList);
+            FilteredList = new ObservableCollection<dynamic>(HumanList);
 
             for (int i=0; i<HumanList.Count; i++)
             {
@@ -379,11 +291,6 @@ namespace QuanLyQuanAn.ViewModel
                 HumanList[i].CountChecked += ConfirmCheckAll;
             }
         }
-        private void ConfirmCheckAll()
-        {
-            IsAllChecked = !FilteredHumanList.Any(p => p.IsChecked == false);
-        }
-
         private void FilterHumanList()
         {
             LoadHumanList();
@@ -391,7 +298,7 @@ namespace QuanLyQuanAn.ViewModel
             if (string.IsNullOrWhiteSpace(SearchKeyword))
             {
                 // Hiển thị toàn bộ nhân sự nếu không có từ khóa
-                FilteredHumanList = new ObservableCollection<HumanShow>(HumanList);
+                FilteredList = new ObservableCollection<dynamic>(HumanList);
             }
             else
             {
@@ -399,7 +306,7 @@ namespace QuanLyQuanAn.ViewModel
                 var filtered = HumanList.Where(c =>
                     c.Name.IndexOf(SearchKeyword, StringComparison.OrdinalIgnoreCase) >= 0);
 
-                FilteredHumanList = new ObservableCollection<HumanShow>(filtered);
+                FilteredList = new ObservableCollection<dynamic>(filtered);
             }
         }
     }

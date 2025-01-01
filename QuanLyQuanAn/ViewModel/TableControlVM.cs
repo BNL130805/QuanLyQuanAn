@@ -19,6 +19,7 @@ namespace QuanLyQuanAn.ViewModel
         private ObservableCollection<TableShow> _tableList;
         private bool _check;
         private bool _isAllChecked;
+        private ObservableCollection<dynamic> _filteredList;
         private string _message;
         private TableShow _tableReadyToAdd;
         //thêm
@@ -30,16 +31,15 @@ namespace QuanLyQuanAn.ViewModel
             {
                 _searchText = value;
                 OnPropertyChanged();
-                FilterTableList(); // Gọi hàm lọc danh sách mỗi khi từ khóa thay đổi
+                FilterList(); // Gọi hàm lọc danh sách mỗi khi từ khóa thay đổi
             }
         }
-        private ObservableCollection<TableShow> _filteredTableList;
-        public ObservableCollection<TableShow> FilteredTableList
+        public ObservableCollection<dynamic> FilteredList
         {
-            get => _filteredTableList;
+            get => _filteredList;
             set
             {
-                _filteredTableList = value;
+                _filteredList = value;
                 OnPropertyChanged();
             }
         }
@@ -55,12 +55,12 @@ namespace QuanLyQuanAn.ViewModel
             }
         }
 
-        public ICommand ShowAddTableCommand { get; }
-        public ICommand CloseAddTable { get; }
-        public ICommand AddTable { get; }
-        public virtual ICommand DeleteCommand { get; }
+        public ICommand ShowAddTableCommand { get; set; }
+        public ICommand CloseAdd { get; set; }
+        public ICommand AddTable { get; set; }
+        public virtual ICommand DeleteCommand { get; set; }
         public ICommand AllCheckCm { get; set; }
-        public ICommand DeleteTables { get; }
+        public ICommand DeleteTables { get; set; }
         public ICommand FalseCm { get; set; }
         public ICommand TrueCm { get; set; }
         public ICommand AdjustTable { get; set; }
@@ -79,6 +79,53 @@ namespace QuanLyQuanAn.ViewModel
                 return _tableReadyToAdd;
             } 
             set { _tableReadyToAdd = value; OnPropertyChanged(); } }
+        public void InitializeCommands()
+        {
+
+            FalseCm = new RelayCommand(
+                p =>
+                {
+                    Check = false;
+                    CloseDialogHost();
+                },
+                p => true
+                );
+            TrueCm = new RelayCommand(
+                p =>
+                {
+                    Check = true;
+                    CloseDialogHost();
+                },
+                p => true
+                );
+            AllCheckCm = new RelayCommand(
+                p =>
+                {
+                    if (IsAllChecked == true)
+                    {
+                        foreach (var table in FilteredList)
+                        {
+                            table.IsChecked = true;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var table in FilteredList)
+                        {
+                            table.IsChecked = false;
+                        }
+                    }
+                },
+                p => true
+                );
+            CloseAdd = new RelayCommand(
+                (p) =>
+                {
+                    CloseDialogHost();
+                },
+                (p) => true
+                );
+        }
 
         public TableControlVM()
         {
@@ -90,13 +137,6 @@ namespace QuanLyQuanAn.ViewModel
                     await ShowDialogContent();
                 },
                 (p) => true);
-            CloseAddTable = new RelayCommand(
-                (p) =>
-                {
-                    CloseDialogHost();
-                },
-                (p) => true
-                );
             AddTable = new RelayCommand(
                 async (p) =>
                 {
@@ -128,22 +168,6 @@ namespace QuanLyQuanAn.ViewModel
                     }
                 },
                 (p) => (TableReadyToAdd.Name != null && TableReadyToAdd.Name != "")
-                );
-            FalseCm = new RelayCommand(
-                p =>
-                {
-                    Check = false;
-                    CloseDialogHost();
-                },
-                p => true
-                );
-            TrueCm = new RelayCommand(
-                p =>
-                {
-                    Check = true;
-                    CloseDialogHost();
-                },
-                p => true
                 );
             // Khởi tạo lệnh xóa
             DeleteCommand = new RelayCommand(
@@ -182,26 +206,6 @@ namespace QuanLyQuanAn.ViewModel
                 }
                 ,
                 p=> TableList.Any(t=> t.IsChecked));
-            AllCheckCm = new RelayCommand(
-                p =>
-                {
-                    if (IsAllChecked == true)
-                    {
-                        foreach (var table in FilteredTableList)
-                        {
-                            table.IsChecked = true;
-                        }
-                    }
-                    else
-                    {
-                        foreach (var table in FilteredTableList)
-                        {
-                            table.IsChecked = false;
-                        }
-                    }
-                },
-                p => true
-                );
             AdjustTable = new RelayCommand(
                 async(p)=>
                 {
@@ -215,15 +219,16 @@ namespace QuanLyQuanAn.ViewModel
                 }
                 ,
                 p=>true);
+            InitializeCommands();
             LoadTable();
 
         }
-        private async Task ShowDialogContent()
+        protected async Task ShowDialogContent()
         {
             await DialogHost.Show(CurrentDialogContent, "RootDialogHost"); // "RootDialogHost" là tên DialogHost Identifier
         }
 
-        private void CloseDialogHost()
+        protected void CloseDialogHost()
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
@@ -239,7 +244,7 @@ namespace QuanLyQuanAn.ViewModel
                     Status = P.status
                 }));
             //thêm
-            FilteredTableList = new ObservableCollection<TableShow>(TableList);
+            FilteredList = new ObservableCollection<dynamic>(TableList);
 
             for (int i = 0; i < TableList.Count; i++) {
                 TableList[i].No = i + 1;
@@ -248,22 +253,22 @@ namespace QuanLyQuanAn.ViewModel
         }
         protected void ConfirmCheckAll()
         {
-            IsAllChecked = !FilteredTableList.Any(p => p.IsChecked == false);
+            IsAllChecked = !FilteredList.Any(p => p.IsChecked == false);
         }
         //thêm
-        protected void FilterTableList()
+        protected void FilterList()
         {
             LoadTable();
             IsAllChecked = false;
             if (string.IsNullOrWhiteSpace(SearchText))
             {
                 // Nếu không có từ khóa, hiển thị toàn bộ danh sách
-                FilteredTableList = new ObservableCollection<TableShow>(TableList);
+                FilteredList = new ObservableCollection<dynamic>(TableList);
             }
             else
             {
                 // Lọc danh sách dựa trên từ khóa tìm kiếm
-                FilteredTableList = new ObservableCollection<TableShow>(
+                FilteredList = new ObservableCollection<dynamic>(
                     TableList.Where(t => t.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0));
             }
         }

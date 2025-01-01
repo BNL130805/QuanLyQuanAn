@@ -24,7 +24,6 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
-                <RowDefinition Height="40" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -33,7 +32,7 @@
                 <ColumnDefinition Width="*"
                                   MinWidth="330" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Row="1"
+            <Border Grid.Row="0"
                     Height="40"
                     Margin="20 0 20 0"
                     HorizontalAlignment="Stretch">
@@ -76,7 +75,7 @@
                     </Border>
                 </Grid>
             </Border>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
@@ -307,7 +306,7 @@
                 </Grid>
             </Grid>
             <Grid Grid.Column="1"
-                  Grid.Row="1"
+                  Grid.Row="0"
                   Grid.RowSpan="2"
                   Margin="0 0 5 15">
                 <Grid.RowDefinitions>

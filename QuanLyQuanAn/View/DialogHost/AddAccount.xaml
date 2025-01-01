@@ -64,6 +64,6 @@
                 Margin="10"
                 Background="Red"
                 Grid.ColumnSpan="2"
-                Command="{Binding CloseAddHuman}">Thoát</Button>
+                Command="{Binding CloseAdd}">Thoát</Button>
     </Grid>
 </UserControl>
