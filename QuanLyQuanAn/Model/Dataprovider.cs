@@ -819,7 +819,7 @@ namespace QuanLyQuanAn.Model
                 var listBillWithIdFood = (from b in QuenryBillInf.Bills
                                 join bi in QuenryBillInf.BillInfs
                                 on b.idBill equals bi.idBill
-                                where (b.TimeIn >= Begin && b.TimeIn <= End && b.idRes==CurrentR.idRes)
+                                where (b.TimeIn >= Begin && b.TimeIn <= End && b.idRes==CurrentR.idRes && b.status=="Đã thanh toán")
                                 select new
                                 {
                                     bi.idFood,
