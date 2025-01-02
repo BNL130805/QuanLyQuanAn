@@ -9,16 +9,19 @@ using QuanLyQuanAn.Model;
 using System.Collections.ObjectModel;
 using LiveCharts.Defaults;
 using System.Windows;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace QuanLyQuanAn.ViewModel.StatisticVM
 {
-    internal class FoodStatisticsVM:BaseViewModel
+    public class FoodStatisticsVM:BaseViewModel
     {
         private string _typeRevenua;
         private DateTime _begin;
         private DateTime _end;
         private SeriesCollection _seriesStatistic;
         private Visibility _showdate;
+        private Visibility _showChart;
         public string TypeRevenua
         {
             get => _typeRevenua;
@@ -74,16 +77,64 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                     LabelPoint = chartPoint =>
                     string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation)
                 }).ToList<PieSeries>();
-                SeriesStatistic = new SeriesCollection();
-                foreach(PieSeries a in list)
+                if (list.Count() > 0)
                 {
-                    SeriesStatistic.Add(a);
-                }    
+                    SeriesStatistic = new SeriesCollection();
+                    foreach (PieSeries a in list)
+                    {
+                        SeriesStatistic.Add(a);
+                    }
+                }
+                else
+                {
+                    ShowChart = Visibility.Hidden;
+                }
+
+            }
+            else
+            {
+                ShowChart = Visibility.Hidden;
             }
         }
         public SeriesCollection SeriesStatistic { get => _seriesStatistic; set { _seriesStatistic = value; OnPropertyChanged();} }
         public DateTime Begin { get => _begin; set { _begin = value; OnPropertyChanged(); ShowStatistic(); } }
         public DateTime End { get => _end; set { _end = value; OnPropertyChanged(); ShowStatistic(); } }
         public Visibility Showdate { get => _showdate; set { _showdate = value; OnPropertyChanged(); } }
+
+        public Visibility ShowChart { get => _showChart; set { _showChart = value; OnPropertyChanged(); }  }
+    }
+    class VisibleToHidden : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Visibility visibility)
+            {
+                if (visibility == Visibility.Visible)
+                {
+                    return Visibility.Hidden;
+                }
+                else
+                {
+                    return Visibility.Visible;
+                }
+            }
+            return Visibility.Hidden;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Visibility visibility)
+            {
+                if (visibility == Visibility.Visible)
+                {
+                    return Visibility.Hidden;
+                }
+                else
+                {
+                    return Visibility.Visible;
+                }
+            }
+            return Visibility.Hidden;
+        }
     }
 }

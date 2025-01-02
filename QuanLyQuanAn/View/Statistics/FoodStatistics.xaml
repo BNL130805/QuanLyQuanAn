@@ -14,6 +14,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <vm:WidthOfDatePickerAcrossGrid x:Key="Convert" />
+        <vm:VisibleToHidden x:Key="VisibleToHidden" />
     </UserControl.Resources>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="UserControl.Loaded">
@@ -128,10 +129,17 @@
                     <ComboBoxItem Content="Năm nay" />
                     <ComboBoxItem Content="Chọn khoảng thời gian" />
                 </ComboBox>
-            </StackPanel>
+        </StackPanel>
+        <TextBlock FontSize="25"
+                   FontWeight="Bold"
+                   Grid.Row="2"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Visibility="{Binding ElementName=foodPieChart, Path=Visibility, Converter={StaticResource VisibleToHidden}}">Không có dữ liệu!</TextBlock>
         <lvc:PieChart Name="foodPieChart"
                       Grid.Row="2"
                       Margin="10"
+                      Visibility="{Binding ShowChart}"
                       Series="{Binding SeriesStatistic}">
         </lvc:PieChart>
     </Grid>

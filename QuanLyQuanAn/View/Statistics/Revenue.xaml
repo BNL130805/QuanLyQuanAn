@@ -10,6 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <vm:WidthOfDatePickerAcrossGrid x:Key="Convert"/>
+        <vm:VisibleToHidden x:Key="VisibleToHidden" />
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:RevenuaVM />
@@ -119,11 +120,18 @@
                 <ComboBoxItem Content="Chọn khoảng thời gian" />
             </ComboBox>
         </StackPanel>
+        <TextBlock FontSize="25"
+                   FontWeight="Bold"
+                   Grid.Row="2"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Visibility="{Binding ElementName=revenueChart, Path=Visibility, Converter={StaticResource VisibleToHidden}}">Không có dữ liệu!</TextBlock>
 
         <!-- Biểu đồ cột -->
         <lvc:CartesianChart Name="revenueChart"
                             Margin="10,50,10,10"
-                            Grid.Row="2">
+                            Grid.Row="2"
+                            Visibility="{Binding ShowChart}">
             <lvc:CartesianChart.Series>
                 <lvc:ColumnSeries Title="Doanh thu"
                                   Values="{Binding RevenueData}" />
