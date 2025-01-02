@@ -28,6 +28,7 @@ namespace QuanLyQuanAn.Model
         public Nullable<int> discount { get; set; }
         public int TotalPrice { get; set; }
         public string status { get; set; }
+        public string completion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillInf> BillInfs { get; set; }

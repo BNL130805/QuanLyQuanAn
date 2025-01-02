@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="QuanLyQuanAnModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="QuanLyQuanAnModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="idRes" />
@@ -28,6 +28,7 @@
           <Property Name="discount" Type="int" />
           <Property Name="TotalPrice" Type="int" Nullable="false" />
           <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="completion" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="BillInf">
           <Key>
@@ -253,7 +254,8 @@
             <End Role="tableFood" EntitySet="tableFood" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QuanLyQuanAnModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -281,6 +283,7 @@
           <Property Name="discount" Type="Int32" />
           <Property Name="TotalPrice" Type="Int32" Nullable="false" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="completion" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BillInfs" Relationship="Self.BItoB" FromRole="Bill" ToRole="BillInf" />
           <NavigationProperty Name="Restaurant" Relationship="Self.BtoR" FromRole="Bill" ToRole="Restaurant" />
           <NavigationProperty Name="tableFood" Relationship="Self.BtoT" FromRole="Bill" ToRole="tableFood" />
@@ -524,62 +527,7 @@
             <End Role="Restaurant" EntitySet="Restaurants" />
             <End Role="tableFood" EntitySet="tableFoods" />
           </AssociationSet>
-          <FunctionImport Name="USP_ChangeTable">
-            <Parameter Name="IDtablefirst" Mode="In" Type="Int32" />
-            <Parameter Name="IDtablesecond" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="USP_CheckNameRt">
-            <Parameter Name="NameRt" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="USP_CheckUserN">
-            <Parameter Name="NameRt" Mode="In" Type="String" />
-            <Parameter Name="UserN" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="USP_DeleteAccount">
-            <Parameter Name="NameRt" Mode="In" Type="String" />
-            <Parameter Name="UserN" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="USP_DeleteFood">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="idFoodCtg" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="USP_GetAccountByUserName">
-            <Parameter Name="nameRestaurant" Mode="In" Type="String" />
-            <Parameter Name="userName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="USP_InsertAccount">
-            <Parameter Name="NameRt" Mode="In" Type="String" />
-            <Parameter Name="UserN" Mode="In" Type="String" />
-            <Parameter Name="Password" Mode="In" Type="String" />
-            <Parameter Name="TypeAccount" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="USP_InsertBill">
-            <Parameter Name="idtable" Mode="In" Type="Int32" />
-            <Parameter Name="discount" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="USP_InsertBillInf">
-            <Parameter Name="idbill" Mode="In" Type="Int32" />
-            <Parameter Name="idfood" Mode="In" Type="Int32" />
-            <Parameter Name="count" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="USP_InsertFood">
-            <Parameter Name="idfoodctg" Mode="In" Type="Int32" />
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="price" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="USP_Login">
-            <Parameter Name="nameRestaurant" Mode="In" Type="String" />
-            <Parameter Name="userName" Mode="In" Type="String" />
-            <Parameter Name="password" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="USP_tableList" ReturnType="Collection(QuanLyQuanAnModel.USP_tableList_Result)" />
         </EntityContainer>
-        <ComplexType Name="USP_tableList_Result">
-          <Property Type="Int32" Name="idTable" Nullable="false" />
-          <Property Type="Int32" Name="idRes" Nullable="false" />
-          <Property Type="String" Name="tableName" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="status" Nullable="false" MaxLength="20" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -608,6 +556,7 @@
                 <ScalarProperty Name="discount" ColumnName="discount" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="completion" ColumnName="completion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -671,7 +620,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

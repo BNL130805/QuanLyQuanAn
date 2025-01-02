@@ -97,8 +97,6 @@ ALTER TABLE Account
 ADD CONSTRAINT PK__Account__7F906AD957D88891 PRIMARY KEY (idRes, Username);
 go
 
-alter table Acc
-
 CREATE TABLE CurrentSession
 (
     SessionId INT IDENTITY constraint PK__CurrentS__C9F49290BABCA842 PRIMARY KEY,

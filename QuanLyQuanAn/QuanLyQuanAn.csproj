@@ -247,13 +247,11 @@
     <Compile Include="Model\tableFood.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\USP_tableList_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Staff.xaml.cs">
       <DependentUpon>Staff.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AdminVM.cs" />
+    <Compile Include="ViewModel\ChefVM.cs" />
     <Compile Include="ViewModel\cHumanResoucesVM.cs" />
     <Compile Include="ViewModel\cMenuVM.cs" />
     <Compile Include="ViewModel\cStatisticVM.cs" />
@@ -502,6 +500,8 @@
     <Resource Include="Images\LogoutIcon.png" />
     <Resource Include="Images\BackgroundForLoggin.jpg" />
     <Resource Include="Images\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

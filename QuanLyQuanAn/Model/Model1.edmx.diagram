@@ -4,15 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="404b09baf9e946469835169f3cdde13d" Name="Diagram1">
-        <EntityTypeShape EntityType="QuanLyQuanAnModel.Account" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyQuanAnModel.Bill" Width="1.5" PointX="5.25" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyQuanAnModel.BillInf" Width="1.5" PointX="7.5" PointY="10.5" IsExpanded="true" />
+      <Diagram DiagramId="3463fac8baf847e188ebf15140b5fb07" Name="Diagram1">
+        <EntityTypeShape EntityType="QuanLyQuanAnModel.Account" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyQuanAnModel.Bill" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyQuanAnModel.BillInf" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuanLyQuanAnModel.CurrentSession" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyQuanAnModel.food" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyQuanAnModel.foodCategory" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyQuanAnModel.Restaurant" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyQuanAnModel.tableFood" Width="1.5" PointX="3" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyQuanAnModel.food" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyQuanAnModel.foodCategory" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyQuanAnModel.Restaurant" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyQuanAnModel.tableFood" Width="1.5" PointX="3" PointY="18.625" IsExpanded="true" />
         <AssociationConnector Association="QuanLyQuanAnModel.AtoR" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyQuanAnModel.BItoB" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyQuanAnModel.BtoR" ManuallyRouted="false" />
