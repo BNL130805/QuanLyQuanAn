@@ -79,6 +79,7 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                 }).ToList<PieSeries>();
                 if (list.Count() > 0)
                 {
+                    ShowChart = Visibility.Visible;
                     SeriesStatistic = new SeriesCollection();
                     foreach (PieSeries a in list)
                     {
