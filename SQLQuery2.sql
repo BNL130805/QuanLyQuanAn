@@ -162,3 +162,22 @@ go
 
 alter table dbo.Bill
 add completion nvarchar(20)
+go
+
+alter table BillInf drop constraint BItoR
+go
+
+alter table BillInf drop column idRes
+go
+
+alter table food drop constraint FtoR
+go
+
+alter table food drop column idRes
+go
+
+alter table Bill drop constraint BtoR
+go
+
+alter table Bill drop column idRes
+go

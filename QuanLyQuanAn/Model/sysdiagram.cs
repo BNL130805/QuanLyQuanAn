@@ -12,14 +12,12 @@ namespace QuanLyQuanAn.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class BillInf
+    public partial class sysdiagram
     {
-        public int idBillInf { get; set; }
-        public int idFood { get; set; }
-        public int count { get; set; }
-        public int idBill { get; set; }
-    
-        public virtual Bill Bill { get; set; }
-        public virtual food food { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

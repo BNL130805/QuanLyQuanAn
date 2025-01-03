@@ -21,7 +21,6 @@ namespace QuanLyQuanAn.Model
         }
     
         public int idFood { get; set; }
-        public int idRes { get; set; }
         public int idFoodCtg { get; set; }
         public string name { get; set; }
         public int price { get; set; }
@@ -30,6 +29,5 @@ namespace QuanLyQuanAn.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillInf> BillInfs { get; set; }
         public virtual foodCategory foodCategory { get; set; }
-        public virtual Restaurant Restaurant { get; set; }
     }
 }
