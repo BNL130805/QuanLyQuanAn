@@ -693,6 +693,23 @@ namespace QuanLyQuanAn.Model
                 return HistoryList;
             }
         }
+        public bool DeleteBill(int idTable)
+        {
+            using (var QuenryBill = new QuanLyQuanAnEntities())
+            {
+                var currentBill = QuenryBill.Bills.Where(p=> p.idTable == idTable).First();
+                if (currentBill.completion == "Đã hoàn thành")
+                {
+                    return false;
+                }
+                QuenryBill.BillInfs.RemoveRange(QuenryBill.BillInfs.Where(p => p.idBill == currentBill.idBill));
+                QuenryBill.SaveChanges();
+                QuenryBill.Bills.Remove(currentBill);
+                QuenryBill.tableFoods.Where(p => p.idTable == currentBill.idTable).First().status = "trống";
+                QuenryBill.SaveChanges();
+                return true;
+            }
+        }
     }
     public class CurrentAccoutDataprovider
     {
