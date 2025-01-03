@@ -41,7 +41,7 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                 OnPropertyChanged();
             }
         }
-        private void ShowRevenua()
+        protected override void ShowStatistic()
         {
             int PeriodOfTime = (End.AddDays(1) - Begin).Days;
             var Bills = (BillDataprovider.Bill.GetBillByDate(Begin, End.AddDays(1)) as IEnumerable<dynamic>)?

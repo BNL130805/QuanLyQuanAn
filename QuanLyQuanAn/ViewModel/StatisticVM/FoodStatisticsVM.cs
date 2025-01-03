@@ -65,7 +65,7 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
         public FoodStatisticsVM()
         {
         }
-        private void ShowStatistic()
+        protected virtual void ShowStatistic()
         {
             if(Begin <= End)
             {
@@ -79,6 +79,7 @@ namespace QuanLyQuanAn.ViewModel.StatisticVM
                 }).ToList<PieSeries>();
                 if (list.Count() > 0)
                 {
+
                     ShowChart = Visibility.Visible;
                     SeriesStatistic = new SeriesCollection();
                     foreach (PieSeries a in list)

@@ -17,6 +17,34 @@
         <vm:ByteToImageConverter x:Key="ByteToImageConverter" />
         <vm:IntToString x:Key="PriceToString" />
     </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     From="0.0"
+                                     To="1.0"
+                                     Duration="0:0:0.5" />
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="UserControlTranslateTransform"
+                                     Storyboard.TargetProperty="Y"
+                                     From="30"
+                                     To="0"
+                                     Duration="0:0:0.5">
+
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    <UserControl.RenderTransform>
+        <TranslateTransform x:Name="UserControlTranslateTransform"
+                            X="0"
+                            Y="30" />
+    </UserControl.RenderTransform>
     <materialDesign:DialogHost Identifier="RootDialogHost">
         <materialDesign:DialogHost.DialogContent>
             <ContentControl Content="{Binding CurrentDialogContent}" />

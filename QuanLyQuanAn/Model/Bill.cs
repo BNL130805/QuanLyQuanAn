@@ -21,7 +21,6 @@ namespace QuanLyQuanAn.Model
         }
     
         public int idBill { get; set; }
-        public int idRes { get; set; }
         public int idTable { get; set; }
         public System.DateTime TimeIn { get; set; }
         public Nullable<System.DateTime> TimeOut { get; set; }
@@ -32,7 +31,6 @@ namespace QuanLyQuanAn.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillInf> BillInfs { get; set; }
-        public virtual Restaurant Restaurant { get; set; }
         public virtual tableFood tableFood { get; set; }
     }
 }

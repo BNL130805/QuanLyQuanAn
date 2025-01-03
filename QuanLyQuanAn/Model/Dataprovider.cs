@@ -242,9 +242,10 @@ namespace QuanLyQuanAn.Model
             using (var QuenryFood = new QuanLyQuanAnEntities())
             {
                 var CurrentA = QuenryFood.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
+                var CurrentC = QuenryFood.foodCategories.Where(p=> p.idFoodCtg == foodshow.IdCategory).First();
                 var CurrentR = QuenryFood.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
 
-                if (QuenryFood.foods.Any(p => p.name == foodshow.Name && p.idFood != foodshow.Id && p.idRes==CurrentR.idRes))
+                if (QuenryFood.foods.Any(p => p.name == foodshow.Name && p.idFood != foodshow.Id && CurrentC.idRes==CurrentR.idRes))
                 {
                     return false;
                 }
@@ -261,7 +262,6 @@ namespace QuanLyQuanAn.Model
                                     }
                                             ).ToList().Select(p => new food
                                             {
-                                                idRes = p.idRes,
                                                 idFoodCtg = (int)foodshow.IdCategory,
                                                 FoodImage = foodshow.FoodImage,
                                                 name = foodshow.Name,
@@ -562,7 +562,6 @@ namespace QuanLyQuanAn.Model
                     Bill newBill = new Bill();
                     int idCurrentAccout = (int)CurrentAccoutDataprovider.CurrentAccout.GetCurrentAccoutByIdMachine()[0].idAccount;
                     Account currentAccout = AccountDataprovider.Account.GetAccountById(idCurrentAccout)[0];
-                    newBill.idRes = currentAccout.idRes;
                     newBill.idTable = table.idTable;
                     newBill.TotalPrice = totalPrice;
                     newBill.TimeIn = DateTime.Now;
@@ -618,13 +617,19 @@ namespace QuanLyQuanAn.Model
             {
                 var CurrentA = QuenryBill.CurrentSessions.Where(p => p.MachineId == Environment.MachineName).First();
                 var CurrentR = QuenryBill.Accounts.Where(p => p.idAccout == CurrentA.idAccount).First();
-
+                var doanhthu1 = (from bills in QuenryBill.Bills
+                                 join tables in QuenryBill.tableFoods
+                                 on bills.idTable equals tables.idTable
+                                 where (bills.TimeIn >= Begin && bills.TimeIn <= End && bills.status == "Đã thanh toán" && tables.idRes == CurrentR.idRes)
+                                 select new
+                                 {
+                                     bills.TimeIn,
+                                     bills.TotalPrice,
+                                 });
                 int PeriodOfTime = (End - Begin).Days;
                 if (PeriodOfTime <= 2)
                 {
-                    var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán" && bill.idRes==CurrentR.idRes)
-                        .GroupBy(bill => bill.TimeIn.Hour)
+                    var doanhthu = doanhthu1.GroupBy(bill => bill.TimeIn.Hour)
                         .Select(listBill => new
                         {
                             ThoiGian = listBill.Key,
@@ -635,9 +640,7 @@ namespace QuanLyQuanAn.Model
                 }
                 else if (PeriodOfTime > 2 && PeriodOfTime<=60) 
                 {
-                    var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán"&&bill.idRes==CurrentR.idRes)
-                        .GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn))
+                    var doanhthu = doanhthu1.GroupBy(bill => DbFunctions.TruncateTime(bill.TimeIn))
                         .Select(listBill => new
                         {
                             ThoiGian = listBill.Key,
@@ -648,9 +651,7 @@ namespace QuanLyQuanAn.Model
                 }
                 else if(PeriodOfTime > 60 && PeriodOfTime <= 730)
                 {
-                    var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán" && bill.idRes == CurrentR.idRes)
-                        .GroupBy(bill => bill.TimeIn.Month)
+                    var doanhthu = doanhthu1.GroupBy(bill => bill.TimeIn.Month)
                         .Select(listBill => new
                         {
                             ThoiGian = listBill.Key,
@@ -661,9 +662,7 @@ namespace QuanLyQuanAn.Model
                 }
                 else
                 {
-                    var doanhthu = QuenryBill.Bills
-                        .Where(bill => bill.TimeIn >= Begin && bill.TimeIn <= End && bill.status == "Đã thanh toán" && bill.idRes == CurrentR.idRes)
-                        .GroupBy(bill => bill.TimeIn.Year)
+                    var doanhthu = doanhthu1.GroupBy(bill => bill.TimeIn.Year)
                         .Select(listBill => new
                         {
                             ThoiGian = listBill.Key,
@@ -684,7 +683,7 @@ namespace QuanLyQuanAn.Model
                 var HistoryList = (from history in QuenryHistory.Bills
                                    join table in QuenryHistory.tableFoods
                                    on history.idTable equals table.idTable
-                                   where(history.TimeOut >= Begin && history.TimeOut <= End && history.idRes==CurrentR.idRes)
+                                   where(history.TimeOut >= Begin && history.TimeOut <= End && table.idRes==CurrentR.idRes)
                                    select new
                                    {
                                        table.tableName,
@@ -692,6 +691,23 @@ namespace QuanLyQuanAn.Model
                                        history.TotalPrice
                                    }).ToList<dynamic>();
                 return HistoryList;
+            }
+        }
+        public bool DeleteBill(int idTable)
+        {
+            using (var QuenryBill = new QuanLyQuanAnEntities())
+            {
+                var currentBill = QuenryBill.Bills.Where(p=> p.idTable == idTable).First();
+                if (currentBill.completion == "Đã hoàn thành")
+                {
+                    return false;
+                }
+                QuenryBill.BillInfs.RemoveRange(QuenryBill.BillInfs.Where(p => p.idBill == currentBill.idBill));
+                QuenryBill.SaveChanges();
+                QuenryBill.Bills.Remove(currentBill);
+                QuenryBill.tableFoods.Where(p => p.idTable == currentBill.idTable).First().status = "trống";
+                QuenryBill.SaveChanges();
+                return true;
             }
         }
     }
@@ -759,9 +775,6 @@ namespace QuanLyQuanAn.Model
         {
             using (var QuenryBillInf = new QuanLyQuanAnEntities())
             {
-                int idCurrentAccout = (int)CurrentAccoutDataprovider.CurrentAccout.GetCurrentAccoutByIdMachine()[0].idAccount;
-                Account currentAccout = AccountDataprovider.Account.GetAccountById(idCurrentAccout)[0];
-
                 foreach (var lbi in listBillInf)
                 {
                     // Kiểm tra món ăn đã có trong BillInf chưa
@@ -780,8 +793,7 @@ namespace QuanLyQuanAn.Model
                         {
                             idBill = idBill,
                             idFood = lbi.IdFood,
-                            count = lbi.Count,
-                            idRes = currentAccout.idRes
+                            count = lbi.Count
                         };
                         QuenryBillInf.BillInfs.Add(newBillInf);
                     }
@@ -819,7 +831,9 @@ namespace QuanLyQuanAn.Model
                 var listBillWithIdFood = (from b in QuenryBillInf.Bills
                                 join bi in QuenryBillInf.BillInfs
                                 on b.idBill equals bi.idBill
-                                where (b.TimeIn >= Begin && b.TimeIn <= End && b.idRes==CurrentR.idRes)
+                                join t in QuenryBillInf.tableFoods
+                                on b.idTable equals t.idTable
+                                where (b.TimeIn >= Begin && b.TimeIn <= End && t.idRes==CurrentR.idRes && b.status=="Đã thanh toán")
                                 select new
                                 {
                                     bi.idFood,

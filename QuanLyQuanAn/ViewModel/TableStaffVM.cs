@@ -79,6 +79,45 @@ namespace QuanLyQuanAn.ViewModel
                 },
                 (p) => true
                 );
+            DeleteCommand = new RelayCommand(
+                async (p)=>
+                {
+                    if (p is TableShow table)
+                    {
+                        Message = $"Bạn có chắc chắn muốn xóa bill của bàn {table.Name} không?";
+                        CurrentDialogContent = new MessageYesNo();
+                        await ShowDialogContent();
+
+                        if (Check)
+                        {
+                            if (BillDataprovider.Bill.DeleteBill(table.IdTable))
+                            {
+                                Message = "Đã xóa bill thành công!";
+                                CurrentDialogContent = new Message();
+                                CloseDialogHost();
+                                await ShowDialogContent();
+                                LoadTable();
+                                CloseDialogHost();
+                            }
+                            else
+                            {
+                                Message = "Không thể xóa khi bill đã hoàn thành!";
+                                CurrentDialogContent = new Message();
+                                CloseDialogHost();
+                                await ShowDialogContent();
+                            }
+                        }
+                    }
+                },
+                (p)=>
+                {
+                    if (p is TableShow table)
+                    {
+                        if (table.Status == "có người")
+                            return true;
+                    }
+                    return false ;
+                });
             LoadTable();
         }
         protected async void ShowAddFood()
@@ -93,7 +132,6 @@ namespace QuanLyQuanAn.ViewModel
             {
                 _billInfList = value;
                 OnPropertyChanged();
-
             }
         }
 
