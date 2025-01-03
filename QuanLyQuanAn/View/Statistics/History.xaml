@@ -126,7 +126,7 @@
                                     Binding="{Binding Time}"
                                     IsReadOnly="True"
                                     Width="*" />
-                <DataGridTemplateColumn Header="Bàn"
+                <DataGridTemplateColumn Header="Tổng tiền"
                                         IsReadOnly="True"
                                         Width="*">
                     <DataGridTemplateColumn.CellTemplate>
